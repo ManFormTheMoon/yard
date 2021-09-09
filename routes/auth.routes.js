@@ -4,14 +4,15 @@ const config = require("config");
 var mysql = require("mysql2/promise");
 const router = Router();
 
+var a ='0';
+
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
   database: "yard",
-  password: "ilya13524",
+  password: "Vika08032015",
   waitForConnections: true,
 });
-
 const getUser = async (login, password) => {
   const result = await pool.query(
     "select * from users where `login` = '" +
