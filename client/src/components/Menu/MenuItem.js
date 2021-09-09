@@ -7,8 +7,13 @@ const MenuItem = (props) => {
     style: {
       backgroundColor: "#43CBAC",
       fontWeight: "bold",
-      fontSize: "21px",
-    },
+      fontSize: "18px",
+    }, 
+  };
+  const selectedStyleForImg = {
+    style:{ 
+      height: "65%",
+      margin: "8px"}
   };
   return (
     <Link to={props.path}>
@@ -22,10 +27,15 @@ const MenuItem = (props) => {
       >
         <img
           src={props.icon}
-          style={{ height: "60%" }}
+          style={{ 
+            height: "50%",
+            margin: "12px"}}
           className="menu-icon"
           alt=""
+          {...(props.currentComponent == props.itemCode && selectedStyleForImg)}
+     
         />
+        
         {props.nameItem}
       </div>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
