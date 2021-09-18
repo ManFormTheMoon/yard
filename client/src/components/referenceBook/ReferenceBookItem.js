@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const selectedStyle = {
   color: "#4BC2AA",
@@ -15,14 +16,20 @@ const notSelectedStyle = {
 
 const ReferenceBookItem = (props) => {
   return (
-    <div
-      style={props.selected ? selectedStyle : notSelectedStyle}
-      onClick={() => {
-        props.onTabClick({ id: props.index, value: props.value });
-      }}
+    <Link
+      to={`/data/referenceBook/${props.value}`}
+      style={{ textDecoration: "none" }}
     >
-      {props.index}.{props.name}
-    </div>
+      <div
+        style={props.selected ? selectedStyle : notSelectedStyle}
+        onClick={() => {
+          props.onTabClick({ id: props.index, value: props.value });
+        }}
+        key={`book-item-${props.index}`}
+      >
+        {props.index}.{props.name}
+      </div>
+    </Link>
   );
 };
 

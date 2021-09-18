@@ -6,16 +6,20 @@ const ReferenceBookData = (props) => {
   return (
     <div
       style={{
-        flexGrow: 1,
-        height: "500px",
+        height: "800px",
         backgroundColor: "green",
         marginTop: "10px",
+        marginRight: "10px",
         boxSizing: "border-box",
+        width: "calc(100% - 270px)",
       }}
     >
       <ReferenceBookHeader
         currentTabs={props.currentTabs}
         setCurrentTabs={props.setCurrentTabs}
+        onTabClose={props.onTabClose}
+        selectedTab={props.selectedTab}
+        setSelectedTab={props.setSelectedTab}
       />
       <ReferenceBookBody />
     </div>

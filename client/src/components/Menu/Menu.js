@@ -39,6 +39,7 @@ const Menu = (props) => {
         position: "fixed",
         minHeight: "100%",
         backgroundColor: "#8AA19B",
+        zIndex: "999",
       }}
     >
       <MenuItem

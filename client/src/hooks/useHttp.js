@@ -5,7 +5,7 @@ export const useHttp = () => {
   const [error, setError] = useState(null);
 
   const request = useCallback(
-    async (url, method = "GET", body = "null", headers = {}) => {
+    async (url, method = "GET", body = null, headers = {}) => {
       setLoading(true);
       try {
         if (body) {

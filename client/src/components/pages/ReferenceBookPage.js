@@ -79,31 +79,54 @@ const tabsInfo = [
 
 const ReferenceBookPage = () => {
   const [currentTabs, setCurrentTabs] = useState([]);
+  const [selectedTab, setSelectedTab] = useState("");
   console.log(currentTabs);
+
   const onTabClick = (tab) => {
     if (currentTabs.filter((e) => e.value == tab.value).length == 0) {
       setCurrentTabs([...currentTabs, tab]);
+    }
+    setSelectedTab(tab.value);
+  };
+
+  const onTabClose = (tab) => {
+    console.log(tab);
+    setCurrentTabs(currentTabs.filter((e) => e.value != tab.value));
+  };
+
+  const changeSelected = (tab) => {
+    setSelectedTab(tab);
+    if (currentTabs.filter((e) => e.value == tab).length == 0) {
+      let fullTab;
+      for (let i = 0; i < tabsInfo.length; i++) {
+        if (tabsInfo[i].value == tab) {
+          fullTab = tabsInfo[i];
+          break;
+        }
+      }
+      setCurrentTabs([...currentTabs, fullTab]);
     }
   };
 
   return (
     <div
       style={{
-        width: "98%",
-        height: "960px",
-        backgroundColor: "#DBE6D8",
-        boxSizing: "border-box",
+        minWidth: "98%",
+        height: "100%",
+        backgroundColor: "orange",
         display: "flex",
+        width: "98%",
       }}
     >
       <div
         style={{
-          width: "200px",
-          height: "500px",
+          width: "15%",
+          minWidth: "250px",
+          height: "800px",
           backgroundColor: "red",
           marginTop: "50px",
           marginLeft: "10px",
-          boxSizing: "border-box",
+          overflowX: "scroll",
         }}
       >
         <ReferenceBookItemsList
@@ -115,6 +138,9 @@ const ReferenceBookPage = () => {
       <ReferenceBookData
         currentTabs={currentTabs}
         setCurrentTabs={setCurrentTabs}
+        onTabClose={onTabClose}
+        selectedTab={selectedTab}
+        setSelectedTab={changeSelected}
       />
     </div>
   );

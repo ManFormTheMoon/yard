@@ -8,7 +8,7 @@ const ReferenceBookItemsList = (props) => {
         <ReferenceBookItem
           onTabClick={props.onTabClick}
           selected={
-            props.currentTabs.filter((e) => e.value == value.value).length > 0
+            props.currentTabs.filter((e) => e.value === value.value).length > 0
           }
           name={value.name}
           index={value.index}

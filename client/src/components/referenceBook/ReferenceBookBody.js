@@ -1,10 +1,20 @@
 import React from "react";
+import { Route, Link } from "react-router-dom";
+import RampsTable from "./tables/RampsTable";
 
 const ReferenceBookBody = () => {
   return (
     <div
-      style={{ width: "100%", height: "100%", backgroundColor: "pink" }}
-    ></div>
+      style={{
+        // height: "100%",
+        backgroundColor: "pink",
+        boxSizing: "border-box",
+      }}
+    >
+      <Route path="/data/referenceBook/Ramps">
+        <RampsTable />
+      </Route>
+    </div>
   );
 };
 

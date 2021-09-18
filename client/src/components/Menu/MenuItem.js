@@ -11,7 +11,7 @@ const MenuItem = (props) => {
     },
   };
   return (
-    <Link to={props.path}>
+    <Link to={props.path} style={{ textDecoration: "none" }}>
       <div
         className="menu-item"
         onClick={() => {
