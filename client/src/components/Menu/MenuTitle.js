@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./title.css";
-import logo from "../../img/logo.jpg";
+import logo from "../../img/logo.png";
 import tempPhoto from "../../img/tempPhoto.jpg";
 import { AuthContext } from "../../context/auth.context";
 

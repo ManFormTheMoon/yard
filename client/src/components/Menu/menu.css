@@ -1,6 +1,6 @@
 .menu-item {
   width: 100%;
-  height: 67px;
+  height: 60px;
   color: transparent;
   border-radius: 10px;
   display: flex;
@@ -9,10 +9,12 @@
   color: white;
   font-size: 20px;
   text-decoration: none;
+  padding-right: 6px;
+  /* white-space: pre; */
 }
 
 .menu-icon {
-  margin: 0px 5px;
+  margin-right: 5px;
 }
 
 .menu-item:first-child {
