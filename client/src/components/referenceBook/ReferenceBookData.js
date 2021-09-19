@@ -6,11 +6,11 @@ const ReferenceBookData = (props) => {
   return (
     <div
       style={{
-        height: "800px",
-        backgroundColor: "green",
-        marginTop: "10px",
-        marginRight: "10px",
+        height: "95%",
+        backgroundColor: "#FFFFFF",
+        margin: "10px 0 0 10px",
         boxSizing: "border-box",
+       //???? display:"flex",
         width: "calc(100% - 270px)",
       }}
     >

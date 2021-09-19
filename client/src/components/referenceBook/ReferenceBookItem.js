@@ -1,17 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import referenceBookIcon from "../../img/reference-book-buttons/dictionary.png";
 
 const selectedStyle = {
   color: "#4BC2AA",
-  fontSize: "26px",
+  fontSize: "20px",
   fontWeight: "bold",
   marginLeft: "10px",
+  display: "block",
+  alignItems:"center",
+  display: "flex",
+  flexdirection: "column",
+  margin:"10px",
 };
 
 const notSelectedStyle = {
+  top:"5px",
   color: "black",
-  fontSize: "23px",
+  fontSize: "18px",
   marginLeft: "10px",
+  margin:"10px",
+  display: "flex",
+  flexdirection: "column",
+  alignItems:"center"
 };
 
 const ReferenceBookItem = (props) => {
@@ -21,13 +32,18 @@ const ReferenceBookItem = (props) => {
       style={{ textDecoration: "none" }}
     >
       <div
-        style={props.selected ? selectedStyle : notSelectedStyle}
+        style={props.selected ? selectedStyle : notSelectedStyle }
         onClick={() => {
           props.onTabClick({ id: props.index, value: props.value });
         }}
         key={`book-item-${props.index}`}
       >
-        {props.index}.{props.name}
+        <img
+        src={referenceBookIcon}
+        style={{ height: "20px",
+      marginRight:"5px" }}
+    />
+        {props.index}. {props.name}
       </div>
     </Link>
   );

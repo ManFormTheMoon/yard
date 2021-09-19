@@ -6,9 +6,10 @@ const ReferenceBookBody = () => {
   return (
     <div
       style={{
-        // height: "100%",
+        height: "100%",
         backgroundColor: "pink",
         boxSizing: "border-box",
+        margin:"10px"
       }}
     >
       <Route path="/data/referenceBook/Ramps">

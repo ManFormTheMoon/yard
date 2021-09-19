@@ -7,7 +7,7 @@ const ReferenceBookHeader = (props) => {
       style={{
         width: "100%",
         height: "40px",
-        backgroundColor: "yellow",
+        backgroundColor: "black",
         display: "flex",
         maxWidth: "100%",
       }}

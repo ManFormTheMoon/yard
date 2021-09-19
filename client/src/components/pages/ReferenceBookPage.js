@@ -37,12 +37,12 @@ const tabsInfo = [
   },
   {
     index: 7,
-    name: "График работ площадки",
+    name: "График площадки",
     value: "RampWorkField",
   },
   {
     index: 8,
-    name: "График работ рамп",
+    name: "График рамп",
     value: "RampWorkSchedule",
   },
   {
@@ -57,12 +57,12 @@ const tabsInfo = [
   },
   {
     index: 11,
-    name: "КПП – контрольно-пропускные пункты",
+    name: "КПП",
     value: "KPP",
   },
   {
     index: 12,
-    name: "Дополнительные строения",
+    name: "Доп. строения",
     value: "AdditionalBuildings",
   },
   {
@@ -113,17 +113,19 @@ const ReferenceBookPage = () => {
       style={{
         minWidth: "98%",
         height: "100%",
-        backgroundColor: "orange",
+        backgroundColor: "#8DA19B",
         display: "flex",
         width: "98%",
+        borderRadius:"10px",
       }}
     >
       <div
         style={{
           width: "15%",
           minWidth: "250px",
-          height: "800px",
-          backgroundColor: "red",
+          borderRadius:"5px",
+          height: "90%",
+          backgroundColor: "#FFFFFF",
           marginTop: "50px",
           marginLeft: "10px",
           overflowX: "scroll",

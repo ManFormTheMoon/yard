@@ -11,14 +11,14 @@ const ButtonsBlock = (props) => {
   return (
     <div
       style={{
-        width: "1000px",
+        width: "100%",
         height: "50px",
-        backgroundColor: "violet",
+        backgroundColor: "#FFFFFF",
         display: "flex",
         alignItems: "center",
       }}
     >
-      <AddButton children="Добавить" style={{ margin: "6px" }} />
+      <AddButton children="Добавить" style={{ margin: "6px", }} />
       <EditButton children="Редактировать" style={{ margin: "6px" }} />
       <DeleteButton
         children="Удалить"

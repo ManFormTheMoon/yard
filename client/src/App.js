@@ -1,7 +1,6 @@
 import React from "react";
 import { useRoutes } from "./routes";
 import { BrowserRouter as Router } from "react-router-dom";
-import "materialize-css";
 import { useAuth } from "./hooks/useAuth";
 import { AuthContext } from "./context/auth.context";
 

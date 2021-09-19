@@ -1,7 +1,18 @@
-th,
-td {
-  border: 1px solid black;
-  /* width: 100px; */
-  /* overflow: hidden; */
-  text-align: center;
+tr:nth-child(2n) {
+  background: #ebebeb;
+  border: solid 1px rgb(0, 0, 0);
 }
+ th {
+	font-weight: bold;  
+  background: linear-gradient(to bottom, #fefcea, #DBE6D8);
+	border: 1px solid #dddddd;
+}
+ td{
+	border: 1px solid #eee;
+  text-align: center; 
+}
+
+ tr:hover:not(:first-child) {
+  background: #F3FCC4; /* Цвет фона при наведении */
+  color: rgb(0, 0, 0); /* Цвет текста при наведении */
+ }

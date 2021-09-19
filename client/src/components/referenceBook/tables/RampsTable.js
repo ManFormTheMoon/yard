@@ -83,6 +83,7 @@ const RampsTable = (props) => {
       orientation: "",
       autoset: "",
     });
+    setAbacaba(setAbacaba+1)
   };
 
   const onKeyDownHandler = (event) => {
@@ -161,9 +162,9 @@ const RampsTable = (props) => {
       <div
         style={{
           // width: "200%",
-          // minHeight: "calc(100% - 53px)",
-          height: "750px",
-          backgroundColor: "brown",
+          minHeight: "calc(100% - 53px)",
+          height: "100%",
+          backgroundColor: "#FFFFFF",
           display: "block",
           padding: "0px 20px",
           overflowX: "scroll",
@@ -180,13 +181,16 @@ const RampsTable = (props) => {
         {wholeData.length > 0 && (
           <table
             style={{
-              border: "1px solid black",
+              borderRadius: "3px",
+              border: "0.5px solid #87C9B6",
               tableLayout: "fixed",
+              marginTop: "-10px",
+              overflow: "scroll",
               // width: "2000px",
             }}
           >
             <tr>
-              <td style={{ width: "50px" }}>
+              <td style={{ width: "40px"}}>
                 <input
                   type="checkbox"
                   checked={selectedRows.length == rowsOnPageCount}
@@ -196,7 +200,7 @@ const RampsTable = (props) => {
               <td>
                 <input
                   type="text"
-                  style={{ width: "50px" }}
+                  style={{ width: "70px" }}
                   placeholder="Код"
                   onChange={onChangeIdHandler}
                   value={currentFilters.id}
@@ -225,6 +229,7 @@ const RampsTable = (props) => {
                 <select
                   onChange={onChangeBlockedHandler}
                   value={currentFilters.blocked}
+                  style={{ width: "150px" }}
                 >
                   <option></option>
                   <option>Да</option>
@@ -253,6 +258,7 @@ const RampsTable = (props) => {
                 <select
                   onChange={onChangeUnitHandler}
                   value={currentFilters.unit}
+                  style={{ width: "120px" }}
                 >
                   <option></option>
                   <option>kg</option>
@@ -264,6 +270,7 @@ const RampsTable = (props) => {
                 <select
                   onChange={onChangeAutosetHandler}
                   value={currentFilters.autoset}
+                  style={{ width: "100px" }}
                 >
                   <option></option>
                   <option>Да</option>
@@ -274,6 +281,7 @@ const RampsTable = (props) => {
                 <select
                   onChange={onChangeUsedForSlotHandler}
                   value={currentFilters.used_for_slot}
+                  style={{ width: "150px" }}
                 >
                   <option></option>
                   <option>Да</option>
@@ -283,8 +291,8 @@ const RampsTable = (props) => {
               <td>
                 <input
                   type="text"
-                  style={{ width: "100px" }}
-                  placeholder="Код вида транспорта"
+                  style={{ width: "130px" }}
+                  placeholder="Код типа транспорта"
                   onChange={onChangeTransportTypeIdHandler}
                   value={currentFilters.trasnport_type_id}
                 />
@@ -292,6 +300,7 @@ const RampsTable = (props) => {
               <td>
                 <select
                   onChange={onChangeObjectMapHandler}
+                  style={{ width: "100px" }}
                   value={currentFilters.object_map}
                 >
                   <option></option>
@@ -301,6 +310,7 @@ const RampsTable = (props) => {
               </td>
               <td>
                 <select
+                  style={{ width: "130px" }}
                   onChange={onChangeOrientationHandler}
                   value={currentFilters.orientation}
                 >
@@ -315,14 +325,14 @@ const RampsTable = (props) => {
                 <input
                   type="text"
                   style={{ width: "250px" }}
-                  placeholder="Комментарии"
+                  placeholder="Комментарий"
                   onChange={onChangeCommentHandler}
                   value={currentFilters.comment}
                 />
               </td>
             </tr>
             <tr>
-              <th style={{ minWidth: "50px" }}></th>
+              <th style={{ minWidth: "40px" }}></th>
               <th style={{ minWidth: "50px" }}>Код</th>
               <th style={{ minWidth: "150px" }}>Наименование</th>
               <th style={{ minWidth: "80px" }}>Поток</th>
@@ -335,7 +345,7 @@ const RampsTable = (props) => {
               <th style={{ minWidth: "100px" }}>Код типа транспорта</th>
               <th style={{ minWidth: "100px" }}>Карта объектов</th>
               <th style={{ minWidth: "130px" }}>Направление</th>
-              <th style={{ minWidth: "250px" }}>Комментарии</th>
+              <th style={{ minWidth: "250px" }}>Комментарий</th>
             </tr>
             {wholeData.map((cur) => {
               return (
@@ -369,38 +379,42 @@ const RampsTable = (props) => {
       <div
         style={{
           width: "100%",
+          borderRadius: " 0 0 3px 3px",
           height: "50px",
-          backgroundColor: "tomato",
+          backgroundColor: "#8DA19B",
           display: "flex",
+          
         }}
       >
         <div
           style={{
+            marginLeft:"20px",
             height: "100%",
             display: "flex",
             alignItems: "center",
-            fontSize: "20px",
+            fontSize: "18px",
           }}
         >
-          <img src={gridImg} style={{ height: "80%" }} alt="" />
+          <img src={gridImg} style={{ height: "80%", cursor: "pointer"}} alt="" />
           Столбцы
           <input
             onKeyDown={onKeyDownHandler}
-            style={{ width: "50px", marginLeft: "20px" }}
+            style={{ width: "50px", marginLeft: "30px",  }}
           />
         </div>
         <div
           style={{
             height: "100%",
-            marginLeft: "20px",
+            marginLeft: "30px",
             display: "flex",
             alignItems: "center",
+            fontSize: "18px",
           }}
           onClick={() => {
             setAbacaba(abacaba + 1);
           }}
         >
-          <img src={refreshImg} style={{ height: "80%" }} alt="" />
+          <img src={refreshImg} style={{ height: "80%", cursor: "pointer" }} alt="" />
           Обновить
         </div>
         <div
@@ -413,14 +427,14 @@ const RampsTable = (props) => {
         >
           <img
             src={firstPageArrowImg}
-            style={{ height: "60%" }}
+            style={{ height: "60%", cursor: "pointer"}}
             onClick={() => {
               setCurrentPage(1);
             }}
           />
           <img
             src={leftArrowImg}
-            style={{ height: "60%", marginLeft: "30px" }}
+            style={{ height: "60%", marginLeft: "30px", cursor: "pointer" }}
             onClick={() => {
               setCurrentPage(Math.max(currentPage - 1, 1));
             }}
@@ -435,7 +449,7 @@ const RampsTable = (props) => {
           />
           <img
             src={rightArrowImg}
-            style={{ height: "60%" }}
+            style={{ height: "60%", cursor: "pointer" }}
             onClick={() => {
               setCurrentPage(
                 Math.min(
@@ -450,7 +464,7 @@ const RampsTable = (props) => {
           />
           <img
             src={lastPageArrowImg}
-            style={{ height: "60%", marginLeft: "30px" }}
+            style={{ height: "60%", marginLeft: "30px",cursor: "pointer" }}
             onClick={() => {
               setCurrentPage(
                 Math.floor(
@@ -475,5 +489,6 @@ const RampsTable = (props) => {
     </>
   );
 };
+
 
 export default RampsTable;

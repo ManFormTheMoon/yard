@@ -9,20 +9,22 @@ import closeIcon from "../../img/close.png";
 
 const SortableItem = SortableElement((props) => {
   const selectedStyle = {
-    height: "30px",
-    margin: "0px 10px",
-    paddingLeft: "10px",
+    height: "27px",
+    margin: "0px 2px",
+    padding: "3px 4px 0px 10px",
     backgroundColor: "white",
+    borderRadius: "3px 3px 0px 0px",
     display: "flex",
     justifyContent: "space-between",
   };
 
   const notSelectedStyle = {
-    height: "30px",
-    margin: "0px 10px",
-    paddingLeft: "10px",
-    backgroundColor: "lightblue",
+    height: "27px",
+    margin: "0px 2px",
+    padding: "3px 4px 0px 10px",
+    backgroundColor: "#DBE6D8",
     display: "flex",
+    borderRadius: "3px 3px 0px 0px",
     justifyContent: "space-between",
   };
 
@@ -61,14 +63,15 @@ const SortableList = SortableContainer((props) => {
   return (
     <div
       style={{
+       
         display: "flex",
         width: "100%",
         height: "100%",
         alignItems: "flex-end",
         maxWidth: "100%",
         minWidth: "100%",
-        overflowY: "scroll",
-        overflowX: "scroll",
+        //overflowY: "scroll",
+       //overflowX: "scroll",
       }}
     >
       {props.items.map((value, index) => (
@@ -96,7 +99,9 @@ const ReferenceBookHeaderTabs = (props) => {
         display: "flex",
         width: "100%",
         height: "100%",
-        backgroundColor: "purple",
+        backgroundColor: "#8DA19B",
+        paddingLeft:"6px",
+        borderradius: "5px 5px 0 0",
         alignItems: "flex-end",
       }}
     >
