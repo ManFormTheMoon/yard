@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Link } from "react-router-dom";
-import RampsTable from "./tables/ramps/RampsTable";
+import RampsTable from "./tables/RampsTable";
 
 const ReferenceBookBody = () => {
   return (
@@ -20,4 +20,3 @@ const ReferenceBookBody = () => {
 };
 
 export default ReferenceBookBody;
-
