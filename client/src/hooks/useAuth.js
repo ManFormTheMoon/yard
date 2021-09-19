@@ -16,7 +16,6 @@ export const useAuth = () => {
     setUserRole(role);
     setUserName(name);
     setUserLastName(last_name);
-    console.log("dasdasd");
     console.log(jwtToken, id, role, name, last_name);
     localStorage.setItem(
       storageName,

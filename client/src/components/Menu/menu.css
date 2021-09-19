@@ -8,10 +8,13 @@
   justify-content: flex-start;
   color: white;
   font-size: 20px;
-  /* white-space: pre; */
   text-decoration: none;
 }
 
 .menu-icon {
   margin: 0px 5px;
+}
+
+.menu-item:first-child {
+  margin-top: 5px; /* margin for first child */
 }

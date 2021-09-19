@@ -18,8 +18,16 @@ const ButtonsBlock = (props) => {
         alignItems: "center",
       }}
     >
-      <AddButton children="Добавить" style={{ margin: "6px", }} />
-      <EditButton children="Редактировать" style={{ margin: "6px" }} />
+      <AddButton
+        children="Добавить"
+        style={{ margin: "6px" }}
+        onAddHandler={props.onAddHandler}
+      />
+      <EditButton
+        children="Редактировать"
+        style={{ margin: "6px" }}
+        onEditHandler={props.onEditHandler}
+      />
       <DeleteButton
         children="Удалить"
         style={{ margin: "6px" }}
@@ -29,6 +37,7 @@ const ButtonsBlock = (props) => {
       <GroupEditButton
         children="Групповое редактирование"
         style={{ margin: "6px" }}
+        onGroupEditHandler={props.onGroupEditHandler}
       />
       <SearchButton
         children="Поиск"

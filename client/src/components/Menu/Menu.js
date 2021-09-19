@@ -37,9 +37,11 @@ const Menu = (props) => {
       style={{
         width: "250px",
         position: "fixed",
-        minHeight: "100%",
+        height: "calc(100% - 80px)", //set height to add scroll
         backgroundColor: "#8AA19B",
-        zIndex: "999",
+        zIndex: "1",
+        overflowY: "scroll", //scroll
+        boxSizing: "border-box",
       }}
     >
       <MenuItem

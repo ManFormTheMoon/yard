@@ -17,7 +17,7 @@ const AddButton = (props) => {
         alignItems: "center",
         ...props.style,
       }}
-      onClick={props.onClick}
+      onClick={props.onAddHandler}
     >
       <img src={add} alt="" style={{ height: "95%", marginRight: "5px" }} />
       {props.children}

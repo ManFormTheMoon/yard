@@ -1,8 +1,11 @@
 const { Router } = require("express");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const express = require("express");
 var mysql = require("mysql2/promise");
 const router = Router();
+
+const urlencodedParser = express.urlencoded({ extended: false });
 
 const pool = mysql.createPool({
   host: "localhost",
@@ -122,4 +125,175 @@ router.post("/ramps/delete", async (req, res) => {
     res.json({});
   } catch (e) {}
 });
+
+const addRamp = (values) => {
+  let query =
+    "insert into ramps(name_ru, stream, blocked, area_id, capacity, unit, autoset, used_for_slot, trasnport_type_id, object_map, orientation, comment) values (";
+  query += `"${values.name_ru}", `;
+  query += `"${values.stream}", `;
+  query += `"${values.blocked}", `;
+  query += `"${values.area_id}", `;
+  query += `"${!!values.capacity == "" ? 0 : values.capacity}", `;
+  query += `"${values.unit}", `;
+  query += `"${values.autoset}", `;
+  query += `"${values.used_for_slot}", `;
+  query += `"${values.trasnport_type_id}", `;
+  query += `"${values.object_map}", `;
+  query += `"${values.orientation}", `;
+  query += `"${values.comment}", `;
+
+  query = query.substr(0, query.length - 2);
+  query += ");";
+  console.log(query);
+  return query;
+};
+
+router.post("/ramps/add", async (req, res) => {
+  try {
+    console.log(req.body);
+    let gg = 0;
+    await pool.query(addRamp(req.body.values)).catch((e) => {
+      console.log(e);
+      console.log("bad");
+      gg = 1;
+      return res.send({ message: "bad" });
+    });
+    if (gg != 1) {
+      await console.log("ok");
+      await res.json({ message: "ok" });
+    }
+  } catch (e) {
+    console.log("bad11");
+    console.log(e);
+    res.json({ message: "bad" });
+  }
+});
+
+const editRamp = (values) => {
+  let query = "update ramps set";
+  query += ` name_ru = "${values.name_ru}", `;
+  query += `stream = "${values.stream}", `;
+  query += `blocked = "${values.blocked}", `;
+  query += `area_id = "${values.area_id}", `;
+  query += `capacity = "${values.capacity}", `;
+  query += `unit = "${values.unit}", `;
+  query += `autoset = "${values.autoset}", `;
+  query += `used_for_slot = "${values.used_for_slot}", `;
+  query += `trasnport_type_id = "${values.trasnport_type_id}", `;
+  query += `object_map = "${values.object_map}", `;
+  query += `orientation = "${values.orientation}", `;
+  query += `comment = "${values.comment}", `;
+
+  query = query.substr(0, query.length - 2);
+  query += ` where id = ${values.id};`;
+  console.log(query);
+  return query;
+};
+
+router.post("/ramps/edit", async (req, res) => {
+  try {
+    console.log(req.body);
+    let gg = 0;
+    await pool.query(editRamp(req.body.values)).catch((e) => {
+      console.log(e);
+      console.log("bad");
+      gg = 1;
+      return res.send({ message: "bad" });
+    });
+    if (gg != 1) {
+      await console.log("ok");
+      await res.json({ message: "ok" });
+    }
+  } catch (e) {
+    console.log("bad11");
+    console.log(e);
+    res.json({ message: "bad" });
+  }
+});
+
+const groupEditRamp = (values, checked, ids) => {
+  let query = "update ramps set";
+  if (!!checked.name_ru) {
+    query += ` name_ru = "", `;
+  } else if (!!values.name_ru) {
+    query += ` name_ru = "${values.name_ru}", `;
+  }
+  if (!!checked.stream) {
+    query += ` stream = "", `;
+  } else if (!!values.stream) {
+    query += ` stream = "${values.stream}", `;
+  }
+  if (values.blocked === 0 || values.blocked === 1) {
+    query += ` blocked = ${values.blocked}, `;
+  }
+  if (!!values.area_id) {
+    query += ` area_id = "${values.area_id}", `;
+  }
+  if (!!checked.capacity) {
+    query += ` capacity = 0, `;
+  } else if (!!values.capacity) {
+    query += ` capacity = ${values.capacity == "" ? 0 : values.capacity}, `;
+  }
+  if (!!checked.unit) {
+    query += ` unit = "", `;
+  } else if (!!values.unit) {
+    query += ` unit = ${values.unit}, `;
+  }
+  if (values.autoset === 0 || values.autoset === 1) {
+    query += `autoset = ${values.autoset}, `;
+  }
+  if (values.used_for_slot === 0 || values.used_for_slot === 1) {
+    query += `used_for_slot = ${values.used_for_slot}, `;
+  }
+  if (!!values.trasnport_type_id) {
+    query += `trasnport_type_id = ${values.trasnport_type_id}, `;
+  }
+  if (values.object_map === 0 || values.object_map === 1) {
+    query += `object_map = ${values.object_map}, `;
+  }
+  if (!!checked.orientation) {
+    query += ` orientation = "", `;
+  } else if (!!values.orientation) {
+    query += ` orientation = "${values.orientation}", `;
+  }
+  if (!!checked.comment) {
+    query += ` comment = "", `;
+  } else if (!!values.comment) {
+    query += ` comment = ${values.comment}, `;
+  }
+
+  query = query.substr(0, query.length - 2);
+  query += ` where id in (`;
+  for (let i = 0; i < ids.length; i++) {
+    query = query + ids[i] + ", ";
+  }
+  query = query.substr(0, query.length - 2);
+  query += ");";
+  console.log(query);
+  return query;
+};
+
+router.post("/ramps/groupEdit", async (req, res) => {
+  try {
+    console.log(req.body);
+    let gg = 0;
+    await pool
+      .query(groupEditRamp(req.body.values, req.body.toclear, req.body.ids))
+      .catch((e) => {
+        console.log(e);
+        console.log("bad");
+        gg = 1;
+        return res.send({ message: "bad" });
+      });
+    if (gg != 1) {
+      await console.log("ok");
+      await res.json({ message: "ok" });
+    }
+  } catch (e) {
+    console.log("bad11");
+    console.log(e);
+    res.json({ message: "bad" });
+  }
+});
+
 module.exports = router;

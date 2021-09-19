@@ -1,16 +1,23 @@
-import { event } from "jquery";
 import React, { useEffect, useState } from "react";
-import { useHttp } from "../../../hooks/useHttp";
-import ButtonsBlock from "../ButtonsBlock";
-import gridImg from "./../../../img/reference-book-buttons/grid.png";
-import leftArrowImg from "./../../../img/reference-book-buttons/left-arrow.png";
-import rightArrowImg from "./../../../img/reference-book-buttons/right-arrow.png";
-import firstPageArrowImg from "./../../../img/reference-book-buttons/first_page_arrow.png";
-import lastPageArrowImg from "./../../../img/reference-book-buttons/last_page_arrow.png";
-import refreshImg from "./../../../img/reference-book-buttons/refresh.png";
+import { useHttp } from "../../../../hooks/useHttp";
+import ButtonsBlock from "../../ButtonsBlock";
+import gridImg from "./../../../../img/reference-book-buttons/grid.png";
+import leftArrowImg from "./../../../../img/reference-book-buttons/left-arrow.png";
+import rightArrowImg from "./../../../../img/reference-book-buttons/right-arrow.png";
+import firstPageArrowImg from "./../../../../img/reference-book-buttons/first_page_arrow.png";
+import lastPageArrowImg from "./../../../../img/reference-book-buttons/last_page_arrow.png";
+import refreshImg from "./../../../../img/reference-book-buttons/refresh.png";
+import ballImg from "./../../../../img/reference-book-buttons/ball.png";
+import AddRampModal from "./AddRampModal";
 import "./Ramps.css";
+import EditRampModal from "./EditRampModal";
+import GroupEditModal from "./GroupEditRampModal";
+import GroupEditRampModal from "./GroupEditRampModal";
 
 const RampsTable = (props) => {
+  const [addModalVisible, setAddModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [groupEditModalVisible, setGroupEditModalVisible] = useState(false);
   const [abacaba, setAbacaba] = useState(0);
   const [wholeData, setWholeData] = useState([]);
   const [rowsOnPageCount, setRowsOnPageCount] = useState(50);
@@ -18,6 +25,53 @@ const RampsTable = (props) => {
   const [currentFilters, setCurrentFilters] = useState({});
   const [totalRows, setTotalRows] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [messageText, setMessageText] = useState();
+  const [messageVisible, setMessageVisible] = useState(false);
+  const [addInputValues, setAddInputValues] = useState({
+    name_ru: "",
+    stream: "",
+    blocked: "",
+    area_id: "",
+    capacity: "",
+    unit: "",
+    object_map: "",
+    comment: "",
+    used_for_slot: "",
+    trasnport_type_id: "",
+    orientation: "",
+    autoset: "",
+  });
+  const [editInputValues, setEditInputValues] = useState({
+    id: "",
+    name_ru: "",
+    stream: "",
+    blocked: "",
+    area_id: "",
+    capacity: "",
+    unit: "",
+    object_map: "",
+    comment: "",
+    used_for_slot: "",
+    trasnport_type_id: "",
+    orientation: "",
+    autoset: "",
+  });
+  const [groupEditInputValues, setGroupEditInputValues] = useState({
+    name_ru: "",
+    stream: "",
+    blocked: "",
+    area_id: "",
+    capacity: "",
+    unit: "",
+    object_map: "",
+    comment: "",
+    used_for_slot: "",
+    trasnport_type_id: "",
+    orientation: "",
+    autoset: "",
+  });
+  const [groupEditCheckboxValues, setGroupEditCheckboxValues] = useState({});
+
   useEffect(async () => {
     let body = {};
     body.limit = rowsOnPageCount;
@@ -40,16 +94,9 @@ const RampsTable = (props) => {
     setAbacaba(abacaba + 1);
   };
   console.log(wholeData);
-  console.log(totalRows);
-  console.log(rowsOnPageCount);
-  console.log(selectedRows);
-  console.log(currentFilters);
 
   const onDeleteHandler = async () => {
-    console.log(1);
-    console.log(selectedRows);
     if (selectedRows.length > 0) {
-      console.log(2);
       let body = {};
       body.arr = selectedRows;
       body = JSON.stringify(body);
@@ -60,14 +107,266 @@ const RampsTable = (props) => {
         body: body,
         headers: headers,
       });
-      console.log(3);
       setSelectedRows([]);
       await setAbacaba(abacaba + 1);
     }
   };
 
+  const onAddEvent = async (values) => {
+    console.log(values);
+    if (!!values.blocked) {
+      values.blocked = values.blocked == "Да" ? 1 : 0;
+    }
+    if (!!values.autoset) {
+      values.autoset = values.autoset == "Да" ? 1 : 0;
+    }
+    if (!!values.used_for_slot) {
+      values.used_for_slot = values.used_for_slot == "Да" ? 1 : 0;
+    }
+    if (!!values.object_map) {
+      values.object_map = values.object_map == "Да" ? 1 : 0;
+    }
+
+    let body = {};
+    body.values = values;
+    body = JSON.stringify(body);
+    let headers = {};
+    headers["Content-Type"] = "application/json";
+    const response = await fetch("/api/referenceBook/ramps/add", {
+      method: "POST",
+      body: body,
+      headers: headers,
+    });
+    const data = await response.json();
+
+    console.log(data);
+    if (data.message == "ok") {
+      setAddModalVisible(false);
+      setAddInputValues({
+        name_ru: "",
+        stream: "",
+        blocked: "",
+        area_id: "",
+        capacity: "",
+        unit: "",
+        object_map: "",
+        comment: "",
+        used_for_slot: "",
+        trasnport_type_id: "",
+        orientation: "",
+        autoset: "",
+      });
+      setMessageText("Added!");
+    } else {
+      setMessageText("Incorrect data!");
+    }
+    setMessageVisible(true);
+    setTimeout(() => {
+      setMessageVisible(false);
+    }, 3000);
+    await setAbacaba(abacaba + 1);
+  };
+
+  const onGroupEditEvent = async (checkboxValues, inputValues) => {
+    const keys = Object.keys(checkboxValues);
+    let result = {};
+    for (let i = 0; i < keys.length; i++) {
+      if (checkboxValues[keys[i]] == true) {
+        result[keys[i]] = true;
+      }
+    }
+    console.log(inputValues);
+    if (!!inputValues.blocked) {
+      inputValues.blocked = inputValues.blocked == "Да" ? 1 : 0;
+    }
+    if (!!inputValues.autoset) {
+      inputValues.autoset = inputValues.autoset == "Да" ? 1 : 0;
+    }
+    if (!!inputValues.used_for_slot) {
+      inputValues.used_for_slot = inputValues.used_for_slot == "Да" ? 1 : 0;
+    }
+    if (!!inputValues.object_map) {
+      inputValues.object_map = inputValues.object_map == "Да" ? 1 : 0;
+    }
+    console.log(inputValues);
+    console.log(result);
+    console.log(selectedRows);
+    let body = {};
+    body.values = inputValues;
+    body.ids = selectedRows;
+    body.toclear = result;
+    body = JSON.stringify(body);
+    let headers = {};
+    headers["Content-Type"] = "application/json";
+    const response = await fetch("/api/referenceBook/ramps/groupEdit", {
+      method: "POST",
+      body: body,
+      headers: headers,
+    });
+    const data = await response.json();
+
+    console.log(data);
+    if (data.message == "ok") {
+      setGroupEditModalVisible(false);
+      setMessageText("Edited!");
+      setGroupEditCheckboxValues({});
+      setGroupEditInputValues({
+        name_ru: "",
+        stream: "",
+        blocked: "",
+        area_id: "",
+        capacity: "",
+        unit: "",
+        object_map: "",
+        comment: "",
+        used_for_slot: "",
+        trasnport_type_id: "",
+        orientation: "",
+        autoset: "",
+      });
+    } else {
+      setMessageText("Incorrect data!");
+    }
+    setMessageVisible(true);
+    setTimeout(() => {
+      setMessageVisible(false);
+    }, 3000);
+    await setAbacaba(abacaba + 1);
+  };
+
+  const onEditEvent = async () => {
+    console.log(editInputValues);
+    if (!!editInputValues.blocked) {
+      editInputValues.blocked = editInputValues.blocked == "Да" ? 1 : 0;
+    }
+    if (!!editInputValues.autoset) {
+      editInputValues.autoset = editInputValues.autoset == "Да" ? 1 : 0;
+    }
+    if (!!editInputValues.used_for_slot) {
+      editInputValues.used_for_slot =
+        editInputValues.used_for_slot == "Да" ? 1 : 0;
+    }
+    if (!!editInputValues.object_map) {
+      editInputValues.object_map = editInputValues.object_map == "Да" ? 1 : 0;
+    }
+
+    let body = {};
+    body.values = editInputValues;
+    body = JSON.stringify(body);
+    let headers = {};
+    headers["Content-Type"] = "application/json";
+    const response = await fetch("/api/referenceBook/ramps/edit", {
+      method: "POST",
+      body: body,
+      headers: headers,
+    });
+    const data = await response.json();
+
+    console.log(data);
+    if (data.message == "ok") {
+      setEditModalVisible(false);
+      setMessageText("Edited!");
+      await setAbacaba(abacaba + 1);
+    } else {
+      setMessageText("Incorrect data!");
+    }
+    setMessageVisible(true);
+    setTimeout(() => {
+      setMessageVisible(false);
+    }, 3000);
+  };
+
+  const onAddHandler = () => {
+    setAddModalVisible(true);
+  };
+
+  const onGroupEditHandler = () => {
+    if (selectedRows.length == 0) {
+      setMessageText("Choose more rows");
+      setMessageVisible(true);
+      setTimeout(() => {
+        setMessageVisible(false);
+      }, 3000);
+    } else {
+      setGroupEditModalVisible(true);
+    }
+  };
+  const onEditHandler = async () => {
+    if (selectedRows.length != 1) {
+      setMessageText("Choose one  row");
+      setMessageVisible(true);
+      setTimeout(() => {
+        setMessageVisible(false);
+      }, 3000);
+    } else {
+      let data = {};
+      Object.assign(
+        data,
+        wholeData.filter((cur) => cur.id == selectedRows[0])[0]
+      );
+      if (data.stream == "input") {
+        data.stream = "Input;";
+      }
+      if (data.stream == "output") {
+        data.stream = "Output";
+      }
+      if (data.blocked == 1) {
+        data.blocked = "Да";
+      }
+      if (data.blocked == 0) {
+        data.blocked = "Нет";
+      }
+      if (data.autoset == 1) {
+        data.autoset = "Да";
+      }
+      if (data.autoset == 0) {
+        data.autoset = "Нет";
+      }
+      if (data.used_for_slot == 1) {
+        data.used_for_slot = "Да";
+      }
+      if (data.used_for_slot == 0) {
+        data.used_for_slot = "Нет";
+      }
+      if (data.object_map == 1) {
+        data.object_map = "Да";
+      }
+      if (data.object_map == 0) {
+        data.object_map = "Нет";
+      }
+      if (data.orientation == "top") {
+        data.orientation = "Top";
+      }
+      if (data.orientation == "bottom") {
+        data.orientation = "Bottom";
+      }
+      if (data.orientation == "left") {
+        data.orientation = "Left";
+      }
+      if (data.orientation == "right") {
+        data.orientation = "Right";
+      }
+      console.log(data);
+      setEditInputValues({
+        id: selectedRows[0],
+        name_ru: data?.name_ru,
+        stream: data?.stream,
+        blocked: data?.blocked,
+        area_id: data?.area_id,
+        capacity: data?.capacity,
+        unit: data?.unit,
+        object_map: data?.object_map,
+        comment: data?.comment,
+        used_for_slot: data?.used_for_slot,
+        trasnport_type_id: data?.trasnport_type_id,
+        orientation: data?.orientation,
+        autoset: data?.autoset,
+      });
+      setEditModalVisible(true);
+    }
+  };
+
   const onSearchClearHandler = () => {
-    console.log("Xxx");
     setCurrentFilters({
       id: "",
       name_ru: "",
@@ -93,8 +392,6 @@ const RampsTable = (props) => {
   };
 
   const changeBoxItemHandler = (value, event) => {
-    console.log(value);
-    console.log(event.target.checked);
     if (event.target.checked) {
       setSelectedRows([...selectedRows, value]);
     } else {
@@ -157,8 +454,74 @@ const RampsTable = (props) => {
   const onChangeCommentHandler = (event) => {
     setCurrentFilters({ ...currentFilters, comment: event.target.value });
   };
+
   return (
     <>
+      {messageVisible && (
+        <div
+          style={{
+            position: "absolute",
+            right: "10vw",
+            top: "10vh",
+            display: "inline-flex",
+            padding: "20px 40px",
+            backgroundColor: "#F99F1F",
+            color: "white",
+            zIndex: "1000",
+          }}
+        >
+          <img
+            src={ballImg}
+            style={{ width: "20px", marginRight: "10px" }}
+            alt=""
+          />
+          {messageText}
+        </div>
+      )}
+      <AddRampModal
+        visible={addModalVisible}
+        setVisible={setAddModalVisible}
+        onAddEvent={onAddEvent}
+        style={{
+          width: "1000px",
+          height: "800px",
+          backgroundColor: "white",
+          borderRadius: "20px",
+          padding: "20px",
+        }}
+        inputValues={addInputValues}
+        setInputValues={setAddInputValues}
+      />
+      <EditRampModal
+        visible={editModalVisible}
+        setVisible={setEditModalVisible}
+        onEditEvent={onEditEvent}
+        style={{
+          width: "1000px",
+          height: "800px",
+          backgroundColor: "white",
+          borderRadius: "20px",
+          padding: "20px",
+        }}
+        inputValues={editInputValues}
+        setInputValues={setEditInputValues}
+      />
+      <GroupEditRampModal
+        visible={groupEditModalVisible}
+        setVisible={setGroupEditModalVisible}
+        onGroupEditEvent={onGroupEditEvent}
+        style={{
+          width: "1000px",
+          height: "800px",
+          backgroundColor: "white",
+          borderRadius: "20px",
+          padding: "20px",
+        }}
+        inputValues={groupEditInputValues}
+        setInputValues={setGroupEditInputValues}
+        checkboxValues={groupEditCheckboxValues}
+        setCheckboxValues={setGroupEditCheckboxValues}
+      />
       <div
         style={{
           // width: "200%",
@@ -176,6 +539,9 @@ const RampsTable = (props) => {
           onSearchClick={onSearchClick}
           onDeleteHandler={onDeleteHandler}
           onSearchClearHandler={onSearchClearHandler}
+          onAddHandler={onAddHandler}
+          onEditHandler={onEditHandler}
+          onGroupEditHandler={onGroupEditHandler}
         />
         <br />
         {wholeData.length > 0 && (
@@ -316,7 +682,7 @@ const RampsTable = (props) => {
                 >
                   <option></option>
                   <option>Left</option>
-                  <option>Riight</option>
+                  <option>Right</option>
                   <option>Top</option>
                   <option>Bottom</option>
                 </select>

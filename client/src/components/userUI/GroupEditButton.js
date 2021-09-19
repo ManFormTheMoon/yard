@@ -17,7 +17,7 @@ const GroupEditButton = (props) => {
         alignItems: "center",
         ...props.style,
       }}
-      onClick={props.onClick}
+      onClick={props.onGroupEditHandler}
     >
       <img
         src={connect}
