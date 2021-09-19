@@ -14,7 +14,7 @@ const EditButton = (props) => {
         alignItems: "center",
         ...props.style,
       }}
-      onClick={props.onClick}
+      onClick={props.onEditHandler}
     >
       <img src={edit} alt="" style={{ height: "100%", marginRight: "10px" }} />
       {props.children}

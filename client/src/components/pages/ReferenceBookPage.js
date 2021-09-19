@@ -3,6 +3,7 @@ import ReferenceBookData from "../referenceBook/ReferenceBookData";
 import ReferenceBookItem from "../referenceBook/ReferenceBookItem";
 import { arrayMove } from "react-sortable-hoc";
 import ReferenceBookItemsList from "../referenceBook/ReferenceBookItemsList";
+import { useHistory } from "react-router-dom";
 
 const tabsInfo = [
   {
@@ -78,6 +79,7 @@ const tabsInfo = [
 ];
 
 const ReferenceBookPage = () => {
+  const history = useHistory();
   const [currentTabs, setCurrentTabs] = useState([]);
   const [selectedTab, setSelectedTab] = useState("");
   console.log(currentTabs);
@@ -92,6 +94,22 @@ const ReferenceBookPage = () => {
   const onTabClose = (tab) => {
     console.log(tab);
     setCurrentTabs(currentTabs.filter((e) => e.value != tab.value));
+    console.log(tab);
+    console.log(selectedTab);
+    if (tab.value == selectedTab) {
+      console.log("xx");
+      console.log(currentTabs);
+      if (currentTabs.length == 1) {
+        console.log("xxx");
+        // window.location.href = "http://localhost:3000/data/referenceBook/";
+        // window.history.pushState(
+        //   null,
+        //   null,
+        //   "http://localhost:3000/data/referenceBook/"
+        // );
+        // history.push("/data/exchangeLog");
+      }
+    }
   };
 
   const changeSelected = (tab) => {

@@ -18,9 +18,9 @@ const AuthPage = () => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
 
-  const logInHandler = async () => {
+  const logInHandler = () => {
     try {
-      const data = await request("/api/auth/login", "POST", { ...form });
+      const data = request("/api/auth/login", "POST", { ...form });
       console.log(data);
       auth.login(
         data.token,
