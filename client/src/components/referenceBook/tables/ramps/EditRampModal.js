@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "../../../../Modal/Modal";
+import "./Ramps.css";
 import good from "./../../../../img/reference-book-buttons/check.png";
 import bad from "./../../../../img/reference-book-buttons/remove.png";
 const EditRampModal = (props) => {
@@ -73,97 +74,97 @@ const EditRampModal = (props) => {
   const onChangeCommentHandler = (event) => {
     props.setInputValues({ ...props.inputValues, comment: event.target.value });
   };
-  const rowStyles = {
-    width: "100%",
-    height: "38px",
-    backgroundColor: "tomato",
-    borderRadius: "20px",
-    display: "flex",
-    alignItems: "center",
-    paddingLeft: "20px",
-    boxSizing: "border-box",
-    marginTop: "18px",
-  };
+  const rowName = {
+    width: "30%",
+  }
   return (
     <Modal
       visible={props.visible}
       setVisible={props.setEditModalVisible}
       style={props.style}
     >
-      <div
-        style={{
-          width: "100%",
-          height: "40px",
-          backgroundColor: "tomato",
-          borderRadius: "20px",
-          display: "flex",
-          alignItems: "center",
-          paddingLeft: "20px",
-          boxSizing: "border-box",
-        }}
+      <div className="title-modal"
       >
         Обновление рампы
       </div>
-      <div style={rowStyles}>
-        Наименование
+      <div className="row-styles">
+        <div style={rowName}>
+          Наименование:
+        </div>
         <input
+          type="text"
           value={props.inputValues.name_ru}
           onChange={onChangeNameRuHandler}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px",
+            width:"60%"}}
         />
       </div>
-      <div style={rowStyles}>
-        Поток
+      <div className="row-styles">
+        <div style={rowName}>
+          Поток:
+        </div>
         <select
           onChange={onChangeStreamHandler}
           value={props.inputValues.stream}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px", 
+            width:"30%" }}
         >
           <option></option>
           <option>Input</option>
           <option>Output</option>
         </select>
       </div>
-      <div style={rowStyles}>
-        Заблокировано
+      <div className="row-styles">
+        <div style={rowName}>
+          Заблокировано?
+        </div>
         <select
           onChange={onChangeBlockedHandler}
           value={props.inputValues.blocked}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px", 
+          width:"30%" }}
         >
           <option></option>
           <option>Да</option>
           <option>Нет</option>
         </select>
       </div>
-      <div style={rowStyles}>
-        Код плошадки
+      <div className="row-styles">
+        <div style={rowName}>
+          Участок:
+        </div>
         <input
           type="text"
           style={{ width: "150px" }}
           placeholder="Код площадки"
           onChange={onChangeAreaIdHandler}
           value={props.inputValues.area_id}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px",
+          width:"60%"}}
         />
       </div>
-      <div style={rowStyles}>
-        Вместимость
+      <div className="row-styles">
+        <div style={rowName}>
+          Вместимость:
+        </div>
         <input
           type="text"
-          style={{ width: "120px" }}
           placeholder="Вместимость"
           onChange={onChangeCapacityHandler}
           value={props.inputValues.capacity}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px",
+          width:"60%"}}
         />
       </div>
-      <div style={rowStyles}>
-        Единица измерения
+      <div className="row-styles">
+        <div style={rowName}>
+          Единица измерения:
+        </div>
         <select
           onChange={onChangeUnitHandler}
           value={props.inputValues.unit}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px", 
+          width:"30%" }}
         >
           <option></option>
           <option>kg</option>
@@ -171,59 +172,74 @@ const EditRampModal = (props) => {
           <option>3</option>
         </select>
       </div>
-      <div style={rowStyles}>
-        Авто набор
+      <div className="row-styles">
+        <div style={rowName}>
+          Авто назначение:
+        </div>
         <select
           onChange={onChangeAutosetHandler}
           value={props.inputValues.autoset}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px", 
+          width:"30%" }}
         >
           <option></option>
           <option>Да</option>
           <option>Нет</option>
         </select>
       </div>
-      <div style={rowStyles}>
-        Используется для слота
+      <div className="row-styles"> 
+        <div style={rowName}>
+          Используется для слотитования?
+        </div>
         <select
           onChange={onChangeUsedForSlotHandler}
           value={props.inputValues.used_for_slot}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px", 
+          width:"30%" }}
         >
           <option></option>
           <option>Да</option>
           <option>Нет</option>
         </select>
       </div>
-      <div style={rowStyles}>
-        Код вида транспорта
+      <div className="row-styles">
+        <div style={rowName}>
+          Тип транспорта:
+        </div>
         <input
           type="text"
           style={{ width: "100px" }}
           placeholder="Код вида транспорта"
           onChange={onChangeTransportTypeIdHandler}
           value={props.inputValues.trasnport_type_id}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px",
+          width:"60%"}}
         />
       </div>
-      <div style={rowStyles}>
-        Карта объектов
+      <div className="row-styles">
+        <div style={rowName}>
+          Является объектом на карте?
+        </div>
         <select
           onChange={onChangeObjectMapHandler}
           value={props.inputValues.object_map}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px", 
+          width:"30%" }}
         >
           <option></option>
           <option>Да</option>
           <option>Нет</option>
         </select>
       </div>
-      <div style={rowStyles}>
-        Направление
+      <div className="row-styles">
+        <div style={rowName}>
+          Направление:
+        </div>
         <select
           onChange={onChangeOrientationHandler}
           value={props.inputValues.orientation}
-          style={{ marginLeft: "30px" }}
+          style={{ marginLeft: "30px", 
+          width:"30%" }}
         >
           <option></option>
           <option>Left</option>
@@ -232,23 +248,27 @@ const EditRampModal = (props) => {
           <option>Bottom</option>
         </select>
       </div>
-      <div style={rowStyles}>
-        Комментарии
+      <div className="row-styles">
+        <div style={rowName}>
+          Комментарий:
+        </div>
         <input
           type="text"
           placeholder="Не более 100 символов"
           onChange={onChangeCommentHandler}
           value={props.inputValues.comment}
-          style={{ width: "500px", marginLeft: "30px" }}
+          style={{ marginLeft: "30px",
+          width:"60%"}}
           maxLength="100"
         />
       </div>
       <div
-        style={{
+         style={{
           display: "flex",
-          width: "100%",
+          width: "80%",
           height: "40px",
-          marginTop: "50px",
+          marginTop: "30px",
+          paddingLeft: "30px",
         }}
       >
         <div

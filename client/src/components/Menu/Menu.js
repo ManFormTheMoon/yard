@@ -36,7 +36,7 @@ const Menu = (props) => {
     // блок меню
       className="menu-container"
       style={{
-        width: "200px",
+        width: "250px",
         position: "fixed",
         height: "calc(100% - 80px)", //set height to add scroll
         backgroundColor: "#8AA19B",

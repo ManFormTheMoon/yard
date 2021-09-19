@@ -7,7 +7,7 @@ import rightArrowImg from "./../../../../img/reference-book-buttons/right-arrow.
 import firstPageArrowImg from "./../../../../img/reference-book-buttons/first_page_arrow.png";
 import lastPageArrowImg from "./../../../../img/reference-book-buttons/last_page_arrow.png";
 import refreshImg from "./../../../../img/reference-book-buttons/refresh.png";
-import ballImg from "./../../../../img/reference-book-buttons/ball.png";
+import ballImg from "./../../../../img/reference-book-buttons/attention.png";
 import AddRampModal from "./AddRampModal";
 import "./Ramps.css";
 import EditRampModal from "./EditRampModal";
@@ -455,20 +455,19 @@ const RampsTable = (props) => {
     setCurrentFilters({ ...currentFilters, comment: event.target.value });
   };
 
+  const style_model = {
+    width: "60%",
+    height: "75%",
+    backgroundColor: "white",
+    borderRadius: "5px",
+    padding: "15px",
+    overflowY: "scroll",
+  }
+
   return (
     <>
       {messageVisible && (
-        <div
-          style={{
-            position: "absolute",
-            right: "10vw",
-            top: "10vh",
-            display: "inline-flex",
-            padding: "20px 40px",
-            backgroundColor: "#F99F1F",
-            color: "white",
-            zIndex: "1000",
-          }}
+        <div className="message-visible"
         >
           <img
             src={ballImg}
@@ -482,41 +481,23 @@ const RampsTable = (props) => {
         visible={addModalVisible}
         setVisible={setAddModalVisible}
         onAddEvent={onAddEvent}
-        style={{
-          width: "1000px",
-          height: "800px",
-          backgroundColor: "white",
-          borderRadius: "20px",
-          padding: "20px",
-        }}
         inputValues={addInputValues}
+        style={style_model}
         setInputValues={setAddInputValues}
       />
       <EditRampModal
         visible={editModalVisible}
         setVisible={setEditModalVisible}
         onEditEvent={onEditEvent}
-        style={{
-          width: "1000px",
-          height: "800px",
-          backgroundColor: "white",
-          borderRadius: "20px",
-          padding: "20px",
-        }}
         inputValues={editInputValues}
+        style={style_model}
         setInputValues={setEditInputValues}
       />
       <GroupEditRampModal
         visible={groupEditModalVisible}
         setVisible={setGroupEditModalVisible}
         onGroupEditEvent={onGroupEditEvent}
-        style={{
-          width: "1000px",
-          height: "800px",
-          backgroundColor: "white",
-          borderRadius: "20px",
-          padding: "20px",
-        }}
+        style={style_model}
         inputValues={groupEditInputValues}
         setInputValues={setGroupEditInputValues}
         checkboxValues={groupEditCheckboxValues}
@@ -524,9 +505,9 @@ const RampsTable = (props) => {
       />
       <div
         style={{
-          // width: "200%",
-          minHeight: "calc(100% - 53px)",
-          height: "100%",
+          minHeight: "calc(100% - 50px)",
+          height: "calc(100% - 50px)",
+          maxHeight: "calc(100%- 50px)",
           backgroundColor: "#FFFFFF",
           display: "block",
           padding: "0px 20px",
@@ -606,7 +587,7 @@ const RampsTable = (props) => {
                 <input
                   type="text"
                   style={{ width: "150px" }}
-                  placeholder="Код площадки"
+                  placeholder="Участок"
                   onChange={onChangeAreaIdHandler}
                   value={currentFilters.area_id}
                 />
@@ -658,7 +639,7 @@ const RampsTable = (props) => {
                 <input
                   type="text"
                   style={{ width: "130px" }}
-                  placeholder="Код типа транспорта"
+                  placeholder="Тип транспорта"
                   onChange={onChangeTransportTypeIdHandler}
                   value={currentFilters.trasnport_type_id}
                 />
@@ -666,7 +647,7 @@ const RampsTable = (props) => {
               <td>
                 <select
                   onChange={onChangeObjectMapHandler}
-                  style={{ width: "100px" }}
+                  style={{ width: "160px" }}
                   value={currentFilters.object_map}
                 >
                   <option></option>
@@ -702,14 +683,14 @@ const RampsTable = (props) => {
               <th style={{ minWidth: "50px" }}>Код</th>
               <th style={{ minWidth: "150px" }}>Наименование</th>
               <th style={{ minWidth: "80px" }}>Поток</th>
-              <th style={{ minWidth: "150px" }}>Заблокировано</th>
-              <th style={{ minWidth: "150px" }}>Код плошадки</th>
+              <th style={{ minWidth: "150px" }}>Заблокировано?</th>
+              <th style={{ minWidth: "150px" }}>Участок</th>
               <th style={{ minWidth: "120px" }}>Вместиность</th>
               <th style={{ minWidth: "100px" }}>Единица измерения</th>
-              <th style={{ minWidth: "100px" }}>Авто набор</th>
-              <th style={{ minWidth: "150px" }}>Используется для слота</th>
-              <th style={{ minWidth: "100px" }}>Код типа транспорта</th>
-              <th style={{ minWidth: "100px" }}>Карта объектов</th>
+              <th style={{ minWidth: "100px" }}>Авто назначение</th>
+              <th style={{ minWidth: "150px" }}>Используется для слотитования?</th>
+              <th style={{ minWidth: "100px" }}>Тип транспорта</th>
+              <th style={{ minWidth: "100px" }}>Является объектом на карте?</th>
               <th style={{ minWidth: "130px" }}>Направление</th>
               <th style={{ minWidth: "250px" }}>Комментарий</th>
             </tr>
@@ -759,10 +740,11 @@ const RampsTable = (props) => {
             display: "flex",
             alignItems: "center",
             fontSize: "18px",
+            color:"white"
           }}
         >
-          <img src={gridImg} style={{ height: "80%", cursor: "pointer"}} alt="" />
-          Столбцы
+          <img src={gridImg} style={{ height: "70%", cursor: "pointer", marginRight:"5px" }} alt="" />
+          Колонки
           <input
             onKeyDown={onKeyDownHandler}
             style={{ width: "50px", marginLeft: "30px",  }}
@@ -775,12 +757,13 @@ const RampsTable = (props) => {
             display: "flex",
             alignItems: "center",
             fontSize: "18px",
+            color:"white"
           }}
           onClick={() => {
             setAbacaba(abacaba + 1);
           }}
         >
-          <img src={refreshImg} style={{ height: "80%", cursor: "pointer" }} alt="" />
+          <img src={refreshImg} style={{ height: "80%", cursor: "pointer"}} alt="" />
           Обновить
         </div>
         <div

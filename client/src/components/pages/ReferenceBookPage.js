@@ -144,9 +144,9 @@ const ReferenceBookPage = () => {
           borderRadius:"5px",
           height: "90%",
           backgroundColor: "#FFFFFF",
-          marginTop: "50px",
+          marginTop: "40px",
           marginLeft: "10px",
-          overflowX: "scroll",
+          overflowy: "scroll",
         }}
       >
         <ReferenceBookItemsList
