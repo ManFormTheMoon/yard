@@ -140,9 +140,9 @@ const ReferenceBookPage = (props) => {
           height: "90%",
           maxHeight: "calc(100% - 70px)",
           backgroundColor: "#FFFFFF",
-          marginTop: "50px",
+          marginTop: "40px",
           marginLeft: "10px",
-          overflowX: "scroll",
+          overflowy: "scroll",
         }}
       >
         <ReferenceBookItemsList
