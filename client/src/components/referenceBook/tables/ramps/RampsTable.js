@@ -426,6 +426,9 @@ const RampsTable = (props) => {
   };
 
   const onChangeGlobalCheckBox = (event) => {
+    console.log(event);
+    console.log(selectedRows);
+    console.log(rowsOnPageCount);
     console.log(event.target.checked);
     if (event.target.checked) {
       let a = [];
@@ -579,7 +582,7 @@ const RampsTable = (props) => {
               <td style={{ width: "40px" }}>
                 <input
                   type="checkbox"
-                  checked={selectedRows.length == rowsOnPageCount}
+                  checked={selectedRows.length == wholeData.length}
                   onChange={(event) => onChangeGlobalCheckBox(event)}
                 />
               </td>
