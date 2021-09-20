@@ -165,6 +165,7 @@ const RampsTable = (props) => {
         autoset: "",
       });
       setMessageText("Добавлено!");
+      await setAbacaba(abacaba + 1);
     } else {
       setMessageText("Некорректные данные!");
     }
@@ -172,7 +173,6 @@ const RampsTable = (props) => {
     setTimeout(() => {
       setMessageVisible(false);
     }, 3000);
-    await setAbacaba(abacaba + 1);
   };
 
   const onGroupEditEvent = async (checkboxValues, inputValues) => {
@@ -232,6 +232,7 @@ const RampsTable = (props) => {
         orientation: "",
         autoset: "",
       });
+      await setAbacaba(abacaba + 1);
     } else {
       setMessageText("Некорректные данные!");
     }
@@ -239,7 +240,6 @@ const RampsTable = (props) => {
     setTimeout(() => {
       setMessageVisible(false);
     }, 3000);
-    await setAbacaba(abacaba + 1);
   };
 
   const onEditEvent = async () => {
@@ -273,7 +273,7 @@ const RampsTable = (props) => {
     console.log(data);
     if (data.message == "ok") {
       setEditModalVisible(false);
-      setMessageText("Изменино!");
+      setMessageText("Изменено!");
       await setAbacaba(abacaba + 1);
     } else {
       setMessageText("Некорректные данные!");
@@ -491,13 +491,12 @@ const RampsTable = (props) => {
     borderRadius: "5px",
     padding: "15px",
     overflowY: "scroll",
-  }
+  };
 
   return (
     <>
       {messageVisible && (
-        <div className="message-visible"
-        >
+        <div className="message-visible">
           <img
             src={ballImg}
             style={{ width: "20px", marginRight: "10px" }}
@@ -730,7 +729,9 @@ const RampsTable = (props) => {
               <th style={{ minWidth: "120px" }}>Вместиность</th>
               <th style={{ minWidth: "100px" }}>Единица измерения</th>
               <th style={{ minWidth: "100px" }}>Авто назначение</th>
-              <th style={{ minWidth: "150px" }}>Используется для слотитования?</th>
+              <th style={{ minWidth: "150px" }}>
+                Используется для слотитования?
+              </th>
               <th style={{ minWidth: "100px" }}>Тип транспорта</th>
               <th style={{ minWidth: "100px" }}>Является объектом на карте?</th>
               <th style={{ minWidth: "130px" }}>Направление</th>
