@@ -11,7 +11,7 @@ const pool = mysql.createPool({
   host: "localhost",
   user: "root",
   database: "yard",
-  password: "Vika08032015",
+  password: "ilya13524",
   waitForConnections: true,
 });
 

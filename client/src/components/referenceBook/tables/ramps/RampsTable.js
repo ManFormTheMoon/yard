@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useHttp } from "../../../../hooks/useHttp";
 import ButtonsBlock from "../../ButtonsBlock";
-import gridImg from "./../../../../img/reference-book-buttons/grid.png";
-import leftArrowImg from "./../../../../img/reference-book-buttons/left-arrow.png";
-import rightArrowImg from "./../../../../img/reference-book-buttons/right-arrow.png";
-import firstPageArrowImg from "./../../../../img/reference-book-buttons/first_page_arrow.png";
-import lastPageArrowImg from "./../../../../img/reference-book-buttons/last_page_arrow.png";
-import refreshImg from "./../../../../img/reference-book-buttons/refresh.png";
 import ballImg from "./../../../../img/reference-book-buttons/ball.png";
 import AddRampModal from "./AddRampModal";
 import "./Ramps.css";
 import EditRampModal from "./EditRampModal";
-import GroupEditModal from "./GroupEditRampModal";
 import GroupEditRampModal from "./GroupEditRampModal";
+import DeleteRampModal from "./DeleteRampModal";
+import FooterNavigation from "../../FooterNavigation";
 
 const RampsTable = (props) => {
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [groupEditModalVisible, setGroupEditModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [abacaba, setAbacaba] = useState(0);
   const [wholeData, setWholeData] = useState([]);
   const [rowsOnPageCount, setRowsOnPageCount] = useState(50);
@@ -95,20 +90,32 @@ const RampsTable = (props) => {
   };
   console.log(wholeData);
 
-  const onDeleteHandler = async () => {
+  const onDeleteEvent = async () => {
+    let body = {};
+    body.arr = selectedRows;
+    body = JSON.stringify(body);
+    let headers = {};
+    headers["Content-Type"] = "application/json";
+    const response = await fetch("/api/referenceBook/ramps/delete", {
+      method: "POST",
+      body: body,
+      headers: headers,
+    });
+    setSelectedRows([]);
+    await setAbacaba(abacaba + 1);
+    await setCurrentPage(1);
+    await setDeleteModalVisible(false);
+  };
+
+  const onDeleteHandler = () => {
     if (selectedRows.length > 0) {
-      let body = {};
-      body.arr = selectedRows;
-      body = JSON.stringify(body);
-      let headers = {};
-      headers["Content-Type"] = "application/json";
-      const response = await fetch("/api/referenceBook/ramps/delete", {
-        method: "POST",
-        body: body,
-        headers: headers,
-      });
-      setSelectedRows([]);
-      await setAbacaba(abacaba + 1);
+      setDeleteModalVisible(true);
+    } else {
+      setMessageText("Не выбраны записи для удаления");
+      setMessageVisible(true);
+      setTimeout(() => {
+        setMessageVisible(false);
+      }, 3000);
     }
   };
 
@@ -156,9 +163,9 @@ const RampsTable = (props) => {
         orientation: "",
         autoset: "",
       });
-      setMessageText("Added!");
+      setMessageText("Добавлено!");
     } else {
-      setMessageText("Incorrect data!");
+      setMessageText("Некорректные данные!");
     }
     setMessageVisible(true);
     setTimeout(() => {
@@ -208,7 +215,7 @@ const RampsTable = (props) => {
     console.log(data);
     if (data.message == "ok") {
       setGroupEditModalVisible(false);
-      setMessageText("Edited!");
+      setMessageText("Изменено!");
       setGroupEditCheckboxValues({});
       setGroupEditInputValues({
         name_ru: "",
@@ -225,7 +232,7 @@ const RampsTable = (props) => {
         autoset: "",
       });
     } else {
-      setMessageText("Incorrect data!");
+      setMessageText("Некорректные данные!");
     }
     setMessageVisible(true);
     setTimeout(() => {
@@ -265,10 +272,10 @@ const RampsTable = (props) => {
     console.log(data);
     if (data.message == "ok") {
       setEditModalVisible(false);
-      setMessageText("Edited!");
+      setMessageText("Изменино!");
       await setAbacaba(abacaba + 1);
     } else {
-      setMessageText("Incorrect data!");
+      setMessageText("Некорректные данные!");
     }
     setMessageVisible(true);
     setTimeout(() => {
@@ -282,7 +289,7 @@ const RampsTable = (props) => {
 
   const onGroupEditHandler = () => {
     if (selectedRows.length == 0) {
-      setMessageText("Choose more rows");
+      setMessageText("Выделите больше записей!");
       setMessageVisible(true);
       setTimeout(() => {
         setMessageVisible(false);
@@ -291,9 +298,19 @@ const RampsTable = (props) => {
       setGroupEditModalVisible(true);
     }
   };
+
+  const onReloadEvent = () => {
+    setMessageText("Обновлено!");
+    setMessageVisible(true);
+    setTimeout(() => {
+      setMessageVisible(false);
+    }, 3000);
+    setAbacaba(abacaba + 1);
+  };
+
   const onEditHandler = async () => {
     if (selectedRows.length != 1) {
-      setMessageText("Choose one  row");
+      setMessageText("Выберите ровно одну запись!");
       setMessageVisible(true);
       setTimeout(() => {
         setMessageVisible(false);
@@ -382,10 +399,10 @@ const RampsTable = (props) => {
       orientation: "",
       autoset: "",
     });
-    setAbacaba(setAbacaba+1)
+    setAbacaba(setAbacaba + 1);
   };
 
-  const onKeyDownHandler = (event) => {
+  const onPagesInputDown = (event) => {
     if (event.key == "Enter") {
       setRowsOnPageCount(1 * event.target.value);
     }
@@ -396,6 +413,14 @@ const RampsTable = (props) => {
       setSelectedRows([...selectedRows, value]);
     } else {
       setSelectedRows(selectedRows.filter((cur) => cur != value));
+    }
+  };
+
+  const addRowToSelect = (value) => {
+    if (selectedRows.indexOf(value) != -1) {
+      setSelectedRows(selectedRows.filter((cur) => cur != value));
+    } else {
+      setSelectedRows([...selectedRows, value]);
     }
   };
 
@@ -478,6 +503,19 @@ const RampsTable = (props) => {
           {messageText}
         </div>
       )}
+      <DeleteRampModal
+        visible={deleteModalVisible}
+        setVisible={setDeleteModalVisible}
+        onDeleteEvent={onDeleteEvent}
+        style={{
+          width: "300px",
+          height: "150px",
+          backgroundColor: "white",
+          borderRadius: "20px",
+          padding: "20px",
+        }}
+        countRows={selectedRows.length}
+      />
       <AddRampModal
         visible={addModalVisible}
         setVisible={setAddModalVisible}
@@ -525,8 +563,9 @@ const RampsTable = (props) => {
       <div
         style={{
           // width: "200%",
-          minHeight: "calc(100% - 53px)",
-          height: "100%",
+          minHeight: "calc(100% - 50px)",
+          height: "calc(100% - 50px)",
+          maxHeight: "calc(100%- 50px)",
           backgroundColor: "#FFFFFF",
           display: "block",
           padding: "0px 20px",
@@ -556,7 +595,7 @@ const RampsTable = (props) => {
             }}
           >
             <tr>
-              <td style={{ width: "40px"}}>
+              <td style={{ width: "40px" }}>
                 <input
                   type="checkbox"
                   checked={selectedRows.length == rowsOnPageCount}
@@ -715,7 +754,12 @@ const RampsTable = (props) => {
             </tr>
             {wholeData.map((cur) => {
               return (
-                <tr>
+                <tr
+                  {...(selectedRows.indexOf(cur.id) != -1
+                    ? { className: "selectedRow" }
+                    : {})}
+                  onClick={() => addRowToSelect(cur.id)}
+                >
                   <td>
                     <input
                       type="checkbox"
@@ -742,119 +786,16 @@ const RampsTable = (props) => {
           </table>
         )}
       </div>
-      <div
-        style={{
-          width: "100%",
-          borderRadius: " 0 0 3px 3px",
-          height: "50px",
-          backgroundColor: "#8DA19B",
-          display: "flex",
-          
-        }}
-      >
-        <div
-          style={{
-            marginLeft:"20px",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            fontSize: "18px",
-          }}
-        >
-          <img src={gridImg} style={{ height: "80%", cursor: "pointer"}} alt="" />
-          Столбцы
-          <input
-            onKeyDown={onKeyDownHandler}
-            style={{ width: "50px", marginLeft: "30px",  }}
-          />
-        </div>
-        <div
-          style={{
-            height: "100%",
-            marginLeft: "30px",
-            display: "flex",
-            alignItems: "center",
-            fontSize: "18px",
-          }}
-          onClick={() => {
-            setAbacaba(abacaba + 1);
-          }}
-        >
-          <img src={refreshImg} style={{ height: "80%", cursor: "pointer" }} alt="" />
-          Обновить
-        </div>
-        <div
-          style={{
-            height: "100%",
-            marginLeft: "60px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <img
-            src={firstPageArrowImg}
-            style={{ height: "60%", cursor: "pointer"}}
-            onClick={() => {
-              setCurrentPage(1);
-            }}
-          />
-          <img
-            src={leftArrowImg}
-            style={{ height: "60%", marginLeft: "30px", cursor: "pointer" }}
-            onClick={() => {
-              setCurrentPage(Math.max(currentPage - 1, 1));
-            }}
-          />
-          <input
-            style={{ width: "50px", margin: "0px 10px" }}
-            type="number"
-            value={currentPage}
-            onChange={(event) => {
-              setCurrentPage(event.target.value);
-            }}
-          />
-          <img
-            src={rightArrowImg}
-            style={{ height: "60%", cursor: "pointer" }}
-            onClick={() => {
-              setCurrentPage(
-                Math.min(
-                  currentPage + 1,
-                  Math.floor(
-                    (totalRows + 1 * rowsOnPageCount - 1) /
-                      (rowsOnPageCount * 1)
-                  )
-                )
-              );
-            }}
-          />
-          <img
-            src={lastPageArrowImg}
-            style={{ height: "60%", marginLeft: "30px",cursor: "pointer" }}
-            onClick={() => {
-              setCurrentPage(
-                Math.floor(
-                  (totalRows + 1 * rowsOnPageCount - 1) / (rowsOnPageCount * 1)
-                )
-              );
-            }}
-          />
-        </div>
-        <div
-          style={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            fontWeight: "bold",
-            marginLeft: "50px",
-          }}
-        >
-          Total - {totalRows}
-        </div>
-      </div>
+      <FooterNavigation
+        onReloadEvent={onReloadEvent}
+        onPagesInputDown={onPagesInputDown}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        totalRows={totalRows}
+        rowsOnPageCount={rowsOnPageCount}
+      />
     </>
   );
 };
-
 
 export default RampsTable;

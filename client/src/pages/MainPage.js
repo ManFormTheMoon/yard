@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import Menu from "../components/Menu/Menu";
 import MenuTitle from "../components/Menu/MenuTitle";
 import ReferenceBookPage from "../components/pages/ReferenceBookPage";
 import { AuthContext } from "../context/auth.context";
 import "normalize.css";
+
 const MainPage = (props) => {
   const info = useContext(AuthContext);
   console.log(info);
@@ -48,4 +49,4 @@ const MainPage = (props) => {
   );
 };
 
-export default MainPage;
+export default withRouter(MainPage);

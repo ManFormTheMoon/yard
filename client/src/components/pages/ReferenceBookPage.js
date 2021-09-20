@@ -3,83 +3,85 @@ import ReferenceBookData from "../referenceBook/ReferenceBookData";
 import ReferenceBookItem from "../referenceBook/ReferenceBookItem";
 import { arrayMove } from "react-sortable-hoc";
 import ReferenceBookItemsList from "../referenceBook/ReferenceBookItemsList";
-import { useHistory } from "react-router-dom";
+// import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
+import { dictinary } from "../../dictinary/dictinary";
 
 const tabsInfo = [
   {
     index: 1,
-    name: "Рампы",
-    value: "Ramps",
+    name: dictinary.ramps.ru,
+    value: dictinary.ramps.original,
   },
   {
     index: 2,
-    name: "Нормативы",
-    value: "Standarts",
+    name: dictinary.standarts.ru,
+    value: dictinary.standarts.original,
   },
   {
     index: 3,
-    name: "Площадка",
-    value: "Field",
+    name: dictinary.field.ru,
+    value: dictinary.field.original,
   },
   {
     index: 4,
-    name: "Участки",
-    value: "Regions",
+    name: dictinary.regions.ru,
+    value: dictinary.regions.original,
   },
   {
     index: 5,
-    name: "Приоритеты",
-    value: "Priorities",
+    name: dictinary.priorities.ru,
+    value: dictinary.priorities.original,
   },
   {
     index: 6,
-    name: "Типы ТС",
-    value: "TCTypes",
+    name: dictinary.TCTypes.ru,
+    value: dictinary.TCTypes.original,
   },
   {
     index: 7,
-    name: "График площадки",
-    value: "RampWorkField",
+    name: dictinary.rampWorkField.ru,
+    value: dictinary.rampWorkField.original,
   },
   {
     index: 8,
-    name: "График рамп",
-    value: "RampWorkSchedule",
+    name: dictinary.rampWorkSchedule.ru,
+    value: dictinary.rampWorkSchedule.original,
   },
   {
     index: 9,
-    name: "Поставщики",
-    value: "Suppliers",
+    name: dictinary.suppliers.ru,
+    value: dictinary.suppliers.original,
   },
   {
     index: 10,
-    name: "Перевозчики",
-    value: "Carriers",
+    name: dictinary.carriers.ru,
+    value: dictinary.carriers.original,
   },
   {
     index: 11,
-    name: "КПП",
-    value: "KPP",
+    name: dictinary.KPP.ru,
+    value: dictinary.KPP.original,
   },
   {
     index: 12,
-    name: "Доп. строения",
-    value: "AdditionalBuildings",
+    name: dictinary.additionalBuildings.ru,
+    value: dictinary.additionalBuildings.original,
   },
   {
     index: 13,
-    name: "Тип входящей поставки",
-    value: "TypeOfIncomingDelivery",
+    name: dictinary.typeOfIncomingDelivery.ru,
+    value: dictinary.typeOfIncomingDelivery.original,
   },
   {
     index: 14,
-    name: "Парковки",
-    value: "ParkingLots",
+    name: dictinary.parkingLots.ru,
+    value: dictinary.parkingLots.original,
   },
 ];
 
-const ReferenceBookPage = () => {
-  const history = useHistory();
+const ReferenceBookPage = (props) => {
+  console.log(props);
   const [currentTabs, setCurrentTabs] = useState([]);
   const [selectedTab, setSelectedTab] = useState("");
   console.log(currentTabs);
@@ -89,6 +91,7 @@ const ReferenceBookPage = () => {
       setCurrentTabs([...currentTabs, tab]);
     }
     setSelectedTab(tab.value);
+    props.history.push("/data/referenceBook/" + tab.value);
   };
 
   const onTabClose = (tab) => {
@@ -99,16 +102,9 @@ const ReferenceBookPage = () => {
     if (tab.value == selectedTab) {
       console.log("xx");
       console.log(currentTabs);
-      if (currentTabs.length == 1) {
-        console.log("xxx");
-        // window.location.href = "http://localhost:3000/data/referenceBook/";
-        // window.history.pushState(
-        //   null,
-        //   null,
-        //   "http://localhost:3000/data/referenceBook/"
-        // );
-        // history.push("/data/exchangeLog");
-      }
+      console.log("xxx");
+      console.log(props.history);
+      props.history.push("/data/referenceBook");
     }
   };
 
@@ -134,15 +130,15 @@ const ReferenceBookPage = () => {
         backgroundColor: "#8DA19B",
         display: "flex",
         width: "98%",
-        borderRadius:"10px",
+        borderRadius: "10px",
       }}
     >
       <div
         style={{
-          width: "15%",
           minWidth: "250px",
-          borderRadius:"5px",
+          borderRadius: "5px",
           height: "90%",
+          maxHeight: "calc(100% - 70px)",
           backgroundColor: "#FFFFFF",
           marginTop: "50px",
           marginLeft: "10px",
@@ -166,4 +162,4 @@ const ReferenceBookPage = () => {
   );
 };
 
-export default ReferenceBookPage;
+export default withRouter(ReferenceBookPage);
