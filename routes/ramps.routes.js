@@ -261,7 +261,9 @@ const groupEditRamp = (values, checked, ids) => {
   } else if (!!values.comment) {
     query += ` comment = ${values.comment}, `;
   }
-
+  if (query.substr(query.length - 3, 3) == "set") {
+    return "select count(*) from ramps;";
+  }
   query = query.substr(0, query.length - 2);
   query += ` where id in (`;
   for (let i = 0; i < ids.length; i++) {

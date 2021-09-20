@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../../../../Modal/Modal";
+import ApplyButton from "../../../userUI/ApplyButton";
+import CancelButton from "../../../userUI/CancelButton";
 import good from "./../../../../img/reference-book-buttons/check.png";
 import bad from "./../../../../img/reference-book-buttons/remove.png";
 
@@ -30,45 +32,15 @@ const DeleteRampModal = (props) => {
           marginTop: "50px",
         }}
       >
-        <div
-          style={{
-            boxSizing: "border-box",
-            padding: "5px 3px",
-            border: "2px black solid",
-            borderRadius: "10px",
-            height: "40px",
-            display: "inline-flex",
-            alignItems: "center",
-          }}
-          onClick={() => props.onDeleteEvent()}
-        >
-          <img
-            src={good}
-            alt=""
-            style={{ height: "100%", marginRight: "10px" }}
-          />
-          Сохранить изменения
-        </div>
-        <div
-          style={{
-            boxSizing: "border-box",
-            padding: "5px 3px",
-            border: "2px black solid",
-            borderRadius: "10px",
-            height: "40px",
-            display: "inline-flex",
-            alignItems: "center",
-            marginLeft: "20px",
-          }}
-          onClick={onCancelEvent}
-        >
-          <img
-            src={bad}
-            alt=""
-            style={{ height: "100%", marginRight: "10px" }}
-          />
-          Отмена
-        </div>
+        <ApplyButton
+          onOk={props.onDeleteEvent}
+          children={"Сохранить изменения"}
+        />
+        <CancelButton
+          onCancel={onCancelEvent}
+          children={"Отмена"}
+          style={{ marginLeft: "10px" }}
+        />
       </div>
     </Modal>
   );

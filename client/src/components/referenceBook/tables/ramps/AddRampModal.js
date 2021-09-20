@@ -3,6 +3,8 @@ import Modal from "../../../../Modal/Modal";
 import "./Ramps.css";
 import good from "./../../../../img/reference-book-buttons/check.png";
 import bad from "./../../../../img/reference-book-buttons/remove.png";
+import ApplyButton from "../../../userUI/ApplyButton";
+import CancelButton from "../../../userUI/CancelButton";
 const AddRampModal = (props) => {
   const onCancelEvent = () => {
     props.setInputValues({
@@ -75,38 +77,30 @@ const AddRampModal = (props) => {
   };
   const rowName = {
     width: "30%",
-  }
+  };
   return (
     <Modal
       visible={props.visible}
       setVisible={props.setAddModalVisible}
       style={props.style}
     >
-      <div className="title-modal">
-        Добавление рампы
-      </div>
+      <div className="title-modal">Добавление рампы</div>
       <div className="row-styles">
-        <div style={rowName}>
-          Наименование:
-        </div>
+        <div style={rowName}>Наименование:</div>
         <input
           type="text"
           value={props.inputValues.name_ru}
           placeholder="Введите название рампы"
           onChange={onChangeNameRuHandler}
-          style={{ marginLeft: "30px",
-            width:"60%"}}
+          style={{ marginLeft: "30px", width: "60%" }}
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>
-          Поток:
-        </div>
+        <div style={rowName}>Поток:</div>
         <select
           onChange={onChangeStreamHandler}
           value={props.inputValues.stream}
-          style={{ marginLeft: "30px", 
-            width:"30%" }}
+          style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
           <option>Input</option>
@@ -114,14 +108,11 @@ const AddRampModal = (props) => {
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>
-          Заблокировано?
-        </div>
+        <div style={rowName}>Заблокировано?</div>
         <select
           onChange={onChangeBlockedHandler}
           value={props.inputValues.blocked}
-          style={{ marginLeft: "30px", 
-          width:"30%" }}
+          style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
           <option>Да</option>
@@ -129,41 +120,32 @@ const AddRampModal = (props) => {
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>
-          Участок:
-        </div>
+        <div style={rowName}>Участок:</div>
         <input
           type="text"
           placeholder="Выберите участок"
           onChange={onChangeAreaIdHandler}
           value={props.inputValues.area_id}
-          style={{ marginLeft: "30px",
-          width:"60%"}}
+          style={{ marginLeft: "30px", width: "60%" }}
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>
-          Вместимость:
-        </div>
+        <div style={rowName}>Вместимость:</div>
         <input
           type="text"
           style={{ width: "120px" }}
           placeholder="Введите число"
           onChange={onChangeCapacityHandler}
           value={props.inputValues.capacity}
-          style={{ marginLeft: "30px",
-          width:"60%"}}
+          style={{ marginLeft: "30px", width: "60%" }}
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>
-          Единица измерения:
-        </div>
+        <div style={rowName}>Единица измерения:</div>
         <select
           onChange={onChangeUnitHandler}
           value={props.inputValues.unit}
-          style={{ marginLeft: "30px", 
-          width:"30%" }}
+          style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
           <option>kg</option>
@@ -172,29 +154,11 @@ const AddRampModal = (props) => {
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>
-          Авто назначение:
-        </div>
+        <div style={rowName}>Авто назначение:</div>
         <select
           onChange={onChangeAutosetHandler}
           value={props.inputValues.autoset}
-          style={{ marginLeft: "30px", 
-          width:"30%" }}
-        >
-          <option></option>
-          <option>Да</option>
-          <option>Нет</option>
-        </select>
-      </div>
-      <div className="row-styles"> 
-        <div style={rowName}>
-          Используется для слотитования?
-        </div>
-        <select
-          onChange={onChangeUsedForSlotHandler}
-          value={props.inputValues.used_for_slot}
-          style={{ marginLeft: "30px", 
-          width:"30%" }}
+          style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
           <option>Да</option>
@@ -202,28 +166,34 @@ const AddRampModal = (props) => {
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>
-          Тип транспорта:
-        </div>
+        <div style={rowName}>Используется для слотитования?</div>
+        <select
+          onChange={onChangeUsedForSlotHandler}
+          value={props.inputValues.used_for_slot}
+          style={{ marginLeft: "30px", width: "30%" }}
+        >
+          <option></option>
+          <option>Да</option>
+          <option>Нет</option>
+        </select>
+      </div>
+      <div className="row-styles">
+        <div style={rowName}>Тип транспорта:</div>
         <input
           type="text"
           style={{ width: "100px" }}
           placeholder="Введите Код вида транспорта"
           onChange={onChangeTransportTypeIdHandler}
           value={props.inputValues.trasnport_type_id}
-          style={{ marginLeft: "30px",
-          width:"60%"}}
+          style={{ marginLeft: "30px", width: "60%" }}
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>
-          Является объектом на карте?
-        </div>
+        <div style={rowName}>Является объектом на карте?</div>
         <select
           onChange={onChangeObjectMapHandler}
           value={props.inputValues.object_map}
-          style={{ marginLeft: "30px", 
-          width:"30%" }}
+          style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
           <option>Да</option>
@@ -231,14 +201,11 @@ const AddRampModal = (props) => {
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>
-          Направление:
-        </div>
+        <div style={rowName}>Направление:</div>
         <select
           onChange={onChangeOrientationHandler}
           value={props.inputValues.orientation}
-          style={{ marginLeft: "30px", 
-          width:"30%" }}
+          style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
           <option>Left</option>
@@ -248,16 +215,13 @@ const AddRampModal = (props) => {
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>
-          Комментарий:
-        </div>
+        <div style={rowName}>Комментарий:</div>
         <input
           type="text"
           placeholder="Не более 100 символов"
           onChange={onChangeCommentHandler}
           value={props.inputValues.comment}
-          style={{ marginLeft: "30px",
-          width:"60%"}}
+          style={{ marginLeft: "30px", width: "60%" }}
           maxLength="100"
         />
       </div>
@@ -270,45 +234,15 @@ const AddRampModal = (props) => {
           paddingLeft: "30px",
         }}
       >
-        <div
-          style={{
-            boxSizing: "border-box",
-            padding: "5px 3px",
-            border: "2px black solid",
-            borderRadius: "10px",
-            height: "40px",
-            display: "inline-flex",
-            alignItems: "center",
-          }}
-          onClick={() => props.onAddEvent(props.inputValues)}
-        >
-          <img
-            src={good}
-            alt=""
-            style={{ height: "100%", marginRight: "10px" }}
-          />
-          Сохранить изменения
-        </div>
-        <div
-          style={{
-            boxSizing: "border-box",
-            padding: "5px 3px",
-            border: "2px black solid",
-            borderRadius: "10px",
-            height: "40px",
-            display: "inline-flex",
-            alignItems: "center",
-            marginLeft: "20px",
-          }}
-          onClick={onCancelEvent}
-        >
-          <img
-            src={bad}
-            alt=""
-            style={{ height: "100%", marginRight: "10px" }}
-          />
-          Отмена
-        </div>
+        <ApplyButton
+          onOk={() => props.onAddEvent(props.inputValues)}
+          children={"Сохранить изменения"}
+        />
+        <CancelButton
+          onCancel={onCancelEvent}
+          children={"Отмена"}
+          style={{ marginLeft: "10px" }}
+        />
       </div>
     </Modal>
   );
