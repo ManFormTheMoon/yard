@@ -1,41 +1,42 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const MenuItem = (props) => {
-  const history = useHistory();
   const selectedStyle = {
     style: {
       backgroundColor: "#43CBAC",
       fontWeight: "bold",
       fontSize: "18px",
-    }, 
+    },
   };
   const selectedStyleForImg = {
-    style:{ 
+    style: {
       height: "65%",
-      margin: "8px"}
+      margin: "8px",
+    },
   };
   return (
-    <Link to={props.path} style={{ textDecoration: "none" }}>
+    <>
       <div
         className="menu-item"
         onClick={() => {
-          history.push(props.path);
+          props.history.push(props.path);
           props.setCurrentComponent(props.itemCode);
         }}
-        {...(props.currentComponent == props.itemCode && selectedStyle)}
+        {...(props.currentComponent === props.itemCode && selectedStyle)}
       >
         <img
           src={props.icon}
-          style={{ 
+          style={{
             height: "50%",
-            margin: "12px"}}
+            margin: "12px",
+          }}
           className="menu-icon"
           alt=""
-          {...(props.currentComponent == props.itemCode && selectedStyleForImg)}
-     
+          {...(props.currentComponent === props.itemCode &&
+            selectedStyleForImg)}
         />
-        
+
         {props.nameItem}
       </div>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
@@ -49,8 +50,8 @@ const MenuItem = (props) => {
           }}
         />
       </div>
-    </Link>
+    </>
   );
 };
 
-export default MenuItem;
+export default withRouter(MenuItem);

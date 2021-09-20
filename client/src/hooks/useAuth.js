@@ -1,5 +1,4 @@
 import { useCallback, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 const storageName = "userData";
 
 export const useAuth = () => {

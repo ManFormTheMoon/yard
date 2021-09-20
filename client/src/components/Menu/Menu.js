@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
 import "./menu.css";
 import laptopIcon from "../../img/menu-icons/laptop.png";
 import mapIcon from "../../img/menu-icons/map.png";
@@ -11,29 +10,19 @@ import configurationIcon from "../../img/menu-icons/settings.png";
 import routingIcon from "../../img/menu-icons/route.png";
 import templateLibraryIcon from "../../img/menu-icons/files.png";
 import serviceIcon from "../../img/menu-icons/database.png";
-import transporterOfficeIcon from "../../img/menu-icons/truck.png";
+// import transporterOfficeIcon from "../../img/menu-icons/truck.png";
 import MenuItem from "./MenuItem";
-// import manualIcon from "../../img/menu-icons/"
-
+import { dictinary } from "../../dictinary/dictinary";
 const Menu = (props) => {
-  const history = useHistory();
-
   const url = window.location.href;
   const currentComponentTemp = url.split("/")[url.split("/").length - 1];
 
   const [currentComponent, setCurrentComponent] =
     useState(currentComponentTemp);
 
-  const selectedStyle = {
-    style: {
-      backgroundColor: "#43CBAC",
-      fontWeight: "bold",
-      fontSize: "21px",
-    },
-  };
   return (
     <div
-    // блок меню
+      // блок меню
       className="menu-container"
       style={{
         width: "250px",
@@ -46,91 +35,92 @@ const Menu = (props) => {
       }}
     >
       <MenuItem
-        path="/data/territoryMap"
-        itemCode="territoryMap"
+        path={"/data/" + dictinary.territoryMap.original}
+        itemCode={dictinary.territoryMap.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={mapIcon}
-        nameItem="Карта территории"
+        nameItem={dictinary.territoryMap.ru}
       />
       <MenuItem
-        path="/data/workPlace"
-        itemCode="workPlace"
+        path={"/data/" + dictinary.workPlace.original}
+        itemCode={dictinary.workPlace.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={laptopIcon}
-        nameItem="Рабочее место"
+        nameItem={dictinary.workPlace.ru}
       />
       <MenuItem
-        path="/data/timeSlots"
-        itemCode="timeSlots"
+        path={"/data/" + dictinary.timeSlots.original}
+        itemCode={dictinary.timeSlots.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={timeIcon}
-        nameItem="Тайм-слоты"
+        nameItem={dictinary.timeSlots.ru}
       />
       <MenuItem
-        path="/data/exchangeLog"
-        itemCode="exchangeLog"
+        path={"/data/" + dictinary.exchangeLog.original}
+        itemCode={dictinary.exchangeLog.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={exchangeLogIcon}
-        nameItem="Журнал обменов"
+        nameItem={dictinary.exchangeLog.ru}
       />
       <MenuItem
-        path="/data/eventLog"
-        itemCode="eventLog"
+        path={"/data/" + dictinary.eventLog.original}
+        itemCode={dictinary.eventLog.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={eventLogIcon}
-        nameItem="Журнал событий"
+        nameItem={dictinary.eventLog.ru}
       />
       <MenuItem
-        path="/data/referenceBook"
-        itemCode="referenceBook"
+        path={"/data/" + dictinary.referenceBook.original}
+        itemCode={dictinary.referenceBook.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={referenceBookIcon}
-        nameItem="Справочники"
+        nameItem={dictinary.referenceBook.ru}
       />
       <MenuItem
-        path="/data/configuration"
-        itemCode="configuration"
+        path={"/data/" + dictinary.configuration.original}
+        itemCode={dictinary.configuration.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={configurationIcon}
-        nameItem="Конфигурация"
+        nameItem={dictinary.configuration.ru}
       />
       <MenuItem
-        path="/data/routing"
-        itemCode="routing"
+        path={"/data/" + dictinary.routing.original}
+        itemCode={dictinary.routing.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={routingIcon}
-        nameItem="Маршутизация"
+        nameItem={dictinary.routing.ru}
       />
       <MenuItem
-        path="/data/templateLibrary"
-        itemCode="templateLibrary"
+        path={"/data/" + dictinary.templateLibrary.original}
+        itemCode={dictinary.templateLibrary.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={templateLibraryIcon}
-        nameItem="Библиотека шаблонов"
+        nameItem={dictinary.templateLibrary.ru}
       />
       <MenuItem
-        path="/data/service"
-        itemCode="service"
+        path={"/data/" + dictinary.service.original}
+        itemCode={dictinary.service.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={serviceIcon}
-        nameItem="Службы"
+        nameItem={dictinary.service.ru}
       />
       <MenuItem
-        path="/data/manual"
-        itemCode="manual"
+        path={"/data/" + dictinary.manual.original}
+        itemCode={dictinary.manual.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}
         icon={mapIcon}
+        nameItem={dictinary.manual.ru}
         nameItem="Мануал"
       />
     </div>
