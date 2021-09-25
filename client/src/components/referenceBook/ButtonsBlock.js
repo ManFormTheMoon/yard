@@ -7,6 +7,8 @@ import GroupEditButton from "../userUI/GroupEditButton";
 import SaveButton from "../userUI/SaveButton";
 import SearchButton from "../userUI/SearchButton";
 
+import { dictinary } from "../../dictinary/dictinary";
+
 const ButtonsBlock = (props) => {
   return (
     <div
@@ -19,33 +21,33 @@ const ButtonsBlock = (props) => {
       }}
     >
       <AddButton
-        children="Добавить"
+        children={dictinary.add.ru}
         style={{ margin: "6px" }}
         onAddHandler={props.onAddHandler}
       />
       <EditButton
-        children="Редактировать"
+        children={dictinary.edit.ru}
         style={{ margin: "6px" }}
         onEditHandler={props.onEditHandler}
       />
       <DeleteButton
-        children="Удалить"
+        children={dictinary.delete.ru}
         style={{ margin: "6px" }}
         onDeleteHandler={props.onDeleteHandler}
       />
-      <SaveButton children="Сохранить" style={{ margin: "6px" }} />
+      <SaveButton children={dictinary.save.ru} style={{ margin: "6px" }} />
       <GroupEditButton
-        children="Групповое редактирование"
+        children={dictinary.editGroup.ru}
         style={{ margin: "6px" }}
         onGroupEditHandler={props.onGroupEditHandler}
       />
       <SearchButton
-        children="Поиск"
+        children={dictinary.search.ru}
         style={{ margin: "6px" }}
         onSearchClick={props.onSearchClick}
       />
       <ClearButton
-        children="Очистить поиск"
+        children={dictinary.сlearSearch.ru}
         style={{ margin: "6px" }}
         onSearchClearHandler={props.onSearchClearHandler}
       />

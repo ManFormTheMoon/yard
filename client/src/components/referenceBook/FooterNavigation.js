@@ -7,44 +7,58 @@ import firstPageArrowImg from "./../../img/reference-book-buttons/first_page_arr
 import lastPageArrowImg from "./../../img/reference-book-buttons/last_page_arrow.png";
 import refreshImg from "./../../img/reference-book-buttons/refresh.png";
 
+import { dictinary } from "../../dictinary/dictinary";
+
 const FooterNavigation = (props) => {
   return (
     <div
       style={{
         width: "100%",
         borderRadius: " 0 0 3px 3px",
-        height: "50px",
+        height: "40px",
         backgroundColor: "#8DA19B",
         display: "flex",
+        fontSize: "1vw",
       }}
     >
       <div
         style={{
           marginLeft: "20px",
+          width: "30%",
           height: "100%",
           display: "flex",
           alignItems: "center",
-          fontSize: "18px",
         }}
       >
         <img
           src={gridImg}
-          style={{ height: "80%", cursor: "pointer" }}
+          style={{ height: "70%",
+          width: "auto",
+          cursor: "pointer" }}
           alt=""
         />
-        Столбцы
+        <div 
+          style={{
+            color:"#FFFFFF",
+            marginLeft: "6px",
+          }}
+          >
+        {dictinary.column.ru}
+        </div>
         <input
           onKeyDown={props.onPagesInputDown}
-          style={{ width: "50px", marginLeft: "30px" }}
+          style={{ width: "50px",
+          marginLeft: "35px" }}
         />
       </div>
       <div
         style={{
+          // gap: "10px",
           height: "100%",
-          marginLeft: "30px",
+          marginLeft: "20px",
+          width: "20%",
           display: "flex",
           alignItems: "center",
-          fontSize: "18px",
         }}
         onClick={props.onReloadEvent}
       >
@@ -53,26 +67,35 @@ const FooterNavigation = (props) => {
           style={{ height: "80%", cursor: "pointer" }}
           alt=""
         />
-        Обновить
+        
+        <div 
+          style={{
+            color:"#FFFFFF",
+            marginLeft: "3px",
+          }}
+          >
+        {dictinary.refresh.ru}
+        </div>
       </div>
       <div
         style={{
+          width: "30%",
           height: "100%",
-          marginLeft: "60px",
+          marginLeft: "50px",
           display: "flex",
           alignItems: "center",
         }}
       >
         <img
           src={firstPageArrowImg}
-          style={{ height: "60%", cursor: "pointer" }}
+          style={{ height: "50%", cursor: "pointer" }}
           onClick={() => {
             props.setCurrentPage(1);
           }}
         />
         <img
           src={leftArrowImg}
-          style={{ height: "60%", marginLeft: "30px", cursor: "pointer" }}
+          style={{ height: "50%", marginLeft: "30px", cursor: "pointer" }}
           onClick={() => {
             props.setCurrentPage(Math.max(props.currentPage - 1, 1));
           }}
@@ -87,7 +110,7 @@ const FooterNavigation = (props) => {
         />
         <img
           src={rightArrowImg}
-          style={{ height: "60%", cursor: "pointer" }}
+          style={{ height: "50%", cursor: "pointer" }}
           onClick={() => {
             props.setCurrentPage(
               Math.min(
@@ -102,7 +125,7 @@ const FooterNavigation = (props) => {
         />
         <img
           src={lastPageArrowImg}
-          style={{ height: "60%", marginLeft: "30px", cursor: "pointer" }}
+          style={{ height: "50%", marginLeft: "30px", cursor: "pointer" }}
           onClick={() => {
             props.setCurrentPage(
               Math.floor(
@@ -115,6 +138,7 @@ const FooterNavigation = (props) => {
       </div>
       <div
         style={{
+          width: "20%",
           height: "100%",
           display: "flex",
           alignItems: "center",

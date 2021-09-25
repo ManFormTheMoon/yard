@@ -32,6 +32,7 @@ const Menu = (props) => {
         zIndex: "1",
         overflowY: "scroll", //scroll
         boxSizing: "border-box",
+        cursor: "pointer"
       }}
     >
       <MenuItem

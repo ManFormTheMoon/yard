@@ -135,7 +135,7 @@ const ReferenceBookPage = (props) => {
     >
       <div
         style={{
-          minWidth: "250px",
+          minWidth: "200px",
           borderRadius: "5px",
           height: "90%",
           maxHeight: "calc(100% - 70px)",

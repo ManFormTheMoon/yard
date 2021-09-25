@@ -19,3 +19,8 @@
 .menu-item:first-child {
   margin-top: 5px; /* margin for first child */
 }
+
+.menu-container:hover {
+  background: #f3fcc4; /* Цвет фона при наведении */
+  color: rgb(0, 0, 0); /* Цвет текста при наведении */
+}

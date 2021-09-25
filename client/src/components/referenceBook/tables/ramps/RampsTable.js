@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ButtonsBlock from "../../ButtonsBlock";
-import ballImg from "./../../../../img/reference-book-buttons/ball.png";
+import ballImg from "./../../../../img/reference-book-buttons/attention.png";
 
 import AddRampModal from "./AddRampModal";
 import "./Ramps.css";
@@ -8,6 +8,7 @@ import EditRampModal from "./EditRampModal";
 import GroupEditRampModal from "./GroupEditRampModal";
 import DeleteRampModal from "./DeleteRampModal";
 import FooterNavigation from "../../FooterNavigation";
+import { dictinary } from "../../../../dictinary/dictinary";
 
 const RampsTable = (props) => {
   const [addModalVisible, setAddModalVisible] = useState(false);
@@ -112,7 +113,7 @@ const RampsTable = (props) => {
     if (selectedRows.length > 0) {
       setDeleteModalVisible(true);
     } else {
-      setMessageText("Не выбраны записи для удаления");
+      setMessageText(dictinary.errorDelete.ru+"!");
       setMessageVisible(true);
       setTimeout(() => {
         setMessageVisible(false);
@@ -123,16 +124,16 @@ const RampsTable = (props) => {
   const onAddEvent = async (values) => {
     console.log(values);
     if (!!values.blocked) {
-      values.blocked = values.blocked == "Да" ? 1 : 0;
+      values.blocked = values.blocked == dictinary.yes.ru ? 1 : 0;
     }
     if (!!values.autoset) {
-      values.autoset = values.autoset == "Да" ? 1 : 0;
+      values.autoset = values.autoset == dictinary.yes.ru ? 1 : 0;
     }
     if (!!values.used_for_slot) {
-      values.used_for_slot = values.used_for_slot == "Да" ? 1 : 0;
+      values.used_for_slot = values.used_for_slot == dictinary.yes.ru ? 1 : 0;
     }
     if (!!values.object_map) {
-      values.object_map = values.object_map == "Да" ? 1 : 0;
+      values.object_map = values.object_map == dictinary.yes.ru ? 1 : 0;
     }
 
     let body = {};
@@ -164,10 +165,10 @@ const RampsTable = (props) => {
         orientation: "",
         autoset: "",
       });
-      setMessageText("Добавлено!");
+      setMessageText(dictinary.added.ru+"!");
       await setAbacaba(abacaba + 1);
     } else {
-      setMessageText("Некорректные данные!");
+      setMessageText(dictinary.errorData.ru +"!");
     }
     setMessageVisible(true);
     setTimeout(() => {
@@ -185,16 +186,16 @@ const RampsTable = (props) => {
     }
     console.log(inputValues);
     if (!!inputValues.blocked) {
-      inputValues.blocked = inputValues.blocked == "Да" ? 1 : 0;
+      inputValues.blocked = inputValues.blocked == dictinary.yes.ru ? 1 : 0;
     }
     if (!!inputValues.autoset) {
-      inputValues.autoset = inputValues.autoset == "Да" ? 1 : 0;
+      inputValues.autoset = inputValues.autoset == dictinary.yes.ru ? 1 : 0;
     }
     if (!!inputValues.used_for_slot) {
-      inputValues.used_for_slot = inputValues.used_for_slot == "Да" ? 1 : 0;
+      inputValues.used_for_slot = inputValues.used_for_slot == dictinary.yes.ru ? 1 : 0;
     }
     if (!!inputValues.object_map) {
-      inputValues.object_map = inputValues.object_map == "Да" ? 1 : 0;
+      inputValues.object_map = inputValues.object_map == dictinary.yes.ru ? 1 : 0;
     }
     console.log(inputValues);
     console.log(result);
@@ -216,7 +217,7 @@ const RampsTable = (props) => {
     console.log(data);
     if (data.message == "ok") {
       setGroupEditModalVisible(false);
-      setMessageText("Изменено!");
+      setMessageText(dictinary.changed.ru+"!");
       setGroupEditCheckboxValues({});
       setGroupEditInputValues({
         name_ru: "",
@@ -234,7 +235,7 @@ const RampsTable = (props) => {
       });
       await setAbacaba(abacaba + 1);
     } else {
-      setMessageText("Некорректные данные!");
+      setMessageText(dictinary.errorData.ru +"!");
     }
     setMessageVisible(true);
     setTimeout(() => {
@@ -245,17 +246,17 @@ const RampsTable = (props) => {
   const onEditEvent = async () => {
     console.log(editInputValues);
     if (!!editInputValues.blocked) {
-      editInputValues.blocked = editInputValues.blocked == "Да" ? 1 : 0;
+      editInputValues.blocked = editInputValues.blocked == dictinary.yes.ru ? 1 : 0;
     }
     if (!!editInputValues.autoset) {
-      editInputValues.autoset = editInputValues.autoset == "Да" ? 1 : 0;
+      editInputValues.autoset = editInputValues.autoset == dictinary.yes.ru ? 1 : 0;
     }
     if (!!editInputValues.used_for_slot) {
       editInputValues.used_for_slot =
-        editInputValues.used_for_slot == "Да" ? 1 : 0;
+        editInputValues.used_for_slot == dictinary.yes.ru ? 1 : 0;
     }
     if (!!editInputValues.object_map) {
-      editInputValues.object_map = editInputValues.object_map == "Да" ? 1 : 0;
+      editInputValues.object_map = editInputValues.object_map == dictinary.yes.ru ? 1 : 0;
     }
 
     let body = {};
@@ -273,10 +274,10 @@ const RampsTable = (props) => {
     console.log(data);
     if (data.message == "ok") {
       setEditModalVisible(false);
-      setMessageText("Изменено!");
+      setMessageText(dictinary.changed.ru +"!");
       await setAbacaba(abacaba + 1);
     } else {
-      setMessageText("Некорректные данные!");
+      setMessageText(dictinary.errorData.ru +"!");
     }
     setMessageVisible(true);
     setTimeout(() => {
@@ -289,8 +290,8 @@ const RampsTable = (props) => {
   };
 
   const onGroupEditHandler = () => {
-    if (selectedRows.length == 0) {
-      setMessageText("Выделите больше записей!");
+    if (selectedRows.length < 2) {
+      setMessageText(dictinary.errorGrEdit.ru+"!");
       setMessageVisible(true);
       setTimeout(() => {
         setMessageVisible(false);
@@ -301,7 +302,7 @@ const RampsTable = (props) => {
   };
 
   const onReloadEvent = () => {
-    setMessageText("Обновлено!");
+    setMessageText(dictinary.updated.ru+"!");
     setMessageVisible(true);
     setTimeout(() => {
       setMessageVisible(false);
@@ -311,7 +312,7 @@ const RampsTable = (props) => {
 
   const onEditHandler = async () => {
     if (selectedRows.length != 1) {
-      setMessageText("Выберите ровно одну запись!");
+      setMessageText(dictinary.errorEdit.ru+"!");
       setMessageVisible(true);
       setTimeout(() => {
         setMessageVisible(false);
@@ -329,28 +330,28 @@ const RampsTable = (props) => {
         data.stream = "Output";
       }
       if (data.blocked == 1) {
-        data.blocked = "Да";
+        data.blocked = dictinary.yes.ru;
       }
       if (data.blocked == 0) {
-        data.blocked = "Нет";
+        data.blocked = dictinary.no.ru;
       }
       if (data.autoset == 1) {
-        data.autoset = "Да";
+        data.autoset = dictinary.yes.ru;
       }
       if (data.autoset == 0) {
-        data.autoset = "Нет";
+        data.autoset = dictinary.no.ru;
       }
       if (data.used_for_slot == 1) {
-        data.used_for_slot = "Да";
+        data.used_for_slot = dictinary.yes.ru;
       }
       if (data.used_for_slot == 0) {
-        data.used_for_slot = "Нет";
+        data.used_for_slot = dictinary.no.ru;
       }
       if (data.object_map == 1) {
-        data.object_map = "Да";
+        data.object_map = dictinary.yes.ru;
       }
       if (data.object_map == 0) {
-        data.object_map = "Нет";
+        data.object_map = dictinary.no.ru;
       }
       if (data.orientation == "top") {
         data.orientation = "Top";
@@ -510,11 +511,11 @@ const RampsTable = (props) => {
         setVisible={setDeleteModalVisible}
         onDeleteEvent={onDeleteEvent}
         style={{
-          width: "300px",
-          height: "150px",
+          width: "330px",
+          height: "120px",
           backgroundColor: "white",
           borderRadius: "20px",
-          padding: "20px",
+          padding: "30px 20px 20px 20px",
         }}
         countRows={selectedRows.length}
       />
@@ -547,8 +548,8 @@ const RampsTable = (props) => {
       <div
         style={{
           minHeight: "calc(100% - 50px)",
-          height: "calc(100% - 50px)",
-          maxHeight: "calc(100%- 50px)",
+          height: "calc(100% - 40px)",
+          maxHeight: "calc(100%- 40px)",
           backgroundColor: "#FFFFFF",
           display: "block",
           padding: "0px 20px",
@@ -567,16 +568,7 @@ const RampsTable = (props) => {
         />
         <br />
         {wholeData.length > 0 && (
-          <table
-            style={{
-              borderRadius: "3px",
-              border: "0.5px solid #87C9B6",
-              tableLayout: "fixed",
-              marginTop: "-10px",
-              overflow: "scroll",
-              // width: "2000px",
-            }}
-          >
+          <table className="table-style">
             <tr>
               <td style={{ width: "40px" }}>
                 <input
@@ -588,8 +580,8 @@ const RampsTable = (props) => {
               <td>
                 <input
                   type="text"
-                  style={{ width: "70px" }}
-                  placeholder="Код"
+                  style={{ width: "60px" }}
+                  placeholder={dictinary.code.ru}
                   onChange={onChangeIdHandler}
                   value={currentFilters.id}
                 />
@@ -597,8 +589,8 @@ const RampsTable = (props) => {
               <td>
                 <input
                   type="text"
-                  style={{ width: "150px" }}
-                  placeholder="Наименование"
+                  style={{ width: "140px" }}
+                  placeholder={dictinary.name.ru}
                   onChange={onChangeNameRuHandler}
                   value={currentFilters.name_ru}
                 />
@@ -620,15 +612,15 @@ const RampsTable = (props) => {
                   style={{ width: "150px" }}
                 >
                   <option></option>
-                  <option>Да</option>
-                  <option>Нет</option>
+                  <option>{dictinary.no.ru}</option>
+                  <option>{dictinary.yes.ru}</option>
                 </select>
               </td>
               <td>
                 <input
                   type="text"
                   style={{ width: "150px" }}
-                  placeholder="Участок"
+                  placeholder={dictinary.area.ru}
                   onChange={onChangeAreaIdHandler}
                   value={currentFilters.area_id}
                 />
@@ -637,7 +629,7 @@ const RampsTable = (props) => {
                 <input
                   type="text"
                   style={{ width: "120px" }}
-                  placeholder="Вместимость"
+                  placeholder={dictinary.capacity.ru}
                   onChange={onChangeCapacityHandler}
                   value={currentFilters.capacity}
                 />
@@ -661,8 +653,8 @@ const RampsTable = (props) => {
                   style={{ width: "100px" }}
                 >
                   <option></option>
-                  <option>Да</option>
-                  <option>Нет</option>
+                  <option>{dictinary.no.ru}</option>
+                  <option>{dictinary.yes.ru}</option>
                 </select>
               </td>
               <td>
@@ -672,15 +664,15 @@ const RampsTable = (props) => {
                   style={{ width: "150px" }}
                 >
                   <option></option>
-                  <option>Да</option>
-                  <option>Нет</option>
+                  <option>{dictinary.no.ru}</option>
+                  <option>{dictinary.yes.ru}</option>
                 </select>
               </td>
               <td>
                 <input
                   type="text"
                   style={{ width: "130px" }}
-                  placeholder="Тип транспорта"
+                  placeholder={dictinary.typeOfAuto.ru}
                   onChange={onChangeTransportTypeIdHandler}
                   value={currentFilters.trasnport_type_id}
                 />
@@ -688,12 +680,12 @@ const RampsTable = (props) => {
               <td>
                 <select
                   onChange={onChangeObjectMapHandler}
-                  style={{ width: "160px" }}
+                  style={{ width: "130px" }}
                   value={currentFilters.object_map}
                 >
                   <option></option>
-                  <option>Да</option>
-                  <option>Нет</option>
+                  <option>{dictinary.no.ru}</option>
+                  <option>{dictinary.yes.ru}</option>
                 </select>
               </td>
               <td>
@@ -713,7 +705,7 @@ const RampsTable = (props) => {
                 <input
                   type="text"
                   style={{ width: "250px" }}
-                  placeholder="Комментарий"
+                  placeholder={dictinary.comment.ru}
                   onChange={onChangeCommentHandler}
                   value={currentFilters.comment}
                 />
@@ -721,21 +713,21 @@ const RampsTable = (props) => {
             </tr>
             <tr>
               <th style={{ minWidth: "40px" }}></th>
-              <th style={{ minWidth: "50px" }}>Код</th>
-              <th style={{ minWidth: "150px" }}>Наименование</th>
-              <th style={{ minWidth: "80px" }}>Поток</th>
-              <th style={{ minWidth: "150px" }}>Заблокировано?</th>
-              <th style={{ minWidth: "150px" }}>Участок</th>
-              <th style={{ minWidth: "120px" }}>Вместиность</th>
-              <th style={{ minWidth: "100px" }}>Единица измерения</th>
-              <th style={{ minWidth: "100px" }}>Авто назначение</th>
+              <th style={{ minWidth: "50px" }}>{dictinary.code.ru}</th>
+              <th style={{ minWidth: "150px" }}>{dictinary.name.ru}</th>
+              <th style={{ minWidth: "80px" }}>{dictinary.stream.ru}</th>
+              <th style={{ minWidth: "150px" }}>{dictinary.blocked.ru}?</th>
+              <th style={{ minWidth: "150px" }}>{dictinary.area.ru}</th>
+              <th style={{ minWidth: "120px" }}>{dictinary.capacity.ru}</th>
+              <th style={{ minWidth: "100px" }}>{dictinary.unit.ru}</th>
+              <th style={{ minWidth: "100px" }}>{dictinary.autoAssigment.ru}</th>
               <th style={{ minWidth: "150px" }}>
-                Используется для слотитования?
+                {dictinary.usedForSlotting.ru}?
               </th>
-              <th style={{ minWidth: "100px" }}>Тип транспорта</th>
-              <th style={{ minWidth: "100px" }}>Является объектом на карте?</th>
-              <th style={{ minWidth: "130px" }}>Направление</th>
-              <th style={{ minWidth: "250px" }}>Комментарий</th>
+              <th style={{ minWidth: "100px" }}>{dictinary.typeOfAuto.ru}</th>
+              <th style={{ minWidth: "100px" }}>{dictinary.onMap.ru}?</th>
+              <th style={{ minWidth: "130px" }}>{dictinary.direction.ru}</th>
+              <th style={{ minWidth: "250px" }}>{dictinary.comment.ru}</th>
             </tr>
             {wholeData.map((cur) => {
               return (
