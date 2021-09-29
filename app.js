@@ -15,4 +15,4 @@ app.get("/aba", (req, res) => {
   res.json({ message: "ok" });
 });
 
-app.listen(5000, () => console.log(`app startred on port ${PORT}`));
+app.listen(PORT, () => console.log(`app startred on port ${PORT}`));
