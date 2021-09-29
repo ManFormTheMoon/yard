@@ -76,3 +76,6 @@ span{
   cursor: pointer;
 }
 
+.not-edit{
+  color: grey;
+}

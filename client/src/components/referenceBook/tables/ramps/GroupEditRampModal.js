@@ -144,15 +144,15 @@ const GroupEditRampModal = (props) => {
       style={props.style}
     >
       <div className="title-modal">{dictinary.groupEditRecord.ru}</div>
-      <div className="row-styles">
+      <div className={`${"row-styles"} ${"not-edit"}`}>
         <div style={rowName}>
           {dictinary.name.ru}:<span> *</span>
         </div>
         <input
           type="text"
-          value={inputValues.name_ru}
-          onChange={onChangeNameRuHandler}
-          style={{ marginLeft: "30px", width: "60%" }}
+          placeholder={dictinary.notEdit.ru}
+          style={{ marginLeft: "30px", width: "60%", pointerEvents: "none", 
+          fontStyle: "italic"}} 
         />
       </div>
       <div className="row-styles">
@@ -199,6 +199,17 @@ const GroupEditRampModal = (props) => {
           onChange={onChangeAreaIdHandler}
           value={inputValues.area_id}
           style={{ marginLeft: "30px", width: "60%" }}
+        />
+      </div>
+      <div className={`${"row-styles"} ${"not-edit"}`}>
+        <div style={rowName}>
+          {dictinary.integrationCode.ru}:<span> *</span>
+        </div>
+        <input
+          type="text"
+          placeholder={dictinary.notEdit.ru}
+          style={{ marginLeft: "30px", width: "60%", pointerEvents: "none", 
+          fontStyle: "italic"}} 
         />
       </div>
       <div className="row-styles">
@@ -278,7 +289,7 @@ const GroupEditRampModal = (props) => {
         </div>
         <input
           type="text"
-          placeholder="Код вида транспорта"
+          placeholder={dictinary.typeOfAuto.ru}
           onChange={onChangeTransportTypeIdHandler}
           value={inputValues.transport_type_id}
           style={{ marginLeft: "30px", width: "60%" }}

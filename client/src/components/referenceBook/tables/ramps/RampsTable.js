@@ -432,8 +432,8 @@ const RampsTable = (props) => {
             <td>
               <input
                 type="text"
-                style={{ width: "120px" }}
-                placeholder="Код интеграции"
+                style={{ width: "150px" }}
+                placeholder= {dictinary.integrationCode.ru}
                 onChange={(event) =>
                   onChangeInputsHandler(event, "integration_id")
                 }
@@ -539,7 +539,7 @@ const RampsTable = (props) => {
             <th style={{ minWidth: "80px" }}>{dictinary.stream.ru}</th>
             <th style={{ minWidth: "150px" }}>{dictinary.blocked.ru}?</th>
             <th style={{ minWidth: "150px" }}>{dictinary.area.ru}</th>
-            <th style={{ minWidth: "150px" }}>Код интеграции</th>
+            <th style={{ minWidth: "150px" }}>{dictinary.integrationCode.ru}</th>
             <th style={{ minWidth: "120px" }}>{dictinary.capacity.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.unit.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.autoAssigment.ru}</th>
