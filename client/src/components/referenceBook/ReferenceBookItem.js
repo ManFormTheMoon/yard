@@ -3,7 +3,7 @@ import referenceBookIcon from "../../img/reference-book-buttons/dictionary.png";
 
 const selectedStyle = {
   color: "#4BC2AA",
-  fontSize: "20px",
+  fontSize: "18px",
   fontWeight: "bold",
   marginLeft: "10px",
   display: "block",
@@ -11,16 +11,18 @@ const selectedStyle = {
   display: "flex",
   flexdirection: "column",
   margin: "10px",
+  cursor: "pointer",
 };
 
 const notSelectedStyle = {
   top: "5px",
   color: "black",
-  fontSize: "18px",
+  fontSize: "16px",
   marginLeft: "10px",
   margin: "10px",
   display: "flex",
   flexdirection: "column",
+  cursor: "pointer",
   alignItems: "center",
 };
 

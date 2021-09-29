@@ -6,12 +6,28 @@ const router = Router();
 const urlencodedParser = express.urlencoded({ extended: false });
 
 const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  database: "yard",
-  password: "ilya13524",
+  host: config.get("host"),
+  user: config.get("user"),
+  database: config.get("database"),
+  password: config.get("password"),
   waitForConnections: true,
 });
+
+
+router.post("/rampsName/get", async (req, res) => {
+  try {
+    const data = await getRampsName();
+    res.json({
+      data: data,
+    });
+  } catch (e) {}
+});
+
+const getRampsName = async() =>{
+  let query = "select name_ru from ramps;"
+  const result = await pool.query(query);
+  return { result: result[0]};
+};
 
 const getRamps = async (filters, limit, page) => {
   let query =

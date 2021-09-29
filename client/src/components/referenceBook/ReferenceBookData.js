@@ -12,7 +12,7 @@ const ReferenceBookData = (props) => {
         marginLeft: "10px",
         boxSizing: "border-box",
         //???? display:"flex",
-        width: "calc(100% - 270px)",
+        width: "calc(100% - 220px)",
       }}
     >
       <ReferenceBookHeader

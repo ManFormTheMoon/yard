@@ -4,6 +4,7 @@ import "./Ramps.css";
 import ApplyButton from "../../../userUI/ApplyButton";
 import CancelButton from "../../../userUI/CancelButton";
 import Select from "react-select";
+import { dictinary } from "../../../../dictinary/dictinary";
 
 const EditRampModal = (props) => {
   const [inputValues, setInputValues] = useState(props.emptyRampIds);
@@ -176,9 +177,11 @@ const EditRampModal = (props) => {
       setVisible={props.setEditModalVisible}
       style={props.style}
     >
-      <div className="title-modal">Обновление рампы</div>
+      <div className="title-modal">{dictinary.updateRamp.ru}</div>
       <div className="row-styles">
-        <div style={rowName}>Наименование:</div>
+        <div style={rowName}>
+          {dictinary.name.ru}:<span> *</span>
+        </div>
         <input
           type="text"
           value={inputValues.name_ru}
@@ -187,39 +190,31 @@ const EditRampModal = (props) => {
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Поток:</div>
+        <div style={rowName}>
+          {dictinary.stream.ru}:<span> *</span>
+        </div>
         <select
           onChange={onChangeStreamHandler}
           value={inputValues.stream}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>Input</option>
           <option>Output</option>
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Заблокировано?</div>
+        <div style={rowName}>{dictinary.blocked.ru}?</div>
         <select
           onChange={onChangeBlockedHandler}
           value={inputValues.blocked ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
-          <option>Да</option>
-          <option>Нет</option>
+          <option>{dictinary.no.ru}</option>
+          <option>{dictinary.yes.ru}</option>
         </select>
       </div>
       <div className="row-styles">
         <div style={rowName}>Участок:</div>
-        {/* <input
-          type="text"
-          style={{ width: "150px" }}
-          placeholder="Код площадки"
-          onChange={onChangeAreaIdHandler}
-          value={inputValues.area_id}
-          style={{ marginLeft: "30px", width: "60%" }}
-        /> */}
         <div style={{ marginLeft: "30px", width: "30%" }}>
           <Select
             value={selectedAreaName}
@@ -231,17 +226,17 @@ const EditRampModal = (props) => {
         </div>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Вместимость:</div>
+        <div style={rowName}>{dictinary.capacity.ru}:</div>
         <input
           type="text"
-          placeholder="Вместимость"
+          placeholder={dictinary.capacity.ru}
           onChange={onChangeCapacityHandler}
           value={inputValues.capacity}
           style={{ marginLeft: "30px", width: "60%" }}
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Единица измерения:</div>
+        <div style={rowName}>{dictinary.unit.ru}:</div>
         <select
           onChange={onChangeUnitHandler}
           value={inputValues.unit}
@@ -254,31 +249,33 @@ const EditRampModal = (props) => {
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Авто назначение:</div>
+        <div style={rowName}>{dictinary.autoAssigment.ru}:</div>
         <select
           onChange={onChangeAutosetHandler}
           value={inputValues.autoset ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
-          <option>Да</option>
-          <option>Нет</option>
+          <option>{dictinary.no.ru}</option>
+          <option>{dictinary.yes.ru}</option>
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Используется для слотитования?</div>
+        <div style={rowName}>{dictinary.usedForSlotting.ru}?</div>
         <select
           onChange={onChangeUsedForSlotHandler}
           value={inputValues.used_for_slot ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
-          <option>Да</option>
-          <option>Нет</option>
+          <option>{dictinary.no.ru}</option>
+          <option>{dictinary.yes.ru}</option>
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Тип транспорта:</div>
+        <div style={rowName}>
+          {dictinary.typeOfAuto.ru}:<span> *</span>
+        </div>
         <div style={{ marginLeft: "30px", width: "30%" }}>
           <Select
             value={selectedTransportTypeName}
@@ -290,19 +287,19 @@ const EditRampModal = (props) => {
         </div>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Является объектом на карте?</div>
+        <div style={rowName}>{dictinary.onMap.ru}?</div>
         <select
           onChange={onChangeObjectMapHandler}
           value={inputValues.object_map ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
-          <option>Да</option>
-          <option>Нет</option>
+          <option>{dictinary.no.ru}</option>
+          <option>{dictinary.yes.ru}</option>
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Направление:</div>
+        <div style={rowName}>{dictinary.direction.ru}:</div>
         <select
           onChange={onChangeOrientationHandler}
           value={inputValues.orientation}
@@ -316,32 +313,24 @@ const EditRampModal = (props) => {
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Комментарий:</div>
+        <div style={rowName}>{dictinary.comment.ru}:</div>
         <input
           type="text"
-          placeholder="Не более 100 символов"
+          placeholder={dictinary.comment.ru}
           onChange={onChangeCommentHandler}
           value={inputValues.comment}
           style={{ marginLeft: "30px", width: "60%" }}
           maxLength="100"
         />
       </div>
-      <div
-        style={{
-          display: "flex",
-          width: "80%",
-          height: "40px",
-          marginTop: "30px",
-          paddingLeft: "30px",
-        }}
-      >
+      <div className="modal-button">
         <ApplyButton
           onOk={() => onEditEvent(inputValues)}
-          children={"Сохранить изменения"}
+          children={dictinary.saveEdit.ru}
         />
         <CancelButton
           onCancel={onCancelEvent}
-          children={"Отмена"}
+          children={dictinary.cancel.ru}
           style={{ marginLeft: "10px" }}
         />
       </div>

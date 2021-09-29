@@ -5,6 +5,7 @@ import good from "./../../../../img/reference-book-buttons/check.png";
 import bad from "./../../../../img/reference-book-buttons/remove.png";
 import ApplyButton from "../../../userUI/ApplyButton";
 import CancelButton from "../../../userUI/CancelButton";
+import { dictinary } from "../../../../dictinary/dictinary";
 
 const chechBoxStyles = {
   marginLeft: "20px",
@@ -142,9 +143,22 @@ const GroupEditRampModal = (props) => {
       setVisible={props.setAddModalVisible}
       style={props.style}
     >
-      <div className="title-modal">Групповое редактирование записей</div>
+      <div className="title-modal">{dictinary.groupEditRecord.ru}</div>
       <div className="row-styles">
-        <div style={rowName}>Поток:</div>
+        <div style={rowName}>
+          {dictinary.name.ru}:<span> *</span>
+        </div>
+        <input
+          type="text"
+          value={props.inputValues.name_ru}
+          onChange={onChangeNameRuHandler}
+          style={{ marginLeft: "30px", width: "60%" }}
+        />
+      </div>
+      <div className="row-styles">
+        <div style={rowName}>
+          {dictinary.stream.ru}:<span> *</span>
+        </div>
         <select
           onChange={onChangeStreamHandler}
           value={inputValues.stream}
@@ -162,32 +176,36 @@ const GroupEditRampModal = (props) => {
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Заблокировано?</div>
+        <div style={rowName}>
+          {dictinary.blocked.ru}?<span> *</span>
+        </div>
         <select
           onChange={onChangeBlockedHandler}
           value={inputValues.blocked}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
-          <option>Да</option>
-          <option>Нет</option>
+          <option>{dictinary.no.ru}</option>
+          <option>{dictinary.yes.ru}</option>
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Участок:</div>
+        <div style={rowName}>
+          {dictinary.area.ru}:<span> *</span>
+        </div>
         <input
           type="text"
-          placeholder="Код площадки"
+          placeholder={dictinary.codeArea.ru}
           onChange={onChangeAreaIdHandler}
           value={inputValues.area_id}
           style={{ marginLeft: "30px", width: "60%" }}
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Вместимость:</div>
+        <div style={rowName}>{dictinary.capacity.ru}:</div>
         <input
           type="text"
-          placeholder="Вместимость"
+          placeholder={dictinary.capacity.ru}
           onChange={onChangeCapacityHandler}
           value={inputValues.capacity}
           style={{ marginLeft: "30px", width: "60%" }}
@@ -200,7 +218,7 @@ const GroupEditRampModal = (props) => {
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Единица измерения:</div>
+        <div style={rowName}>{dictinary.unit.ru}:</div>
         <select
           onChange={onChangeUnitHandler}
           value={inputValues.unit}
@@ -219,31 +237,45 @@ const GroupEditRampModal = (props) => {
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Авто назначение:</div>
+        <div style={rowName}>{dictinary.autoAssigment.ru}:</div>
         <select
           onChange={onChangeAutosetHandler}
           value={inputValues.autoset}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
-          <option>Да</option>
-          <option>Нет</option>
+          <option>{dictinary.no.ru}</option>
+          <option>{dictinary.yes.ru}</option>
         </select>
+        <input
+          type="checkbox"
+          value={props.checkboxValues.autoset}
+          onChange={(event) => setCheckbox("autoset", event)}
+          style={chechBoxStyles}
+        />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Используется для слотитования?</div>
+        <div style={rowName}>{dictinary.usedForSlotting.ru}?</div>
         <select
           onChange={onChangeUsedForSlotHandler}
           value={inputValues.used_for_slot}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
-          <option>Да</option>
-          <option>Нет</option>
+          <option>{dictinary.no.ru}</option>
+          <option>{dictinary.yes.ru}</option>
         </select>
+        <input
+          type="checkbox"
+          value={props.checkboxValues.used_for_slot}
+          onChange={(event) => setCheckbox("used_for_slot", event)}
+          style={chechBoxStyles}
+        />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Тип транспорта:</div>
+        <div style={rowName}>
+          {dictinary.typeOfAuto.ru}:<span> *</span>
+        </div>
         <input
           type="text"
           placeholder="Код вида транспорта"
@@ -253,19 +285,25 @@ const GroupEditRampModal = (props) => {
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Является объектом на карте?</div>
+        <div style={rowName}>{dictinary.onMap.ru}?</div>
         <select
           onChange={onChangeObjectMapHandler}
           value={inputValues.object_map}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
-          <option>Да</option>
-          <option>Нет</option>
+          <option>{dictinary.no.ru}</option>
+          <option>{dictinary.yes.ru}</option>
         </select>
+        <input
+          type="checkbox"
+          value={props.checkboxValues.object_map}
+          onChange={(event) => setCheckbox("object_map", event)}
+          style={chechBoxStyles}
+        />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Направление:</div>
+        <div style={rowName}>{dictinary.direction.ru}:</div>
         <select
           onChange={onChangeOrientationHandler}
           value={inputValues.orientation}
@@ -285,10 +323,10 @@ const GroupEditRampModal = (props) => {
         />
       </div>
       <div className="row-styles">
-        <div style={rowName}>Комментарий:</div>
+        <div style={rowName}>{dictinary.comment.ru}:</div>
         <input
           type="text"
-          placeholder="Не более 100 символов"
+          placeholder={dictinary.noMore100.ru}
           onChange={onChangeCommentHandler}
           value={inputValues.comment}
           style={{ marginLeft: "30px", width: "60%" }}
@@ -301,22 +339,15 @@ const GroupEditRampModal = (props) => {
           style={chechBoxStyles}
         />
       </div>
-      <div
-        style={{
-          display: "flex",
-          width: "80%",
-          height: "40px",
-          marginTop: "30px",
-          paddingLeft: "30px",
-        }}
-      >
+
+      <div className="modal-button">
         <ApplyButton
           onOk={() => onGroupEditEvent(checkboxValues, inputValues)}
-          children={"Сохранить изменения"}
+          children={dictinary.saveEdit.ru}
         />
         <CancelButton
           onCancel={onCancelEvent}
-          children={"Отмена"}
+          children={dictinary.cancel.ru}
           style={{ marginLeft: "10px" }}
         />
       </div>

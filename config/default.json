@@ -1,4 +1,8 @@
 {
     "port": "5000",
-    "jwtSecret": "Well. Well. I am here again"
+    "jwtSecret": "Well. Well. I am here again",
+    "host": "localhost",
+    "user": "root",
+    "database": "yard",
+    "password": "Vika08032015"
 }

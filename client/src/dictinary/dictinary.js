@@ -1,127 +1,338 @@
-export const dictinary = {
-  territoryMap: {
-    original: "territoryMap",
-    ru: "Карта территории",
-    en: "Map of the territory",
+export const dictinary = {
+    territoryMap: {
+      original: "territoryMap",
+      ru: "Карта территории",
+      en: "Territory map",
+    },
+    workPlace: {
+      original: "workPlace",
+      ru: "Рабочее место",
+      en: "Workplace",
+    },
+    timeSlots: {
+      original: "timeSlots",
+      ru: "Тайм-слоты",
+      en: "Time slots",
+    },
+    exchangeLog: {
+      original: "exchangeLog",
+      ru: "Журнал обменов",
+      en: "Exchange Log",
+    },
+    eventLog: {
+      original: "eventLog",
+      ru: "Журнал событий",
+      en: "Event Log",
+    },
+    referenceBook: {
+      original: "referenceBook",
+      ru: "Справочники",
+      en: "Master Data",
+    },
+    configuration: {
+      original: "configuration",
+      ru: "Конфигурация",
+      en: "Configuration",
+    },
+    routing: {
+      original: "routing",
+      ru: "Маршутизация",
+      en: "Routing Rules",
+    },
+    templateLibrary: {
+      original: "templateLibrary",
+      ru: "Библиотека шаблонов",
+      en: "Template library",
+    },
+    service: {
+      original: "service",
+      ru: "Сервисы",
+      en: "Services",
+    },
+    manual: {
+      original: "manual",
+      ru: "Мануал",
+      en: "Manual",
+    },
+    ramps: {
+      original: "ramps",
+      ru: "Рампы",
+      en: "Ramps",
+    },
+    standarts: {
+      original: "standarts",
+      ru: "Нормативы",
+      en: "Time standarts",
+    },
+    field: {
+      original: "field",
+      ru: "Площадка",
+      en: "Warehouse",
+    },
+    regions: {
+      original: "regions",
+      ru: "Участки",
+      en: "WH zones",
+    },
+    priorities: {
+      original: "priorities",
+      ru: "Приоритеты",
+      en: "Priorities",
+    },
+    TCTypes: {
+      original: "TCTypes",
+      ru: "Типы ТС",
+      en: "Truck Types",
+    },
+    rampWorkField: {
+      original: "rampWorkField",
+      ru: "График площадки",
+      en: "WH work schedule",
+    },
+    rampWorkSchedule: {
+      original: "rampWorkSchedule",
+      ru: "График рамп",
+      en: "Ramp Work Schedule",
+    },
+    suppliers: {
+      original: "uppliers",
+      ru: "Поставщики",
+      en: "Suppliers",
+    },
+    carriers: {
+      original: "arriers",
+      ru: "Перевозчики",
+      en: "Carriers",
+    },
+    KPP: {
+      original: "KPP",
+      ru: "КПП",
+      en: "Checkpoints",
+    },
+    additionalBuildings: {
+      original: "additionalBuildings",
+      ru: "Доп. строения",
+      en: "Additional Buildings",
+    },
+    typeOfIncomingDelivery: {
+      original: "typeOfIncomingDelivery",
+      ru: "Типы входящих поставок",
+      en: "Incomings Types",
+    },
+    parkingLots: {
+      original: "parkingLots",
+      ru: "Парковки",
+      en: "Parking Lots",
+    },
+    add: {
+      original: "add",
+      ru: "Добавить",
+      en: "Add",
+    },
+    edit: {
+      original: "edit",
+      ru: "Редактировать",
+      en: "Edit",
+    },
+    delete: {
+      original: "delete",
+      ru: "Удалить",
+      en: "Delete",
+    },
+    editGroup: {
+      original: "editGroup",
+      ru: "Групповое редактирование",
+      en: "Multiple Edit",
+    },
+    search: {
+      original: "search",
+      ru: "Поиск",
+      en: "Search",
+    },
+    сlearSearch: {
+      original: "сlearSearch",
+      ru: "Очистить поиск",
+      en: "Clear search",
+    },
+    save: {
+      original: "save",
+      ru: "Сохранить",
+      en: "Save",
+    },
+    column: {
+      original: "column",
+      ru: "Столбцы",
+      en: "Columns",
+    },
+  refresh: {
+    original: "refresh",
+    ru: "Обновить",
+    en: "Refresh",
   },
-  workPlace: {
-    original: "workPlace",
-    ru: "Рабочее место",
-    en: "Workplace",
+  addRamp: {
+    original: "addRamp",
+    ru: "Добавление рампы",
+    en: "Add ramp",
   },
-  timeSlots: {
-    original: "timeSlots",
-    ru: "Тайм-слоты",
-    en: "Time slots",
+  name: {
+    original: "name",
+    ru: "Наименование",
+    en: "Name",
   },
-  exchangeLog: {
-    original: "exchangeLog",
-    ru: "Журнал обменов",
-    en: "Exchange Log",
+  stream: {
+    original: "stream",
+    ru: "Поток",
+    en: "Stream",
   },
-  eventLog: {
-    original: "eventLog",
-    ru: "Журнал событий",
-    en: "Event Log",
+  blocked: {
+    original: "blocked",
+    ru: "Заблокировано",
+    en: "Blocked",
   },
-  referenceBook: {
-    original: "referenceBook",
-    ru: "Справочники",
-    en: "Reference book",
+  enterNameOfRapm: {
+    original: "enterNameOfRapm",
+    ru: "Введите название рампы",
+    en: "Enter the name of the ramp",
   },
-  configuration: {
-    original: "configuration",
-    ru: "Конфигурация",
-    en: "Configuration",
+  yes: {
+    original: "yes",
+    ru: "Да",
+    en: "Yes",
   },
-  routing: {
-    original: "routing",
-    ru: "Маршутизация",
-    en: "Routing",
+  no: {
+    original: "no",
+    ru: "Нет",
+    en: "No",
   },
-  templateLibrary: {
-    original: "templateLibrary",
-    ru: "Библиотека шаблонов",
-    en: "Template library",
+  area: {
+    original: "area",
+    ru: "Участок",
+    en: "Area",
   },
-  service: {
-    original: "service",
-    ru: "Сервисы",
-    en: "Service",
+  enterArea: {
+    original: "enterArea",
+    ru: "Выберите участок",
+    en: "Enter the area",
   },
-  manual: {
-    original: "manual",
-    ru: "Мануал",
-    en: "Manual",
+  capacity: {
+    original: "capacity",
+    ru: "Вместимость",
+    en: "Capacity",
   },
-  ramps: {
-    original: "ramps",
-    ru: "Рампы",
-    en: "Ramps",
+  enterNumber: {
+    original: "enterNumber",
+    ru: "Введите число",
+    en: "Enter the number",
   },
-  standarts: {
-    original: "standarts",
-    ru: "Нормативы",
-    en: "Standarts",
+  unit: {
+    original: "unit",
+    ru: "Единица измерения",
+    en: "Unit",
   },
-  field: {
-    original: "field",
-    ru: "Площадка",
-    en: "Field",
+  autoAssigment: {
+    original: "autoAssigment",
+    ru: "Авто назначение",
+    en: "Auto Assigment",
   },
-  regions: {
-    original: "regions",
-    ru: "Участки",
-    en: "Regions",
+  usedForSlotting: {
+    original: "usedForSlotting",
+    ru: "Используется для слотитования",
+    en: "Used for slotting",
   },
-  priorities: {
-    original: "priorities",
-    ru: "Приоритеты",
-    en: "Priorities",
+  typeOfAuto: {
+    original: "save",
+    ru: "Тип транспорта",
+    en: "Type of transport",
   },
-  TCTypes: {
-    original: "TCTypes",
-    ru: "Типы ТС",
-    en: "TCTypes",
+  enterTypeAuto: {
+    original: "enterTypeAuto",
+    ru: "Введите тип транспорта транспорта",
+    en: "Enter the type of transport",
   },
-  rampWorkField: {
-    original: "rampWorkField",
-    ru: "График площадки",
-    en: "RampWorkField",
+  onMap: {
+    original: "onMap",
+    ru: "Является объектом на карте",
+    en: "Is it an object on the map",
   },
-  rampWorkSchedule: {
-    original: "rampWorkSchedule",
-    ru: "График рамп",
-    en: "RampWorkSchedule",
+  direction: {
+    original: "direction",
+    ru: "Направление",
+    en: "Direction",
   },
-  suppliers: {
-    original: "uppliers",
-    ru: "Поставщики",
-    en: "Suppliers",
+  comment: {
+    original: "comment",
+    ru: "Комментарий",
+    en: "Comment",
   },
-  carriers: {
-    original: "arriers",
-    ru: "Перевозчики",
-    en: "Carriers",
+  noMore100: {
+    original: "capacity",
+    ru: "Не более 100 символов",
+    en: "No more than 100 letters",
   },
-  KPP: {
-    original: "KPP",
-    ru: "КПП",
-    en: "KPP",
+  saveEdit: {
+    original: "saveEdit",
+    ru: "Сохранить изменения",
+    en: "Save edit",
   },
-  additionalBuildings: {
-    original: "additionalBuildings",
-    ru: "Доп. строения",
-    en: "AdditionalBuildings",
+  updateRamp: {
+    original: "updateRamp",
+    ru: "Обновление рампы",
+    en: "Update of ramp",
   },
-  typeOfIncomingDelivery: {
-    original: "typeOfIncomingDelivery",
-    ru: "Тип входящей поставки",
-    en: "TypeOfIncomingDelivery",
+  codeArea: {
+    original: "codeArea",
+    ru: "Код площадки",
+    en: "Code area",
   },
-  parkingLots: {
-    original: "parkingLots",
-    ru: "Парковки",
-    en: "ParkingLots",
+  cancel: {
+    original: "cancel",
+    ru: "Отмена",
+    en: "Сancel",
   },
+  groupEditRecord: {
+    original: "groupEditRecord",
+    ru: "Групповое редактирование записей",
+    en: "Group editing of records",
+  },
+  errorDelete: {
+    original: "errorDelete",
+    ru: "Не выбраны записи для удаления",
+    en: "",
+  },
+  added: {
+    original: "added",
+    ru: "Добавлено",
+    en: "Added",
+  },
+  errorData: {
+    original: "errorData",
+    ru: "Некорректные данные",
+    en: "Valid data",
+  },
+  changed: {
+    original: "changed",
+    ru: "Изменено",
+    en: "Сhanged",
+  },
+  code: {
+    original: "code",
+    ru: "Код",
+    en: "Code",
+  },
+  updated: {
+    original: "updated",
+    ru: "Обновлено",
+    en: "Updated",
+  },
+  errorEdit: {
+    original: "errorEdit",
+    ru: "Выберите одну запись для редактирования",
+    en: "Select one record to edit",
+  },
+  errorGrEdit: {
+    original: "errorGrEdit",
+    ru: "Выделите необходимые для редактирования строки",
+    en: "",
+  },
+
 };

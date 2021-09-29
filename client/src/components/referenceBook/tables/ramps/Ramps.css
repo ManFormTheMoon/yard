@@ -47,10 +47,32 @@ tr.selectedRow {
 };
 
 .block-button{
-  
   background-color: #8DA19B;
   display: flex;
   width: 100%;
   height: 40px;
   margin-top: 50px;
 }
+
+span{
+  color: red;
+}
+
+.modal-button{
+  display: flex;
+  width: 80%;
+  height: 40px;
+  margin-top: 30px;
+  padding-left: 40px;
+}
+
+.table-style{
+  border-radius: 3px;
+  border: 0.5px solid #87C9B6;
+  table-layout: fixed;
+  margin-top: -10px;
+  overflow: scroll;
+  font-size: 12px;
+  cursor: pointer;
+}
+

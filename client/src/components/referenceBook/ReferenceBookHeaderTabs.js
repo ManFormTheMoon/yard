@@ -12,6 +12,7 @@ const SortableItem = withRouter(
     console.log(props);
     const selectedStyle = {
       height: "27px",
+      fontWeight: "bold",
       margin: "0px 2px",
       padding: "3px 4px 0px 10px",
       backgroundColor: "white",

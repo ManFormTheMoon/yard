@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ButtonsBlock from "../../ButtonsBlock";
-import ballImg from "./../../../../img/reference-book-buttons/ball.png";
+import ballImg from "./../../../../img/reference-book-buttons/attention.png";
 import AddRampModal from "./AddRampModal";
 import "./Ramps.css";
 import EditRampModal from "./EditRampModal";
 import GroupEditRampModal from "./GroupEditRampModal";
 import DeleteRampModal from "./DeleteRampModal";
 import FooterNavigation from "../../FooterNavigation";
+import { dictinary } from "../../../../dictinary/dictinary";
+
 import AsyncSelect from "react-select/async";
 import Select from "react-select";
 
@@ -302,11 +304,11 @@ const RampsTable = (props) => {
         visible={deleteModalVisible}
         setVisible={setDeleteModalVisible}
         style={{
-          width: "300px",
-          height: "150px",
+          width: "330px",
+          height: "120px",
           backgroundColor: "white",
           borderRadius: "20px",
-          padding: "20px",
+          padding: "30px 20px 20px 20px",
         }}
         countRows={selectedRows.length}
         selectedRows={selectedRows}
@@ -341,8 +343,8 @@ const RampsTable = (props) => {
       <div
         style={{
           minHeight: "calc(100% - 50px)",
-          height: "calc(100% - 50px)",
-          maxHeight: "calc(100%- 50px)",
+          height: "calc(100% - 40px)",
+          maxHeight: "calc(100%- 40px)",
           backgroundColor: "#FFFFFF",
           display: "block",
           padding: "0px 20px",
@@ -360,7 +362,6 @@ const RampsTable = (props) => {
           onGroupEditHandler={onGroupEditHandler}
         />
         <br />
-
         <table
           style={{
             borderRadius: "3px",
@@ -382,7 +383,7 @@ const RampsTable = (props) => {
               <input
                 type="text"
                 style={{ width: "70px" }}
-                placeholder="Код"
+                placeholder={dictinary.code.ru}
                 onChange={(event) => onChangeInputsHandler(event, "id")}
                 value={currentFilters.id}
               />
@@ -391,8 +392,7 @@ const RampsTable = (props) => {
               <input
                 type="text"
                 style={{ width: "150px" }}
-                placeholder="Наименование"
-                onCh
+                placeholder={dictinary.name.ru}
                 ange={(event) => onChangeInputsHandler(event, "name_ru")}
                 value={currentFilters.name_ru}
               />
@@ -414,14 +414,15 @@ const RampsTable = (props) => {
                 style={{ width: "150px" }}
               >
                 <option></option>
-                <option>Да</option>
-                <option>Нет</option>
+                <option>{dictinary.no.ru}</option>
+                <option>{dictinary.yes.ru}</option>
               </select>
             </td>
             <td>
               <Select
                 options={areaNamesOptions}
                 value={selectedAreaName}
+                placeholder={dictinary.area.ru}
                 onChange={(value) => {
                   console.log(value);
                   changeSelectedAreaName(value);
@@ -443,7 +444,7 @@ const RampsTable = (props) => {
               <input
                 type="text"
                 style={{ width: "120px" }}
-                placeholder="Вместимость"
+                placeholder={dictinary.capacity.ru}
                 onChange={(event) => onChangeInputsHandler(event, "capacity")}
                 value={currentFilters.capacity}
               />
@@ -467,8 +468,8 @@ const RampsTable = (props) => {
                 style={{ width: "100px" }}
               >
                 <option></option>
-                <option>Да</option>
-                <option>Нет</option>
+                <option>{dictinary.no.ru}</option>
+                <option>{dictinary.yes.ru}</option>
               </select>
             </td>
             <td>
@@ -480,14 +481,15 @@ const RampsTable = (props) => {
                 style={{ width: "150px" }}
               >
                 <option></option>
-                <option>Да</option>
-                <option>Нет</option>
+                <option>{dictinary.no.ru}</option>
+                <option>{dictinary.yes.ru}</option>
               </select>
             </td>
             <td>
               <Select
                 options={TCTypesNamesOptions}
                 value={selectedTCTypesName}
+                placeholder={dictinary.typeOfAuto.ru}
                 onChange={(value) => {
                   console.log(value);
                   changeSelectedTCTypeName(value);
@@ -501,8 +503,8 @@ const RampsTable = (props) => {
                 value={currentFilters.object_map}
               >
                 <option></option>
-                <option>Да</option>
-                <option>Нет</option>
+                <option>{dictinary.no.ru}</option>
+                <option>{dictinary.yes.ru}</option>
               </select>
             </td>
             <td>
@@ -524,7 +526,7 @@ const RampsTable = (props) => {
               <input
                 type="text"
                 style={{ width: "250px" }}
-                placeholder="Комментарий"
+                placeholder={dictinary.comment.ru}
                 onChange={(event) => onChangeInputsHandler(event, "comment")}
                 value={currentFilters.comment}
               />
@@ -532,22 +534,21 @@ const RampsTable = (props) => {
           </tr>
           <tr>
             <th style={{ minWidth: "40px" }}></th>
-            <th style={{ minWidth: "50px" }}>Код</th>
-            <th style={{ minWidth: "150px" }}>Наименование</th>
-            <th style={{ minWidth: "80px" }}>Поток</th>
-            <th style={{ minWidth: "150px" }}>Заблокировано?</th>
-            <th style={{ minWidth: "150px" }}>Участок</th>
-            <th style={{ minWidth: "150px" }}>Код интеграции</th>
-            <th style={{ minWidth: "120px" }}>Вместиность</th>
-            <th style={{ minWidth: "100px" }}>Единица измерения</th>
-            <th style={{ minWidth: "100px" }}>Авто назначение</th>
+            <th style={{ minWidth: "50px" }}>{dictinary.code.ru}</th>
+            <th style={{ minWidth: "150px" }}>{dictinary.name.ru}</th>
+            <th style={{ minWidth: "80px" }}>{dictinary.stream.ru}</th>
+            <th style={{ minWidth: "150px" }}>{dictinary.blocked.ru}?</th>
+            <th style={{ minWidth: "150px" }}>{dictinary.area.ru}</th>
+            <th style={{ minWidth: "120px" }}>{dictinary.capacity.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.unit.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.autoAssigment.ru}</th>
             <th style={{ minWidth: "150px" }}>
-              Используется для слотитования?
+              {dictinary.usedForSlotting.ru}?
             </th>
-            <th style={{ minWidth: "150px" }}>Тип транспорта</th>
-            <th style={{ minWidth: "100px" }}>Является объектом на карте?</th>
-            <th style={{ minWidth: "130px" }}>Направление</th>
-            <th style={{ minWidth: "250px" }}>Комментарий</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.typeOfAuto.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.onMap.ru}?</th>
+            <th style={{ minWidth: "130px" }}>{dictinary.direction.ru}</th>
+            <th style={{ minWidth: "250px" }}>{dictinary.comment.ru}</th>
           </tr>
           {wholeData.map((cur) => {
             return (
