@@ -98,7 +98,7 @@ const getRamps = async (filters, limit, page) => {
   }
   query +=
     " ORDER BY ramps.id LIMIT " + (page - 1) * limit + ", " + limit + ";";
-  const result = await pool.query(query);
+  const result = await pool.query(query).catch((e)=>{console.log(e)});
   let queryAll =
     "select COUNT(*) from ramps join areas on areas.id = ramps.area_id";
   if (!!filtersQuery) {

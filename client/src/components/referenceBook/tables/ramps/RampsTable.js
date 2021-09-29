@@ -538,8 +538,8 @@ const RampsTable = (props) => {
             <th style={{ minWidth: "150px" }}>{dictinary.name.ru}</th>
             <th style={{ minWidth: "80px" }}>{dictinary.stream.ru}</th>
             <th style={{ minWidth: "150px" }}>{dictinary.blocked.ru}?</th>
-            <th style={{ minWidth: "150px" }}>Код интеграции</th>
             <th style={{ minWidth: "150px" }}>{dictinary.area.ru}</th>
+            <th style={{ minWidth: "150px" }}>Код интеграции</th>
             <th style={{ minWidth: "120px" }}>{dictinary.capacity.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.unit.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.autoAssigment.ru}</th>
@@ -569,15 +569,15 @@ const RampsTable = (props) => {
                 <td>{cur.id}</td>
                 <td>{cur.name_ru}</td>
                 <td>{cur.stream}</td>
-                <td>{cur.blocked}</td>
+                <td>{(cur.blocked == 1 ? dictinary.yes.ru : dictinary.no.ru)}</td>
                 <td>{cur.area_name}</td>
                 <td>{cur.integration_id}</td>
                 <td>{cur.capacity}</td>
                 <td>{cur.unit}</td>
-                <td>{cur.autoset}</td>
-                <td>{cur.used_for_slot}</td>
+                <td>{(cur.autoset == 1 ? dictinary.yes.ru : dictinary.no.ru)}</td>
+                <td>{(cur.used_for_slot == 1 ? dictinary.yes.ru : dictinary.no.ru)}</td>
                 <td>{cur.transport_type_name}</td>
-                <td>{cur.object_map}</td>
+                <td>{(cur.object_map == 1 ? dictinary.yes.ru : dictinary.no.ru)}</td>
                 <td>{cur.orientation}</td>
                 <td>{cur.comment}</td>
               </tr>

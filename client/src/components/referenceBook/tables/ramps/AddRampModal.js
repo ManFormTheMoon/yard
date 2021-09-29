@@ -7,8 +7,25 @@ import CancelButton from "../../../userUI/CancelButton";
 
 import { dictinary } from "../../../../dictinary/dictinary";
 
+const emptyRampForAdd = {
+  id: "",
+  name_ru: "",
+  stream: "Input",
+  blocked: dictinary.no.ru,
+  area_id: "",
+  integration_id: "",
+  capacity: "",
+  unit: "",
+  object_map: dictinary.no.ru,
+  comment: "",
+  used_for_slot: dictinary.no.ru,
+  transport_type_id: "",
+  orientation: "",
+  autoset: dictinary.no.ru,
+};
+
 const AddRampModal = (props) => {
-  const [inputValues, setInputValues] = useState(props.emptyRampIds);
+  const [inputValues, setInputValues] = useState(emptyRampForAdd);
 
   const [areasNamesOptions, setAreasNamesOptions] = useState([]);
   const [selectedAreaName, setSelectedAreaName] = useState({
@@ -28,16 +45,16 @@ const AddRampModal = (props) => {
     let values = {};
     Object.assign(values, values1);
     if (!!values.blocked) {
-      values.blocked = values.blocked == "Да" ? 1 : 0;
+      values.blocked = values.blocked == dictinary.yes.ru ? 1 : 0;
     }
     if (!!values.autoset) {
-      values.autoset = values.autoset == "Да" ? 1 : 0;
+      values.autoset = values.autoset == dictinary.yes.ru ? 1 : 0;
     }
     if (!!values.used_for_slot) {
-      values.used_for_slot = values.used_for_slot == "Да" ? 1 : 0;
+      values.used_for_slot = values.used_for_slot == dictinary.yes.ru ? 1 : 0;
     }
     if (!!values.object_map) {
-      values.object_map = values.object_map == "Да" ? 1 : 0;
+      values.object_map = values.object_map == dictinary.yes.ru ? 1 : 0;
     }
 
     let body = {};
@@ -54,7 +71,7 @@ const AddRampModal = (props) => {
 
     if (data.message == "ok") {
       props.onSuccesfulAdd();
-      setInputValues(props.emptyRampIds);
+      setInputValues(emptyRampForAdd);
       setSelectedTransportTypeName({ value: "", label: "" });
       setSelectedAreaName({ value: "", label: "" });
     } else {
@@ -106,7 +123,7 @@ const AddRampModal = (props) => {
   console.log(inputValues);
 
   const onCancelEvent = () => {
-    setInputValues(props.emptyRampIds);
+    setInputValues(emptyRampForAdd);
     setSelectedTransportTypeName({ value: "", label: "" });
     setSelectedAreaName({ value: "", label: "" });
     props.setVisible(false);
@@ -204,7 +221,6 @@ const AddRampModal = (props) => {
           value={inputValues.stream}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>Input</option>
           <option>Output</option>
         </select>
@@ -216,7 +232,6 @@ const AddRampModal = (props) => {
           value={inputValues.blocked}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
@@ -277,7 +292,6 @@ const AddRampModal = (props) => {
           value={inputValues.autoset}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
@@ -289,9 +303,8 @@ const AddRampModal = (props) => {
           value={inputValues.used_for_slot}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
-          <option>{dictinary.yes.ru}</option>
           <option>{dictinary.no.ru}</option>
+          <option>{dictinary.yes.ru}</option>
         </select>
       </div>
       <div className="row-styles">
@@ -316,7 +329,6 @@ const AddRampModal = (props) => {
           value={inputValues.object_map}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
