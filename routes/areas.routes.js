@@ -50,3 +50,5 @@ const deleteArears = (arr) => {
   query += ");";
   pool.query(query);
 };
+
+module.exports = router;

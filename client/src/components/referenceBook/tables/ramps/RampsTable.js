@@ -538,6 +538,7 @@ const RampsTable = (props) => {
             <th style={{ minWidth: "150px" }}>{dictinary.name.ru}</th>
             <th style={{ minWidth: "80px" }}>{dictinary.stream.ru}</th>
             <th style={{ minWidth: "150px" }}>{dictinary.blocked.ru}?</th>
+            <th style={{ minWidth: "150px" }}>Код интеграции</th>
             <th style={{ minWidth: "150px" }}>{dictinary.area.ru}</th>
             <th style={{ minWidth: "120px" }}>{dictinary.capacity.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.unit.ru}</th>

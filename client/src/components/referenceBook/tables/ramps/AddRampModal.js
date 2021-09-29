@@ -55,6 +55,8 @@ const AddRampModal = (props) => {
     if (data.message == "ok") {
       props.onSuccesfulAdd();
       setInputValues(props.emptyRampIds);
+      setSelectedTransportTypeName({ value: "", label: "" });
+      setSelectedAreaName({ value: "", label: "" });
     } else {
       props.onUnsuccesfulAdd();
     }
@@ -105,6 +107,8 @@ const AddRampModal = (props) => {
 
   const onCancelEvent = () => {
     setInputValues(props.emptyRampIds);
+    setSelectedTransportTypeName({ value: "", label: "" });
+    setSelectedAreaName({ value: "", label: "" });
     props.setVisible(false);
   };
   const onChangeNameRuHandler = (event) => {
@@ -200,6 +204,7 @@ const AddRampModal = (props) => {
           value={inputValues.stream}
           style={{ marginLeft: "30px", width: "30%" }}
         >
+          <option></option>
           <option>Input</option>
           <option>Output</option>
         </select>
@@ -211,6 +216,7 @@ const AddRampModal = (props) => {
           value={inputValues.blocked}
           style={{ marginLeft: "30px", width: "30%" }}
         >
+          <option></option>
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
@@ -219,10 +225,10 @@ const AddRampModal = (props) => {
         <div style={rowName}>
           {dictinary.area.ru}:<span> *</span>
         </div>
-        <div style={rowName}>Участок:</div>
         <div style={{ marginLeft: "30px", width: "30%" }}>
           <Select
             value={selectedAreaName}
+            placeholder={dictinary.enterArea.ru}
             options={areasNamesOptions}
             onChange={(value) => {
               console.log(value);
@@ -236,9 +242,9 @@ const AddRampModal = (props) => {
         <input
           style={{ marginLeft: "30px", width: "30%" }}
           type="text"
-          placeholder={dictinary.enterArea.ru}
-          onChange={onChangeAreaIdHandler}
-          value={props.inputValues.area_id}
+          onChange={onChangeIntegrationHandler}
+          placeholder={"Код интеграции"}
+          value={inputValues.integration_id}
           style={{ marginLeft: "30px", width: "60%" }}
         />
       </div>

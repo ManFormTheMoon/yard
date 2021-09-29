@@ -16,8 +16,8 @@ const GroupEditRampModal = (props) => {
   const [checkboxValues, setCheckboxValues] = useState({});
 
   const setCheckbox = (value, event) => {
-    props.setCheckboxValues({
-      ...props.checkboxValues,
+    setCheckboxValues({
+      ...checkboxValues,
       [value]: event.target.checked,
     });
   };
@@ -150,7 +150,7 @@ const GroupEditRampModal = (props) => {
         </div>
         <input
           type="text"
-          value={props.inputValues.name_ru}
+          value={inputValues.name_ru}
           onChange={onChangeNameRuHandler}
           style={{ marginLeft: "30px", width: "60%" }}
         />
@@ -249,7 +249,7 @@ const GroupEditRampModal = (props) => {
         </select>
         <input
           type="checkbox"
-          value={props.checkboxValues.autoset}
+          value={checkboxValues.autoset}
           onChange={(event) => setCheckbox("autoset", event)}
           style={chechBoxStyles}
         />
@@ -267,7 +267,7 @@ const GroupEditRampModal = (props) => {
         </select>
         <input
           type="checkbox"
-          value={props.checkboxValues.used_for_slot}
+          value={checkboxValues.used_for_slot}
           onChange={(event) => setCheckbox("used_for_slot", event)}
           style={chechBoxStyles}
         />
@@ -297,7 +297,7 @@ const GroupEditRampModal = (props) => {
         </select>
         <input
           type="checkbox"
-          value={props.checkboxValues.object_map}
+          value={checkboxValues.object_map}
           onChange={(event) => setCheckbox("object_map", event)}
           style={chechBoxStyles}
         />

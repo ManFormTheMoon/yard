@@ -2,6 +2,7 @@ const { Router } = require("express");
 const express = require("express");
 var mysql = require("mysql2/promise");
 const router = Router();
+const config = require("config");
 
 const urlencodedParser = express.urlencoded({ extended: false });
 
@@ -13,7 +14,6 @@ const pool = mysql.createPool({
   waitForConnections: true,
 });
 
-
 router.post("/rampsName/get", async (req, res) => {
   try {
     const data = await getRampsName();
@@ -23,10 +23,10 @@ router.post("/rampsName/get", async (req, res) => {
   } catch (e) {}
 });
 
-const getRampsName = async() =>{
-  let query = "select name_ru from ramps;"
+const getRampsName = async () => {
+  let query = "select name_ru from ramps;";
   const result = await pool.query(query);
-  return { result: result[0]};
+  return { result: result[0] };
 };
 
 const getRamps = async (filters, limit, page) => {

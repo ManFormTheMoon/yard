@@ -50,3 +50,5 @@ router.post("/transportType/getNames", async (req, res) => {
     });
   } catch (e) {}
 });
+
+module.exports = router;
