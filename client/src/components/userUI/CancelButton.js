@@ -2,7 +2,6 @@ import React from "react";
 import removeImg from "../../img/reference-book-buttons/remove.png";
 
 const CancelButton = (props) => {
-  console.log(props);
   return (
     <div
       style={{

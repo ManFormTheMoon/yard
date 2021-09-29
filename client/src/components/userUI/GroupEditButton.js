@@ -15,15 +15,12 @@ const GroupEditButton = (props) => {
         cursor: "pointer",
         display: "inline-flex",
         alignItems: "center",
+        whiteSpace: "nowrap",
         ...props.style,
       }}
       onClick={props.onGroupEditHandler}
     >
-      <img
-        src={connect}
-        alt=""
-        style={{ height: "95%", marginRight: "5px" }}
-      />
+      <img src={connect} alt="" style={{ height: "95%", marginRight: "5px" }} />
       {props.children}
     </div>
   );

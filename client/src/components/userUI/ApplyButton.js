@@ -2,7 +2,6 @@ import React from "react";
 import checkImg from "../../img/reference-book-buttons/check.png";
 
 const ApplyButton = (props) => {
-  console.log(props);
   return (
     <div
       style={{

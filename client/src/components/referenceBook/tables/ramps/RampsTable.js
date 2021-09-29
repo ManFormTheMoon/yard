@@ -1,19 +1,67 @@
 import React, { useEffect, useState } from "react";
 import ButtonsBlock from "../../ButtonsBlock";
 import ballImg from "./../../../../img/reference-book-buttons/ball.png";
-
 import AddRampModal from "./AddRampModal";
 import "./Ramps.css";
 import EditRampModal from "./EditRampModal";
 import GroupEditRampModal from "./GroupEditRampModal";
 import DeleteRampModal from "./DeleteRampModal";
 import FooterNavigation from "../../FooterNavigation";
+import AsyncSelect from "react-select/async";
+import Select from "react-select";
+
+const emptyRamp = {
+  id: "",
+  name_ru: "",
+  stream: "",
+  blocked: "",
+  area_name: "",
+  integration_id: "",
+  capacity: "",
+  unit: "",
+  object_map: "",
+  comment: "",
+  used_for_slot: "",
+  transport_type_name: "",
+  orientation: "",
+  autoset: "",
+};
+
+const emptyRampIds = {
+  id: "",
+  name_ru: "",
+  stream: "",
+  blocked: "",
+  area_id: "",
+  integration_id: "",
+  capacity: "",
+  unit: "",
+  object_map: "",
+  comment: "",
+  used_for_slot: "",
+  transport_type_id: "",
+  orientation: "",
+  autoset: "",
+};
+
+function unique(arr) {
+  let result = [];
+
+  for (let str of arr) {
+    if (!result.includes(str)) {
+      result.push(str);
+    }
+  }
+
+  return result;
+}
 
 const RampsTable = (props) => {
   const [addModalVisible, setAddModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [groupEditModalVisible, setGroupEditModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+
   const [abacaba, setAbacaba] = useState(0);
   const [wholeData, setWholeData] = useState([]);
   const [rowsOnPageCount, setRowsOnPageCount] = useState(50);
@@ -23,50 +71,32 @@ const RampsTable = (props) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [messageText, setMessageText] = useState();
   const [messageVisible, setMessageVisible] = useState(false);
-  const [addInputValues, setAddInputValues] = useState({
-    name_ru: "",
-    stream: "",
-    blocked: "",
-    area_id: "",
-    capacity: "",
-    unit: "",
-    object_map: "",
-    comment: "",
-    used_for_slot: "",
-    trasnport_type_id: "",
-    orientation: "",
-    autoset: "",
+  const [inputRowValue, setInputRowValue] = useState(rowsOnPageCount);
+
+  const [selectedAreaName, setSelectedAreaName] = useState({
+    value: "",
+    label: "",
   });
-  const [editInputValues, setEditInputValues] = useState({
-    id: "",
-    name_ru: "",
-    stream: "",
-    blocked: "",
-    area_id: "",
-    capacity: "",
-    unit: "",
-    object_map: "",
-    comment: "",
-    used_for_slot: "",
-    trasnport_type_id: "",
-    orientation: "",
-    autoset: "",
+  const [areaNamesOptions, setAreaNameOptions] = useState([]);
+
+  const [selectedTCTypesName, setSelectedTCTypesName] = useState({
+    value: "",
+    label: "",
   });
-  const [groupEditInputValues, setGroupEditInputValues] = useState({
-    name_ru: "",
-    stream: "",
-    blocked: "",
-    area_id: "",
-    capacity: "",
-    unit: "",
-    object_map: "",
-    comment: "",
-    used_for_slot: "",
-    trasnport_type_id: "",
-    orientation: "",
-    autoset: "",
-  });
-  const [groupEditCheckboxValues, setGroupEditCheckboxValues] = useState({});
+  const [TCTypesNamesOptions, setTCTypesNameOptions] = useState([]);
+
+  const changeSelectedAreaName = (value) => {
+    setSelectedAreaName(value);
+    setCurrentFilters({ ...currentFilters, ["area_name"]: value.label });
+  };
+
+  const changeSelectedTCTypeName = (value) => {
+    setSelectedTCTypesName(value);
+    setCurrentFilters({
+      ...currentFilters,
+      ["transport_type_name"]: value.label,
+    });
+  };
 
   useEffect(async () => {
     let body = {};
@@ -84,25 +114,52 @@ const RampsTable = (props) => {
     const data = await response.json();
     setWholeData(data.data.result);
     setTotalRows(data.data.count);
+
+    //options for areas
+    let areasOptions = [""];
+    for (let i = 0; i < data.data.result.length; i++) {
+      areasOptions.push(data.data.result[i].area_name);
+    }
+    areasOptions = unique(areasOptions);
+    areasOptions = areasOptions.map((cur) => {
+      return {
+        label: cur,
+        value: cur,
+      };
+    });
+    setAreaNameOptions(areasOptions);
+
+    //options for TS types
+    let TCTypesOptions = [""];
+    for (let i = 0; i < data.data.result.length; i++) {
+      TCTypesOptions.push(data.data.result[i].transport_type_name);
+    }
+    TCTypesOptions = unique(TCTypesOptions);
+    TCTypesOptions = TCTypesOptions.map((cur) => {
+      return {
+        label: cur,
+        value: cur,
+      };
+    });
+    setTCTypesNameOptions(TCTypesOptions);
+
     setSelectedRows([]);
   }, [rowsOnPageCount, abacaba, currentPage]);
+
   const onSearchClick = () => {
     setAbacaba(abacaba + 1);
   };
   console.log(wholeData);
 
-  const onDeleteEvent = async () => {
-    let body = {};
-    body.arr = selectedRows;
-    body = JSON.stringify(body);
-    let headers = {};
-    headers["Content-Type"] = "application/json";
-    const response = await fetch("/api/referenceBook/ramps/delete", {
-      method: "POST",
-      body: body,
-      headers: headers,
-    });
-    setSelectedRows([]);
+  const showMessage = (text) => {
+    setMessageText(text);
+    setMessageVisible(true);
+    setTimeout(() => {
+      setMessageVisible(false);
+    }, 3000);
+  };
+
+  const onSuccesfulDelete = async () => {
     await setAbacaba(abacaba + 1);
     await setCurrentPage(1);
     await setDeleteModalVisible(false);
@@ -112,300 +169,75 @@ const RampsTable = (props) => {
     if (selectedRows.length > 0) {
       setDeleteModalVisible(true);
     } else {
-      setMessageText("Не выбраны записи для удаления");
-      setMessageVisible(true);
-      setTimeout(() => {
-        setMessageVisible(false);
-      }, 3000);
+      showMessage("Не выбраны записи для удаления");
     }
   };
 
-  const onAddEvent = async (values) => {
-    console.log(values);
-    if (!!values.blocked) {
-      values.blocked = values.blocked == "Да" ? 1 : 0;
-    }
-    if (!!values.autoset) {
-      values.autoset = values.autoset == "Да" ? 1 : 0;
-    }
-    if (!!values.used_for_slot) {
-      values.used_for_slot = values.used_for_slot == "Да" ? 1 : 0;
-    }
-    if (!!values.object_map) {
-      values.object_map = values.object_map == "Да" ? 1 : 0;
-    }
-
-    let body = {};
-    body.values = values;
-    body = JSON.stringify(body);
-    let headers = {};
-    headers["Content-Type"] = "application/json";
-    const response = await fetch("/api/referenceBook/ramps/add", {
-      method: "POST",
-      body: body,
-      headers: headers,
-    });
-    const data = await response.json();
-
-    console.log(data);
-    if (data.message == "ok") {
-      setAddModalVisible(false);
-      setAddInputValues({
-        name_ru: "",
-        stream: "",
-        blocked: "",
-        area_id: "",
-        capacity: "",
-        unit: "",
-        object_map: "",
-        comment: "",
-        used_for_slot: "",
-        trasnport_type_id: "",
-        orientation: "",
-        autoset: "",
-      });
-      setMessageText("Добавлено!");
-      await setAbacaba(abacaba + 1);
-    } else {
-      setMessageText("Некорректные данные!");
-    }
-    setMessageVisible(true);
-    setTimeout(() => {
-      setMessageVisible(false);
-    }, 3000);
+  const onSuccesfulAdd = () => {
+    setAddModalVisible(false);
+    showMessage("Добавлено!");
+    setAbacaba(abacaba + 1);
+  };
+  const onUnsuccesfulAdd = () => {
+    showMessage("Некорректные данные!");
   };
 
-  const onGroupEditEvent = async (checkboxValues, inputValues) => {
-    const keys = Object.keys(checkboxValues);
-    let result = {};
-    for (let i = 0; i < keys.length; i++) {
-      if (checkboxValues[keys[i]] == true) {
-        result[keys[i]] = true;
-      }
-    }
-    console.log(inputValues);
-    if (!!inputValues.blocked) {
-      inputValues.blocked = inputValues.blocked == "Да" ? 1 : 0;
-    }
-    if (!!inputValues.autoset) {
-      inputValues.autoset = inputValues.autoset == "Да" ? 1 : 0;
-    }
-    if (!!inputValues.used_for_slot) {
-      inputValues.used_for_slot = inputValues.used_for_slot == "Да" ? 1 : 0;
-    }
-    if (!!inputValues.object_map) {
-      inputValues.object_map = inputValues.object_map == "Да" ? 1 : 0;
-    }
-    console.log(inputValues);
-    console.log(result);
-    console.log(selectedRows);
-    let body = {};
-    body.values = inputValues;
-    body.ids = selectedRows;
-    body.toclear = result;
-    body = JSON.stringify(body);
-    let headers = {};
-    headers["Content-Type"] = "application/json";
-    const response = await fetch("/api/referenceBook/ramps/groupEdit", {
-      method: "POST",
-      body: body,
-      headers: headers,
-    });
-    const data = await response.json();
-
-    console.log(data);
-    if (data.message == "ok") {
-      setGroupEditModalVisible(false);
-      setMessageText("Изменено!");
-      setGroupEditCheckboxValues({});
-      setGroupEditInputValues({
-        name_ru: "",
-        stream: "",
-        blocked: "",
-        area_id: "",
-        capacity: "",
-        unit: "",
-        object_map: "",
-        comment: "",
-        used_for_slot: "",
-        trasnport_type_id: "",
-        orientation: "",
-        autoset: "",
-      });
-      await setAbacaba(abacaba + 1);
-    } else {
-      setMessageText("Некорректные данные!");
-    }
-    setMessageVisible(true);
-    setTimeout(() => {
-      setMessageVisible(false);
-    }, 3000);
+  const onSuccesfulGroupEdit = () => {
+    setGroupEditModalVisible(false);
+    showMessage("Изменено!");
+    setAbacaba(abacaba + 1);
+  };
+  const onUnsuccesfulGroupEdit = () => {
+    showMessage("Некорректные данные!");
   };
 
-  const onEditEvent = async () => {
-    console.log(editInputValues);
-    if (!!editInputValues.blocked) {
-      editInputValues.blocked = editInputValues.blocked == "Да" ? 1 : 0;
-    }
-    if (!!editInputValues.autoset) {
-      editInputValues.autoset = editInputValues.autoset == "Да" ? 1 : 0;
-    }
-    if (!!editInputValues.used_for_slot) {
-      editInputValues.used_for_slot =
-        editInputValues.used_for_slot == "Да" ? 1 : 0;
-    }
-    if (!!editInputValues.object_map) {
-      editInputValues.object_map = editInputValues.object_map == "Да" ? 1 : 0;
-    }
-
-    let body = {};
-    body.values = editInputValues;
-    body = JSON.stringify(body);
-    let headers = {};
-    headers["Content-Type"] = "application/json";
-    const response = await fetch("/api/referenceBook/ramps/edit", {
-      method: "POST",
-      body: body,
-      headers: headers,
-    });
-    const data = await response.json();
-
-    console.log(data);
-    if (data.message == "ok") {
-      setEditModalVisible(false);
-      setMessageText("Изменено!");
-      await setAbacaba(abacaba + 1);
-    } else {
-      setMessageText("Некорректные данные!");
-    }
-    setMessageVisible(true);
-    setTimeout(() => {
-      setMessageVisible(false);
-    }, 3000);
+  const onSuccesfulEdit = async () => {
+    setEditModalVisible(false);
+    showMessage("Изменено!");
+    await setAbacaba(abacaba + 1);
   };
 
-  const onAddHandler = () => {
-    setAddModalVisible(true);
+  const onUnsuccesfulEdit = () => {
+    showMessage("Некорректные данные!");
   };
 
   const onGroupEditHandler = () => {
-    if (selectedRows.length == 0) {
-      setMessageText("Выделите больше записей!");
-      setMessageVisible(true);
-      setTimeout(() => {
-        setMessageVisible(false);
-      }, 3000);
+    if (selectedRows.length <= 1) {
+      showMessage("Выделите больше записей!");
     } else {
       setGroupEditModalVisible(true);
     }
   };
 
   const onReloadEvent = () => {
-    setMessageText("Обновлено!");
-    setMessageVisible(true);
-    setTimeout(() => {
-      setMessageVisible(false);
-    }, 3000);
+    showMessage("Обновлено!");
     setAbacaba(abacaba + 1);
   };
 
   const onEditHandler = async () => {
     if (selectedRows.length != 1) {
-      setMessageText("Выберите ровно одну запись!");
-      setMessageVisible(true);
-      setTimeout(() => {
-        setMessageVisible(false);
-      }, 3000);
+      showMessage("Выберите ровно одну запись!");
     } else {
-      let data = {};
-      Object.assign(
-        data,
-        wholeData.filter((cur) => cur.id == selectedRows[0])[0]
-      );
-      if (data.stream == "input") {
-        data.stream = "Input;";
-      }
-      if (data.stream == "output") {
-        data.stream = "Output";
-      }
-      if (data.blocked == 1) {
-        data.blocked = "Да";
-      }
-      if (data.blocked == 0) {
-        data.blocked = "Нет";
-      }
-      if (data.autoset == 1) {
-        data.autoset = "Да";
-      }
-      if (data.autoset == 0) {
-        data.autoset = "Нет";
-      }
-      if (data.used_for_slot == 1) {
-        data.used_for_slot = "Да";
-      }
-      if (data.used_for_slot == 0) {
-        data.used_for_slot = "Нет";
-      }
-      if (data.object_map == 1) {
-        data.object_map = "Да";
-      }
-      if (data.object_map == 0) {
-        data.object_map = "Нет";
-      }
-      if (data.orientation == "top") {
-        data.orientation = "Top";
-      }
-      if (data.orientation == "bottom") {
-        data.orientation = "Bottom";
-      }
-      if (data.orientation == "left") {
-        data.orientation = "Left";
-      }
-      if (data.orientation == "right") {
-        data.orientation = "Right";
-      }
-      console.log(data);
-      setEditInputValues({
-        id: selectedRows[0],
-        name_ru: data?.name_ru,
-        stream: data?.stream,
-        blocked: data?.blocked,
-        area_id: data?.area_id,
-        capacity: data?.capacity,
-        unit: data?.unit,
-        object_map: data?.object_map,
-        comment: data?.comment,
-        used_for_slot: data?.used_for_slot,
-        trasnport_type_id: data?.trasnport_type_id,
-        orientation: data?.orientation,
-        autoset: data?.autoset,
-      });
       setEditModalVisible(true);
     }
   };
 
+  console.log(currentFilters);
+
   const onSearchClearHandler = () => {
-    setCurrentFilters({
-      id: "",
-      name_ru: "",
-      stream: "",
-      blocked: "",
-      area_id: "",
-      capacity: "",
-      unit: "",
-      object_map: "",
-      comment: "",
-      used_for_slot: "",
-      trasnport_type_id: "",
-      orientation: "",
-      autoset: "",
-    });
+    setCurrentFilters(emptyRamp);
     setAbacaba(setAbacaba + 1);
   };
 
   const onPagesInputDown = (event) => {
     if (event.key == "Enter") {
-      setRowsOnPageCount(1 * event.target.value);
+      console.log(1 * event.target.value);
+      if (1 * event.target.value == 0) {
+        setRowsOnPageCount(100);
+        setInputRowValue(100);
+      } else {
+        setRowsOnPageCount(1 * event.target.value);
+      }
     }
   };
 
@@ -426,10 +258,6 @@ const RampsTable = (props) => {
   };
 
   const onChangeGlobalCheckBox = (event) => {
-    console.log(event);
-    console.log(selectedRows);
-    console.log(rowsOnPageCount);
-    console.log(event.target.checked);
     if (event.target.checked) {
       let a = [];
       for (let i = 0; i < wholeData.length; i++) {
@@ -441,47 +269,12 @@ const RampsTable = (props) => {
     }
   };
 
-  const onChangeIdHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, id: event.target.value });
+  const onChangeInputsHandler = (event, value) => {
+    setCurrentFilters({ ...currentFilters, [value]: event.target.value });
   };
-  const onChangeNameRuHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, name_ru: event.target.value });
-  };
-  const onChangeStreamHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, stream: event.target.value });
-  };
-  const onChangeBlockedHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, blocked: event.target.value });
-  };
-  const onChangeAreaIdHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, area_id: event.target.value });
-  };
-  const onChangeCapacityHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, capacity: event.target.value });
-  };
-  const onChangeUnitHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, unit: event.target.value });
-  };
-  const onChangeAutosetHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, autoset: event.target.value });
-  };
-  const onChangeUsedForSlotHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, used_for_slot: event.target.value });
-  };
-  const onChangeTransportTypeIdHandler = (event) => {
-    setCurrentFilters({
-      ...currentFilters,
-      trasnport_type_id: event.target.value,
-    });
-  };
-  const onChangeObjectMapHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, object_map: event.target.value });
-  };
-  const onChangeOrientationHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, orientation: event.target.value });
-  };
-  const onChangeCommentHandler = (event) => {
-    setCurrentFilters({ ...currentFilters, comment: event.target.value });
+
+  const onAddHandler = () => {
+    setAddModalVisible(true);
   };
 
   const style_model = {
@@ -508,7 +301,6 @@ const RampsTable = (props) => {
       <DeleteRampModal
         visible={deleteModalVisible}
         setVisible={setDeleteModalVisible}
-        onDeleteEvent={onDeleteEvent}
         style={{
           width: "300px",
           height: "150px",
@@ -517,32 +309,34 @@ const RampsTable = (props) => {
           padding: "20px",
         }}
         countRows={selectedRows.length}
+        selectedRows={selectedRows}
+        onSuccesfulDelete={onSuccesfulDelete}
       />
       <AddRampModal
         visible={addModalVisible}
         setVisible={setAddModalVisible}
-        onAddEvent={onAddEvent}
-        inputValues={addInputValues}
         style={style_model}
-        setInputValues={setAddInputValues}
+        onSuccesfulAdd={onSuccesfulAdd}
+        onUnsuccesfulAdd={onUnsuccesfulAdd}
+        emptyRampIds={emptyRampIds}
       />
       <EditRampModal
         visible={editModalVisible}
         setVisible={setEditModalVisible}
-        onEditEvent={onEditEvent}
-        inputValues={editInputValues}
+        onSuccesfulEdit={onSuccesfulEdit}
+        onUnsuccesfulEdit={onUnsuccesfulEdit}
         style={style_model}
-        setInputValues={setEditInputValues}
+        emptyRampIds={emptyRampIds}
+        currentRampId={selectedRows.length > 0 ? selectedRows[0] : null}
       />
       <GroupEditRampModal
         visible={groupEditModalVisible}
         setVisible={setGroupEditModalVisible}
-        onGroupEditEvent={onGroupEditEvent}
         style={style_model}
-        inputValues={groupEditInputValues}
-        setInputValues={setGroupEditInputValues}
-        checkboxValues={groupEditCheckboxValues}
-        setCheckboxValues={setGroupEditCheckboxValues}
+        selectedRows={selectedRows}
+        emptyRamp={emptyRamp}
+        onSuccesfulGroupEdit={onSuccesfulGroupEdit}
+        onUnsuccesfulGroupEdit={onUnsuccesfulGroupEdit}
       />
       <div
         style={{
@@ -566,210 +360,228 @@ const RampsTable = (props) => {
           onGroupEditHandler={onGroupEditHandler}
         />
         <br />
-        {wholeData.length > 0 && (
-          <table
-            style={{
-              borderRadius: "3px",
-              border: "0.5px solid #87C9B6",
-              tableLayout: "fixed",
-              marginTop: "-10px",
-              overflow: "scroll",
-              // width: "2000px",
-            }}
-          >
-            <tr>
-              <td style={{ width: "40px" }}>
-                <input
-                  type="checkbox"
-                  checked={selectedRows.length == wholeData.length}
-                  onChange={(event) => onChangeGlobalCheckBox(event)}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  style={{ width: "70px" }}
-                  placeholder="Код"
-                  onChange={onChangeIdHandler}
-                  value={currentFilters.id}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  style={{ width: "150px" }}
-                  placeholder="Наименование"
-                  onChange={onChangeNameRuHandler}
-                  value={currentFilters.name_ru}
-                />
-              </td>
-              <td>
-                <select
-                  onChange={onChangeStreamHandler}
-                  value={currentFilters.stream}
-                >
-                  <option></option>
-                  <option>Input</option>
-                  <option>Output</option>
-                </select>
-              </td>
-              <td>
-                <select
-                  onChange={onChangeBlockedHandler}
-                  value={currentFilters.blocked}
-                  style={{ width: "150px" }}
-                >
-                  <option></option>
-                  <option>Да</option>
-                  <option>Нет</option>
-                </select>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  style={{ width: "150px" }}
-                  placeholder="Участок"
-                  onChange={onChangeAreaIdHandler}
-                  value={currentFilters.area_id}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  style={{ width: "120px" }}
-                  placeholder="Вместимость"
-                  onChange={onChangeCapacityHandler}
-                  value={currentFilters.capacity}
-                />
-              </td>
-              <td>
-                <select
-                  onChange={onChangeUnitHandler}
-                  value={currentFilters.unit}
-                  style={{ width: "120px" }}
-                >
-                  <option></option>
-                  <option>kg</option>
-                  <option>px</option>
-                  <option>3</option>
-                </select>
-              </td>
-              <td>
-                <select
-                  onChange={onChangeAutosetHandler}
-                  value={currentFilters.autoset}
-                  style={{ width: "100px" }}
-                >
-                  <option></option>
-                  <option>Да</option>
-                  <option>Нет</option>
-                </select>
-              </td>
-              <td>
-                <select
-                  onChange={onChangeUsedForSlotHandler}
-                  value={currentFilters.used_for_slot}
-                  style={{ width: "150px" }}
-                >
-                  <option></option>
-                  <option>Да</option>
-                  <option>Нет</option>
-                </select>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  style={{ width: "130px" }}
-                  placeholder="Тип транспорта"
-                  onChange={onChangeTransportTypeIdHandler}
-                  value={currentFilters.trasnport_type_id}
-                />
-              </td>
-              <td>
-                <select
-                  onChange={onChangeObjectMapHandler}
-                  style={{ width: "160px" }}
-                  value={currentFilters.object_map}
-                >
-                  <option></option>
-                  <option>Да</option>
-                  <option>Нет</option>
-                </select>
-              </td>
-              <td>
-                <select
-                  style={{ width: "130px" }}
-                  onChange={onChangeOrientationHandler}
-                  value={currentFilters.orientation}
-                >
-                  <option></option>
-                  <option>Left</option>
-                  <option>Right</option>
-                  <option>Top</option>
-                  <option>Bottom</option>
-                </select>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  style={{ width: "250px" }}
-                  placeholder="Комментарий"
-                  onChange={onChangeCommentHandler}
-                  value={currentFilters.comment}
-                />
-              </td>
-            </tr>
-            <tr>
-              <th style={{ minWidth: "40px" }}></th>
-              <th style={{ minWidth: "50px" }}>Код</th>
-              <th style={{ minWidth: "150px" }}>Наименование</th>
-              <th style={{ minWidth: "80px" }}>Поток</th>
-              <th style={{ minWidth: "150px" }}>Заблокировано?</th>
-              <th style={{ minWidth: "150px" }}>Участок</th>
-              <th style={{ minWidth: "120px" }}>Вместиность</th>
-              <th style={{ minWidth: "100px" }}>Единица измерения</th>
-              <th style={{ minWidth: "100px" }}>Авто назначение</th>
-              <th style={{ minWidth: "150px" }}>
-                Используется для слотитования?
-              </th>
-              <th style={{ minWidth: "100px" }}>Тип транспорта</th>
-              <th style={{ minWidth: "100px" }}>Является объектом на карте?</th>
-              <th style={{ minWidth: "130px" }}>Направление</th>
-              <th style={{ minWidth: "250px" }}>Комментарий</th>
-            </tr>
-            {wholeData.map((cur) => {
-              return (
-                <tr
-                  {...(selectedRows.indexOf(cur.id) != -1
-                    ? { className: "selectedRow" }
-                    : {})}
-                  onClick={() => addRowToSelect(cur.id)}
-                >
-                  <td>
-                    <input
-                      type="checkbox"
-                      onChange={(event) => changeBoxItemHandler(cur.id, event)}
-                      checked={selectedRows.indexOf(cur.id) != -1}
-                    />
-                  </td>
-                  <td>{cur.id}</td>
-                  <td>{cur.name_ru}</td>
-                  <td>{cur.stream}</td>
-                  <td>{cur.blocked}</td>
-                  <td>{cur.area_id}</td>
-                  <td>{cur.capacity}</td>
-                  <td>{cur.unit}</td>
-                  <td>{cur.autoset}</td>
-                  <td>{cur.used_for_slot}</td>
-                  <td>{cur.trasnport_type_id}</td>
-                  <td>{cur.object_map}</td>
-                  <td>{cur.orientation}</td>
-                  <td>{cur.comment}</td>
-                </tr>
-              );
-            })}
-          </table>
-        )}
+
+        <table
+          style={{
+            borderRadius: "3px",
+            border: "0.5px solid #87C9B6",
+            tableLayout: "fixed",
+            marginTop: "-10px",
+            overflow: "scroll",
+          }}
+        >
+          <tr>
+            <td style={{ width: "40px" }}>
+              <input
+                type="checkbox"
+                checked={selectedRows.length == wholeData.length}
+                onChange={(event) => onChangeGlobalCheckBox(event)}
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                style={{ width: "70px" }}
+                placeholder="Код"
+                onChange={(event) => onChangeInputsHandler(event, "id")}
+                value={currentFilters.id}
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                style={{ width: "150px" }}
+                placeholder="Наименование"
+                onCh
+                ange={(event) => onChangeInputsHandler(event, "name_ru")}
+                value={currentFilters.name_ru}
+              />
+            </td>
+            <td>
+              <select
+                onChange={(event) => onChangeInputsHandler(event, "stream")}
+                value={currentFilters.stream}
+              >
+                <option></option>
+                <option>Input</option>
+                <option>Output</option>
+              </select>
+            </td>
+            <td>
+              <select
+                onChange={(event) => onChangeInputsHandler(event, "blocked")}
+                value={currentFilters.blocked}
+                style={{ width: "150px" }}
+              >
+                <option></option>
+                <option>Да</option>
+                <option>Нет</option>
+              </select>
+            </td>
+            <td>
+              <Select
+                options={areaNamesOptions}
+                value={selectedAreaName}
+                onChange={(value) => {
+                  console.log(value);
+                  changeSelectedAreaName(value);
+                }}
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                style={{ width: "120px" }}
+                placeholder="Код интеграции"
+                onChange={(event) =>
+                  onChangeInputsHandler(event, "integration_id")
+                }
+                value={currentFilters.integration_id}
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                style={{ width: "120px" }}
+                placeholder="Вместимость"
+                onChange={(event) => onChangeInputsHandler(event, "capacity")}
+                value={currentFilters.capacity}
+              />
+            </td>
+            <td>
+              <select
+                onChange={(event) => onChangeInputsHandler(event, "unit")}
+                value={currentFilters.unit}
+                style={{ width: "120px" }}
+              >
+                <option></option>
+                <option>kg</option>
+                <option>px</option>
+                <option>3</option>
+              </select>
+            </td>
+            <td>
+              <select
+                onChange={(event) => onChangeInputsHandler(event, "autoset")}
+                value={currentFilters.autoset}
+                style={{ width: "100px" }}
+              >
+                <option></option>
+                <option>Да</option>
+                <option>Нет</option>
+              </select>
+            </td>
+            <td>
+              <select
+                onChange={(event) =>
+                  onChangeInputsHandler(event, "used_for_slot")
+                }
+                value={currentFilters.used_for_slot}
+                style={{ width: "150px" }}
+              >
+                <option></option>
+                <option>Да</option>
+                <option>Нет</option>
+              </select>
+            </td>
+            <td>
+              <Select
+                options={TCTypesNamesOptions}
+                value={selectedTCTypesName}
+                onChange={(value) => {
+                  console.log(value);
+                  changeSelectedTCTypeName(value);
+                }}
+              />
+            </td>
+            <td>
+              <select
+                onChange={(event) => onChangeInputsHandler(event, "object_map")}
+                style={{ width: "160px" }}
+                value={currentFilters.object_map}
+              >
+                <option></option>
+                <option>Да</option>
+                <option>Нет</option>
+              </select>
+            </td>
+            <td>
+              <select
+                style={{ width: "130px" }}
+                onChange={(event) =>
+                  onChangeInputsHandler(event, "orientation")
+                }
+                value={currentFilters.orientation}
+              >
+                <option></option>
+                <option>Left</option>
+                <option>Right</option>
+                <option>Top</option>
+                <option>Bottom</option>
+              </select>
+            </td>
+            <td>
+              <input
+                type="text"
+                style={{ width: "250px" }}
+                placeholder="Комментарий"
+                onChange={(event) => onChangeInputsHandler(event, "comment")}
+                value={currentFilters.comment}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th style={{ minWidth: "40px" }}></th>
+            <th style={{ minWidth: "50px" }}>Код</th>
+            <th style={{ minWidth: "150px" }}>Наименование</th>
+            <th style={{ minWidth: "80px" }}>Поток</th>
+            <th style={{ minWidth: "150px" }}>Заблокировано?</th>
+            <th style={{ minWidth: "150px" }}>Участок</th>
+            <th style={{ minWidth: "150px" }}>Код интеграции</th>
+            <th style={{ minWidth: "120px" }}>Вместиность</th>
+            <th style={{ minWidth: "100px" }}>Единица измерения</th>
+            <th style={{ minWidth: "100px" }}>Авто назначение</th>
+            <th style={{ minWidth: "150px" }}>
+              Используется для слотитования?
+            </th>
+            <th style={{ minWidth: "150px" }}>Тип транспорта</th>
+            <th style={{ minWidth: "100px" }}>Является объектом на карте?</th>
+            <th style={{ minWidth: "130px" }}>Направление</th>
+            <th style={{ minWidth: "250px" }}>Комментарий</th>
+          </tr>
+          {wholeData.map((cur) => {
+            return (
+              <tr
+                {...(selectedRows.indexOf(cur.id) != -1
+                  ? { className: "selectedRow" }
+                  : {})}
+                onClick={() => addRowToSelect(cur.id)}
+              >
+                <td>
+                  <input
+                    type="checkbox"
+                    onChange={(event) => changeBoxItemHandler(cur.id, event)}
+                    checked={selectedRows.indexOf(cur.id) != -1}
+                  />
+                </td>
+                <td>{cur.id}</td>
+                <td>{cur.name_ru}</td>
+                <td>{cur.stream}</td>
+                <td>{cur.blocked}</td>
+                <td>{cur.area_name}</td>
+                <td>{cur.integration_id}</td>
+                <td>{cur.capacity}</td>
+                <td>{cur.unit}</td>
+                <td>{cur.autoset}</td>
+                <td>{cur.used_for_slot}</td>
+                <td>{cur.transport_type_name}</td>
+                <td>{cur.object_map}</td>
+                <td>{cur.orientation}</td>
+                <td>{cur.comment}</td>
+              </tr>
+            );
+          })}
+        </table>
       </div>
       <FooterNavigation
         onReloadEvent={onReloadEvent}
@@ -777,6 +589,8 @@ const RampsTable = (props) => {
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
         totalRows={totalRows}
+        inputRowValue={inputRowValue}
+        setInputRowValue={setInputRowValue}
         rowsOnPageCount={rowsOnPageCount}
       />
     </>

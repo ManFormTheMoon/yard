@@ -1,6 +1,4 @@
 const { Router } = require("express");
-const jwt = require("jsonwebtoken");
-const config = require("config");
 const express = require("express");
 var mysql = require("mysql2/promise");
 const router = Router();
@@ -16,38 +14,46 @@ const pool = mysql.createPool({
 });
 
 const getRamps = async (filters, limit, page) => {
-  let query = "select * from ramps";
+  let query =
+    "select ramps.id, ramps.name_ru, ramps.stream, ramps.blocked, areas.name_ru as area_name, ramps.integration_id, ramps.capacity, ramps.unit, ramps.autoset, ramps.used_for_slot, transport_types.name_ru as transport_type_name, ramps.object_map, ramps.orientation, ramps.comment from ramps join areas on areas.id = ramps.area_id join transport_types on transport_types.id = ramps.transport_type_id";
   let filtersQuery = "";
   if (!!filters.id) {
-    filtersQuery += " and id = '" + filters.id + "'";
+    filtersQuery += " and ramps.id = '" + filters.id + "'";
   }
   if (!!filters.name_ru) {
     filtersQuery +=
-      " and lower(name_ru) LIKE lower('%" + filters.name_ru + "%')";
+      " and lower(ramps.name_ru) LIKE lower('%" + filters.name_ru + "%')";
   }
   if (!!filters.stream) {
-    filtersQuery += " and lower(stream) = lower('" + filters.stream + "')";
+    filtersQuery +=
+      " and lower(ramps.stream) = lower('" + filters.stream + "')";
   }
   if (!!filters.blocked) {
     filtersQuery +=
-      " and blocked = '" + (filters.blocked == "Да" ? 1 : 0) + "'";
+      " and ramps.blocked = '" + (filters.blocked == "Да" ? 1 : 0) + "'";
   }
-  if (!!filters.area_id) {
-    filtersQuery += " and area_id = '" + filters.area_id + "'";
+  if (!!filters.area_name) {
+    filtersQuery += " and areas.name_ru = '" + filters.area_name + "'";
+  }
+  if (!!filters.integration_id) {
+    filtersQuery +=
+      " and ramps.integration_id = '" + filters.integration_id + "'";
   }
   if (!!filters.capacity) {
-    filtersQuery += " and capacity = '" + filters.capacity + "'";
+    filtersQuery += " and ramps.capacity = '" + filters.capacity + "'";
   }
   if (!!filters.unit) {
-    filtersQuery += " and unit = '" + filters.unit + "'";
+    filtersQuery += " and ramps.unit = '" + filters.unit + "'";
   }
   if (!!filters.autoset) {
     filtersQuery +=
-      " and autoset = '" + (filters.autoset == "Да" ? 1 : 0) + "'";
+      " and ramps.autoset = '" + (filters.autoset == "Да" ? 1 : 0) + "'";
   }
   if (!!filters.used_for_slot) {
     filtersQuery +=
-      " and used_for_slot = '" + (filters.used_for_slot == "Да" ? 1 : 0) + "'";
+      " and ramps.used_for_slot = '" +
+      (filters.used_for_slot == "Да" ? 1 : 0) +
+      "'";
   }
   if (!!filters.transport_type_id) {
     filtersQuery +=
@@ -55,50 +61,61 @@ const getRamps = async (filters, limit, page) => {
   }
   if (!!filters.object_map) {
     filtersQuery +=
-      " and object_map = '" + (filters.object_map == "Да" ? 1 : 0) + "'";
+      " and ramps.object_map = '" + (filters.object_map == "Да" ? 1 : 0) + "'";
   }
   if (!!filters.orientation) {
     filtersQuery +=
-      " and lower(orientation) = lower('" + filters.orientation + "')";
+      " and lower(ramps.orientation) = lower('" + filters.orientation + "')";
   }
   if (!!filters.comment) {
     filtersQuery +=
-      " and lower(comment) LIKE lower('%" + filters.comment + "%')";
+      " and lower(ramps.comment) LIKE lower('%" + filters.comment + "%')";
   }
 
   console.log(filtersQuery);
   if (!!filtersQuery) {
     filtersQuery = filtersQuery.substr(4, filtersQuery.length - 4);
   }
-  console.log(filtersQuery);
   if (!!filtersQuery) {
     query += " where ";
     query += filtersQuery;
   }
-  query += " ORDER BY id LIMIT " + (page - 1) * limit + ", " + limit + ";";
-  console.log(query);
+  query +=
+    " ORDER BY ramps.id LIMIT " + (page - 1) * limit + ", " + limit + ";";
   const result = await pool.query(query);
-  let queryAll = "select COUNT(*) from ramps";
+  let queryAll =
+    "select COUNT(*) from ramps join areas on areas.id = ramps.area_id";
   if (!!filtersQuery) {
     queryAll += " where ";
     queryAll += filtersQuery;
   }
   queryAll += ";";
-  console.log(queryAll);
   const count = await pool.query(queryAll);
-  //console.log(count);
   return { result: result[0], count: count[0][0]["COUNT(*)"] };
 };
 
 router.post("/ramps/get", async (req, res) => {
   try {
-    //console.log(req.body);
     const data = await getRamps(
       req.body.filters,
       req.body.limit,
       req.body.page
     );
-    //console.log(req.body.page);
+    res.json({
+      data: data,
+    });
+  } catch (e) {}
+});
+
+const getRamp = async (id) => {
+  const query = `select ramps.id, ramps.name_ru, ramps.stream, ramps.blocked, areas.name_ru as area_name, ramps.area_id, ramps.integration_id, ramps.capacity, ramps.unit, ramps.autoset, ramps.used_for_slot, transport_types.name_ru as transport_type_name, ramps.transport_type_id, ramps.object_map, ramps.orientation, ramps.comment from ramps join areas on areas.id = ramps.area_id join transport_types on transport_types.id = ramps.transport_type_id where ramps.id = ${id};`;
+  const response = await pool.query(query);
+  return response[0];
+};
+
+router.post("/ramps/getOne", async (req, res) => {
+  try {
+    const data = await getRamp(req.body.id);
     res.json({
       data: data,
     });
@@ -128,16 +145,17 @@ router.post("/ramps/delete", async (req, res) => {
 
 const addRamp = (values) => {
   let query =
-    "insert into ramps(name_ru, stream, blocked, area_id, capacity, unit, autoset, used_for_slot, trasnport_type_id, object_map, orientation, comment) values (";
+    "insert into ramps(name_ru, stream, blocked, area_id, integration_id, capacity, unit, autoset, used_for_slot, transport_type_id, object_map, orientation, comment) values (";
   query += `"${values.name_ru}", `;
   query += `"${values.stream}", `;
   query += `"${values.blocked}", `;
   query += `"${values.area_id}", `;
+  query += `"${values.integration_id}", `;
   query += `"${!!values.capacity == "" ? 0 : values.capacity}", `;
   query += `"${values.unit}", `;
   query += `"${values.autoset}", `;
   query += `"${values.used_for_slot}", `;
-  query += `"${values.trasnport_type_id}", `;
+  query += `"${values.transport_type_id}", `;
   query += `"${values.object_map}", `;
   query += `"${values.orientation}", `;
   query += `"${values.comment}", `;
@@ -175,11 +193,12 @@ const editRamp = (values) => {
   query += `stream = "${values.stream}", `;
   query += `blocked = "${values.blocked}", `;
   query += `area_id = "${values.area_id}", `;
+  query += `integration_id = "${values.integration_id}", `;
   query += `capacity = "${values.capacity}", `;
   query += `unit = "${values.unit}", `;
   query += `autoset = "${values.autoset}", `;
   query += `used_for_slot = "${values.used_for_slot}", `;
-  query += `trasnport_type_id = "${values.trasnport_type_id}", `;
+  query += `transport_type_id = "${values.transport_type_id}", `;
   query += `object_map = "${values.object_map}", `;
   query += `orientation = "${values.orientation}", `;
   query += `comment = "${values.comment}", `;
@@ -245,8 +264,8 @@ const groupEditRamp = (values, checked, ids) => {
   if (values.used_for_slot === 0 || values.used_for_slot === 1) {
     query += `used_for_slot = ${values.used_for_slot}, `;
   }
-  if (!!values.trasnport_type_id) {
-    query += `trasnport_type_id = ${values.trasnport_type_id}, `;
+  if (!!values.transport_type_id) {
+    query += `transport_type_id = ${values.transport_type_id}, `;
   }
   if (values.object_map === 0 || values.object_map === 1) {
     query += `object_map = ${values.object_map}, `;

@@ -11,8 +11,8 @@ app.use("/api/auth", require("./routes/auth.routes"));
 
 app.use("/api/referenceBook/", require("./routes/ramps.routes"));
 
-app.get("/aba", (req, res) => {
-  res.json({ message: "ok" });
-});
+app.use("/api/referenceBook/", require("./routes/areas.routes"));
+
+app.use("/api/referenceBook/", require("./routes/transportTypes.routes"));
 
 app.listen(5000, () => console.log(`app startred on port ${PORT}`));

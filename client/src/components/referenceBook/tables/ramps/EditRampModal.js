@@ -1,80 +1,171 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "../../../../Modal/Modal";
 import "./Ramps.css";
-import good from "./../../../../img/reference-book-buttons/check.png";
-import bad from "./../../../../img/reference-book-buttons/remove.png";
 import ApplyButton from "../../../userUI/ApplyButton";
 import CancelButton from "../../../userUI/CancelButton";
+import Select from "react-select";
+
 const EditRampModal = (props) => {
-  console.log(props.inputValues);
+  const [inputValues, setInputValues] = useState(props.emptyRampIds);
+
+  const [areasNamesOptions, setAreasNamesOptions] = useState([]);
+  const [selectedAreaName, setSelectedAreaName] = useState({});
+
+  const [transportTypesNamesOptions, setTransportTypesNamesOptions] = useState(
+    []
+  );
+  const [selectedTransportTypeName, setSelectedTransportTypeName] = useState(
+    {}
+  );
+
   const onCancelEvent = () => {
-    // props.setInputValues({
-    //   name_ru: "",
-    //   stream: "",
-    //   blocked: "",
-    //   area_id: "",
-    //   capacity: "",
-    //   unit: "",
-    //   object_map: "",
-    //   comment: "",
-    //   used_for_slot: "",
-    //   trasnport_type_id: "",
-    //   orientation: "",
-    //   autoset: "",
-    // });
     props.setVisible(false);
   };
 
+  useEffect(async () => {
+    let headers = {};
+    headers["Content-Type"] = "application/json";
+    //ramps names
+    const response = await fetch("/api/referenceBook/areas/getNames", {
+      method: "POST",
+      headers: headers,
+    });
+    const data = await response.json();
+    console.log(data);
+    setAreasNamesOptions([
+      ...data.data.map((cur) => {
+        return { label: cur.name_ru, value: cur.name_ru, id: cur.id };
+      }),
+    ]);
+
+    //tc types names
+    const responseTC = await fetch(
+      "/api/referenceBook/transportType/getNames",
+      {
+        method: "POST",
+        headers: headers,
+      }
+    );
+    const dataTC = await responseTC.json();
+    console.log(data);
+    setTransportTypesNamesOptions([
+      ...dataTC.data.map((cur) => {
+        return { label: cur.name_ru, value: cur.name_ru, id: cur.id };
+      }),
+    ]);
+  }, []);
+
+  useEffect(async () => {
+    if (props.visible == true) {
+      let body = {};
+      body.id = props.currentRampId;
+      body = JSON.stringify(body);
+      let headers = {};
+      headers["Content-Type"] = "application/json";
+      const response = await fetch("/api/referenceBook/ramps/getOne", {
+        method: "POST",
+        body: body,
+        headers: headers,
+      });
+      let data = await response.json();
+      data = data.data[0];
+      console.log(data);
+      setSelectedAreaName({
+        id: data.area_id,
+        value: data.area_name,
+        label: data.area_name,
+      });
+      setSelectedTransportTypeName({
+        id: data.transport_type_id,
+        value: data.transport_type_name,
+        label: data.transport_type_name,
+      });
+      setInputValues(data);
+    }
+  }, [props.visible]);
+
+  const onEditEvent = async () => {
+    console.log(inputValues);
+    let body = {};
+    body.values = inputValues;
+    body = JSON.stringify(body);
+    let headers = {};
+    headers["Content-Type"] = "application/json";
+    const response = await fetch("/api/referenceBook/ramps/edit", {
+      method: "POST",
+      body: body,
+      headers: headers,
+    });
+    const data = await response.json();
+    if (data.message == "ok") {
+      props.onSuccesfulEdit();
+    } else {
+      props.onUnsuccesfulEdit();
+    }
+  };
+
   const onChangeNameRuHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, name_ru: event.target.value });
+    setInputValues({ ...inputValues, name_ru: event.target.value });
   };
   const onChangeStreamHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, stream: event.target.value });
+    setInputValues({ ...inputValues, stream: event.target.value });
   };
   const onChangeBlockedHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, blocked: event.target.value });
+    setInputValues({
+      ...inputValues,
+      blocked: 1 * (event.target.value == "Да"),
+    });
   };
-  const onChangeAreaIdHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, area_id: event.target.value });
+  const changeSelectedAreaName = (value) => {
+    setSelectedAreaName(value);
+    setInputValues({
+      ...inputValues,
+      area_id: value.id,
+    });
   };
+
   const onChangeCapacityHandler = (event) => {
-    props.setInputValues({
-      ...props.inputValues,
+    setInputValues({
+      ...inputValues,
       capacity: event.target.value,
     });
   };
   const onChangeUnitHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, unit: event.target.value });
+    setInputValues({ ...inputValues, unit: event.target.value });
   };
   const onChangeAutosetHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, autoset: event.target.value });
-  };
-  const onChangeUsedForSlotHandler = (event) => {
-    props.setInputValues({
-      ...props.inputValues,
-      used_for_slot: event.target.value,
+    setInputValues({
+      ...inputValues,
+      autoset: 1 * (event.target.value == "Да"),
     });
   };
-  const onChangeTransportTypeIdHandler = (event) => {
-    props.setInputValues({
-      ...props.inputValues,
-      trasnport_type_id: event.target.value,
+  const onChangeUsedForSlotHandler = (event) => {
+    setInputValues({
+      ...inputValues,
+      used_for_slot: 1 * (event.target.value == "Да"),
+    });
+  };
+  const changeSelectedTransportTypeName = (value) => {
+    setSelectedTransportTypeName(value);
+    setInputValues({
+      ...inputValues,
+      transport_type_id: value.id,
     });
   };
   const onChangeObjectMapHandler = (event) => {
-    props.setInputValues({
-      ...props.inputValues,
-      object_map: event.target.value,
+    setInputValues({
+      ...inputValues,
+      object_map: 1 * (event.target.value == "Да"),
     });
   };
   const onChangeOrientationHandler = (event) => {
-    props.setInputValues({
-      ...props.inputValues,
+    setInputValues({
+      ...inputValues,
       orientation: event.target.value,
     });
   };
   const onChangeCommentHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, comment: event.target.value });
+    setInputValues({ ...inputValues, comment: event.target.value });
   };
   const rowName = {
     width: "30%",
@@ -90,7 +181,7 @@ const EditRampModal = (props) => {
         <div style={rowName}>Наименование:</div>
         <input
           type="text"
-          value={props.inputValues.name_ru}
+          value={inputValues.name_ru}
           onChange={onChangeNameRuHandler}
           style={{ marginLeft: "30px", width: "60%" }}
         />
@@ -99,7 +190,7 @@ const EditRampModal = (props) => {
         <div style={rowName}>Поток:</div>
         <select
           onChange={onChangeStreamHandler}
-          value={props.inputValues.stream}
+          value={inputValues.stream}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -111,7 +202,7 @@ const EditRampModal = (props) => {
         <div style={rowName}>Заблокировано?</div>
         <select
           onChange={onChangeBlockedHandler}
-          value={props.inputValues.blocked}
+          value={inputValues.blocked ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -121,14 +212,23 @@ const EditRampModal = (props) => {
       </div>
       <div className="row-styles">
         <div style={rowName}>Участок:</div>
-        <input
+        {/* <input
           type="text"
           style={{ width: "150px" }}
           placeholder="Код площадки"
           onChange={onChangeAreaIdHandler}
-          value={props.inputValues.area_id}
+          value={inputValues.area_id}
           style={{ marginLeft: "30px", width: "60%" }}
-        />
+        /> */}
+        <div style={{ marginLeft: "30px", width: "30%" }}>
+          <Select
+            value={selectedAreaName}
+            options={areasNamesOptions}
+            onChange={(value) => {
+              changeSelectedAreaName(value);
+            }}
+          />
+        </div>
       </div>
       <div className="row-styles">
         <div style={rowName}>Вместимость:</div>
@@ -136,7 +236,7 @@ const EditRampModal = (props) => {
           type="text"
           placeholder="Вместимость"
           onChange={onChangeCapacityHandler}
-          value={props.inputValues.capacity}
+          value={inputValues.capacity}
           style={{ marginLeft: "30px", width: "60%" }}
         />
       </div>
@@ -144,7 +244,7 @@ const EditRampModal = (props) => {
         <div style={rowName}>Единица измерения:</div>
         <select
           onChange={onChangeUnitHandler}
-          value={props.inputValues.unit}
+          value={inputValues.unit}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -157,7 +257,7 @@ const EditRampModal = (props) => {
         <div style={rowName}>Авто назначение:</div>
         <select
           onChange={onChangeAutosetHandler}
-          value={props.inputValues.autoset}
+          value={inputValues.autoset ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -169,7 +269,7 @@ const EditRampModal = (props) => {
         <div style={rowName}>Используется для слотитования?</div>
         <select
           onChange={onChangeUsedForSlotHandler}
-          value={props.inputValues.used_for_slot}
+          value={inputValues.used_for_slot ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -179,20 +279,21 @@ const EditRampModal = (props) => {
       </div>
       <div className="row-styles">
         <div style={rowName}>Тип транспорта:</div>
-        <input
-          type="text"
-          style={{ width: "100px" }}
-          placeholder="Код вида транспорта"
-          onChange={onChangeTransportTypeIdHandler}
-          value={props.inputValues.trasnport_type_id}
-          style={{ marginLeft: "30px", width: "60%" }}
-        />
+        <div style={{ marginLeft: "30px", width: "30%" }}>
+          <Select
+            value={selectedTransportTypeName}
+            options={transportTypesNamesOptions}
+            onChange={(value) => {
+              changeSelectedTransportTypeName(value);
+            }}
+          />
+        </div>
       </div>
       <div className="row-styles">
         <div style={rowName}>Является объектом на карте?</div>
         <select
           onChange={onChangeObjectMapHandler}
-          value={props.inputValues.object_map}
+          value={inputValues.object_map ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -204,7 +305,7 @@ const EditRampModal = (props) => {
         <div style={rowName}>Направление:</div>
         <select
           onChange={onChangeOrientationHandler}
-          value={props.inputValues.orientation}
+          value={inputValues.orientation}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -220,7 +321,7 @@ const EditRampModal = (props) => {
           type="text"
           placeholder="Не более 100 символов"
           onChange={onChangeCommentHandler}
-          value={props.inputValues.comment}
+          value={inputValues.comment}
           style={{ marginLeft: "30px", width: "60%" }}
           maxLength="100"
         />
@@ -235,7 +336,7 @@ const EditRampModal = (props) => {
         }}
       >
         <ApplyButton
-          onOk={() => props.onEditEvent(props.inputValues)}
+          onOk={() => onEditEvent(inputValues)}
           children={"Сохранить изменения"}
         />
         <CancelButton

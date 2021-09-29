@@ -2,10 +2,22 @@ import React, { useState } from "react";
 import Modal from "../../../../Modal/Modal";
 import ApplyButton from "../../../userUI/ApplyButton";
 import CancelButton from "../../../userUI/CancelButton";
-import good from "./../../../../img/reference-book-buttons/check.png";
-import bad from "./../../../../img/reference-book-buttons/remove.png";
 
 const DeleteRampModal = (props) => {
+  const onDeleteEvent = async () => {
+    console.log(props.selectedRows);
+    let body = {};
+    body.arr = props.selectedRows;
+    body = JSON.stringify(body);
+    let headers = {};
+    headers["Content-Type"] = "application/json";
+    const response = await fetch("/api/referenceBook/ramps/delete", {
+      method: "POST",
+      body: body,
+      headers: headers,
+    });
+    props.onSuccesfulDelete();
+  };
   const onCancelEvent = () => {
     props.setVisible(false);
   };
@@ -32,10 +44,7 @@ const DeleteRampModal = (props) => {
           marginTop: "50px",
         }}
       >
-        <ApplyButton
-          onOk={props.onDeleteEvent}
-          children={"Сохранить изменения"}
-        />
+        <ApplyButton onOk={onDeleteEvent} children={"Сохранить изменения"} />
         <CancelButton
           onCancel={onCancelEvent}
           children={"Отмена"}

@@ -11,20 +11,61 @@ const chechBoxStyles = {
 };
 
 const GroupEditRampModal = (props) => {
-  console.log(props.checkboxValues);
+  const [inputValues, setInputValues] = useState(props.emptyRamp);
+  const [checkboxValues, setCheckboxValues] = useState({});
 
   const setCheckbox = (value, event) => {
-    console.log(value);
-    console.log(event.target.value);
-    console.log(event);
     props.setCheckboxValues({
       ...props.checkboxValues,
       [value]: event.target.checked,
     });
   };
 
+  const onGroupEditEvent = async (checkboxValues, inputValues1) => {
+    const keys = Object.keys(checkboxValues);
+    let result = {};
+    for (let i = 0; i < keys.length; i++) {
+      if (checkboxValues[keys[i]] == true) {
+        result[keys[i]] = true;
+      }
+    }
+    let inputValues = {};
+    Object.assign(inputValues, inputValues1);
+    if (!!inputValues.blocked) {
+      inputValues.blocked = inputValues.blocked == "Да" ? 1 : 0;
+    }
+    if (!!inputValues.autoset) {
+      inputValues.autoset = inputValues.autoset == "Да" ? 1 : 0;
+    }
+    if (!!inputValues.used_for_slot) {
+      inputValues.used_for_slot = inputValues.used_for_slot == "Да" ? 1 : 0;
+    }
+    if (!!inputValues.object_map) {
+      inputValues.object_map = inputValues.object_map == "Да" ? 1 : 0;
+    }
+    let body = {};
+    body.values = inputValues;
+    body.ids = props.selectedRows;
+    body.toclear = result;
+    body = JSON.stringify(body);
+    let headers = {};
+    headers["Content-Type"] = "application/json";
+    const response = await fetch("/api/referenceBook/ramps/groupEdit", {
+      method: "POST",
+      body: body,
+      headers: headers,
+    });
+    const data = await response.json();
+    if (data.message == "ok") {
+      props.onSuccesfulGroupEdit();
+      setInputValues(props.emptyRamp);
+    } else {
+      props.onUnsuccesfulGroupEdit();
+    }
+  };
+
   const onCancelEvent = () => {
-    props.setInputValues({
+    setInputValues({
       name_ru: "",
       stream: "",
       blocked: "",
@@ -34,7 +75,7 @@ const GroupEditRampModal = (props) => {
       object_map: "",
       comment: "",
       used_for_slot: "",
-      trasnport_type_id: "",
+      transport_type_id: "",
       orientation: "",
       autoset: "",
     });
@@ -42,55 +83,55 @@ const GroupEditRampModal = (props) => {
   };
 
   const onChangeNameRuHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, name_ru: event.target.value });
+    setInputValues({ ...inputValues, name_ru: event.target.value });
   };
   const onChangeStreamHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, stream: event.target.value });
+    setInputValues({ ...inputValues, stream: event.target.value });
   };
   const onChangeBlockedHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, blocked: event.target.value });
+    setInputValues({ ...inputValues, blocked: event.target.value });
   };
   const onChangeAreaIdHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, area_id: event.target.value });
+    setInputValues({ ...inputValues, area_id: event.target.value });
   };
   const onChangeCapacityHandler = (event) => {
-    props.setInputValues({
-      ...props.inputValues,
+    setInputValues({
+      ...inputValues,
       capacity: event.target.value,
     });
   };
   const onChangeUnitHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, unit: event.target.value });
+    setInputValues({ ...inputValues, unit: event.target.value });
   };
   const onChangeAutosetHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, autoset: event.target.value });
+    setInputValues({ ...inputValues, autoset: event.target.value });
   };
   const onChangeUsedForSlotHandler = (event) => {
-    props.setInputValues({
-      ...props.inputValues,
+    setInputValues({
+      ...inputValues,
       used_for_slot: event.target.value,
     });
   };
   const onChangeTransportTypeIdHandler = (event) => {
-    props.setInputValues({
-      ...props.inputValues,
-      trasnport_type_id: event.target.value,
+    setInputValues({
+      ...inputValues,
+      transport_type_id: event.target.value,
     });
   };
   const onChangeObjectMapHandler = (event) => {
-    props.setInputValues({
-      ...props.inputValues,
+    setInputValues({
+      ...inputValues,
       object_map: event.target.value,
     });
   };
   const onChangeOrientationHandler = (event) => {
-    props.setInputValues({
-      ...props.inputValues,
+    setInputValues({
+      ...inputValues,
       orientation: event.target.value,
     });
   };
   const onChangeCommentHandler = (event) => {
-    props.setInputValues({ ...props.inputValues, comment: event.target.value });
+    setInputValues({ ...inputValues, comment: event.target.value });
   };
   const rowName = {
     width: "30%",
@@ -103,25 +144,10 @@ const GroupEditRampModal = (props) => {
     >
       <div className="title-modal">Групповое редактирование записей</div>
       <div className="row-styles">
-        <div style={rowName}>Наименование:</div>
-        <input
-          type="text"
-          value={props.inputValues.name_ru}
-          onChange={onChangeNameRuHandler}
-          style={{ marginLeft: "30px", width: "60%" }}
-        />
-        <input
-          type="checkbox"
-          value={props.checkboxValues.name_ru}
-          onChange={(event) => setCheckbox("name_ru", event)}
-          style={chechBoxStyles}
-        />
-      </div>
-      <div className="row-styles">
         <div style={rowName}>Поток:</div>
         <select
           onChange={onChangeStreamHandler}
-          value={props.inputValues.stream}
+          value={inputValues.stream}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -130,7 +156,7 @@ const GroupEditRampModal = (props) => {
         </select>
         <input
           type="checkbox"
-          value={props.checkboxValues.stream}
+          value={checkboxValues.stream}
           onChange={(event) => setCheckbox("stream", event)}
           style={chechBoxStyles}
         />
@@ -139,7 +165,7 @@ const GroupEditRampModal = (props) => {
         <div style={rowName}>Заблокировано?</div>
         <select
           onChange={onChangeBlockedHandler}
-          value={props.inputValues.blocked}
+          value={inputValues.blocked}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -153,7 +179,7 @@ const GroupEditRampModal = (props) => {
           type="text"
           placeholder="Код площадки"
           onChange={onChangeAreaIdHandler}
-          value={props.inputValues.area_id}
+          value={inputValues.area_id}
           style={{ marginLeft: "30px", width: "60%" }}
         />
       </div>
@@ -163,12 +189,12 @@ const GroupEditRampModal = (props) => {
           type="text"
           placeholder="Вместимость"
           onChange={onChangeCapacityHandler}
-          value={props.inputValues.capacity}
+          value={inputValues.capacity}
           style={{ marginLeft: "30px", width: "60%" }}
         />
         <input
           type="checkbox"
-          value={props.checkboxValues.capacity}
+          value={checkboxValues.capacity}
           onChange={(event) => setCheckbox("capacity", event)}
           style={chechBoxStyles}
         />
@@ -177,7 +203,7 @@ const GroupEditRampModal = (props) => {
         <div style={rowName}>Единица измерения:</div>
         <select
           onChange={onChangeUnitHandler}
-          value={props.inputValues.unit}
+          value={inputValues.unit}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -187,7 +213,7 @@ const GroupEditRampModal = (props) => {
         </select>
         <input
           type="checkbox"
-          value={props.checkboxValues.unit}
+          value={checkboxValues.unit}
           onChange={(event) => setCheckbox("unit", event)}
           style={chechBoxStyles}
         />
@@ -196,7 +222,7 @@ const GroupEditRampModal = (props) => {
         <div style={rowName}>Авто назначение:</div>
         <select
           onChange={onChangeAutosetHandler}
-          value={props.inputValues.autoset}
+          value={inputValues.autoset}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -208,7 +234,7 @@ const GroupEditRampModal = (props) => {
         <div style={rowName}>Используется для слотитования?</div>
         <select
           onChange={onChangeUsedForSlotHandler}
-          value={props.inputValues.used_for_slot}
+          value={inputValues.used_for_slot}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -222,7 +248,7 @@ const GroupEditRampModal = (props) => {
           type="text"
           placeholder="Код вида транспорта"
           onChange={onChangeTransportTypeIdHandler}
-          value={props.inputValues.trasnport_type_id}
+          value={inputValues.transport_type_id}
           style={{ marginLeft: "30px", width: "60%" }}
         />
       </div>
@@ -230,7 +256,7 @@ const GroupEditRampModal = (props) => {
         <div style={rowName}>Является объектом на карте?</div>
         <select
           onChange={onChangeObjectMapHandler}
-          value={props.inputValues.object_map}
+          value={inputValues.object_map}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -242,7 +268,7 @@ const GroupEditRampModal = (props) => {
         <div style={rowName}>Направление:</div>
         <select
           onChange={onChangeOrientationHandler}
-          value={props.inputValues.orientation}
+          value={inputValues.orientation}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option></option>
@@ -253,7 +279,7 @@ const GroupEditRampModal = (props) => {
         </select>
         <input
           type="checkbox"
-          value={props.checkboxValues.orientation}
+          value={checkboxValues.orientation}
           onChange={(event) => setCheckbox("orientation", event)}
           style={chechBoxStyles}
         />
@@ -264,13 +290,13 @@ const GroupEditRampModal = (props) => {
           type="text"
           placeholder="Не более 100 символов"
           onChange={onChangeCommentHandler}
-          value={props.inputValues.comment}
+          value={inputValues.comment}
           style={{ marginLeft: "30px", width: "60%" }}
           maxLength="100"
         />
         <input
           type="checkbox"
-          value={props.checkboxValues.comment}
+          value={checkboxValues.comment}
           onChange={(event) => setCheckbox("comment", event)}
           style={chechBoxStyles}
         />
@@ -285,9 +311,7 @@ const GroupEditRampModal = (props) => {
         }}
       >
         <ApplyButton
-          onOk={() =>
-            props.onGroupEditEvent(props.checkboxValues, props.inputValues)
-          }
+          onOk={() => onGroupEditEvent(checkboxValues, inputValues)}
           children={"Сохранить изменения"}
         />
         <CancelButton

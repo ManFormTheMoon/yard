@@ -18,6 +18,7 @@ const SortableItem = withRouter(
       borderRadius: "3px 3px 0px 0px",
       display: "flex",
       justifyContent: "space-between",
+      whiteSpace: "nowrap",
     };
 
     const notSelectedStyle = {
@@ -28,6 +29,7 @@ const SortableItem = withRouter(
       display: "flex",
       borderRadius: "3px 3px 0px 0px",
       justifyContent: "space-between",
+      whiteSpace: "nowrap",
     };
 
     return (
@@ -35,7 +37,6 @@ const SortableItem = withRouter(
         style={props.selected ? selectedStyle : notSelectedStyle}
         onClick={() => {
           props.setSelectedTab(props.value.value);
-
           props.history.push("/data/referenceBook/" + props.value.value);
         }}
       >
@@ -67,13 +68,12 @@ const SortableList = withRouter(
       <div
         style={{
           display: "flex",
-          width: "100%",
           height: "100%",
           alignItems: "flex-end",
           maxWidth: "100%",
           minWidth: "100%",
           //overflowY: "scroll",
-          //overflowX: "scroll",
+          overflowX: "scroll",
         }}
       >
         {props.items.map((value, index) => (

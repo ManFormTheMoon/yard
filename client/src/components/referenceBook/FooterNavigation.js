@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import gridImg from "./../../img/reference-book-buttons/grid.png";
 import leftArrowImg from "./../../img/reference-book-buttons/left-arrow.png";
@@ -8,6 +8,9 @@ import lastPageArrowImg from "./../../img/reference-book-buttons/last_page_arrow
 import refreshImg from "./../../img/reference-book-buttons/refresh.png";
 
 const FooterNavigation = (props) => {
+  const onChangeRowsCountEvent = (event) => {
+    props.setInputRowValue(event.target.value);
+  };
   return (
     <div
       style={{
@@ -34,7 +37,11 @@ const FooterNavigation = (props) => {
         />
         Столбцы
         <input
+          type="number"
+          min="0"
           onKeyDown={props.onPagesInputDown}
+          value={props.inputRowValue}
+          onChange={onChangeRowsCountEvent}
           style={{ width: "50px", marginLeft: "30px" }}
         />
       </div>
@@ -58,7 +65,7 @@ const FooterNavigation = (props) => {
       <div
         style={{
           height: "100%",
-          marginLeft: "60px",
+          marginLeft: "40px",
           display: "flex",
           alignItems: "center",
         }}
@@ -77,6 +84,7 @@ const FooterNavigation = (props) => {
             props.setCurrentPage(Math.max(props.currentPage - 1, 1));
           }}
         />
+        Страница
         <input
           style={{ width: "50px", margin: "0px 10px" }}
           type="number"
@@ -85,6 +93,11 @@ const FooterNavigation = (props) => {
             props.setCurrentPage(event.target.value);
           }}
         />
+        из{" "}
+        {Math.floor(
+          (props.totalRows + 1 * props.rowsOnPageCount - 1) /
+            (props.rowsOnPageCount * 1)
+        )}
         <img
           src={rightArrowImg}
           style={{ height: "60%", cursor: "pointer" }}
@@ -122,7 +135,10 @@ const FooterNavigation = (props) => {
           marginLeft: "50px",
         }}
       >
-        Total - {props.totalRows}
+        Отображено записей с{" "}
+        {(props.currentPage - 1) * props.rowsOnPageCount + 1} по{" "}
+        {Math.min(props.currentPage * props.rowsOnPageCount, props.totalRows)}.
+        Всего {props.totalRows}
       </div>
     </div>
   );

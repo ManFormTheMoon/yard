@@ -142,7 +142,7 @@ const ReferenceBookPage = (props) => {
           backgroundColor: "#FFFFFF",
           marginTop: "40px",
           marginLeft: "10px",
-          overflowy: "scroll",
+          overflowY: "scroll",
         }}
       >
         <ReferenceBookItemsList
