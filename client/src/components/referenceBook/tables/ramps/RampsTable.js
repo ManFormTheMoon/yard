@@ -10,8 +10,9 @@ import FooterNavigation from "../../FooterNavigation";
 import { dictinary } from "../../../../dictinary/dictinary";
 
 import AsyncSelect from "react-select/async";
-import Select from "react-select";
-
+import Select, { components } from "react-select";
+import IndicatorsContainer from "../../../react-select/IndicatorsContainer";
+import { customSelectStyles } from "../../../react-select/select-style";
 const emptyRamp = {
   id: "",
   name_ru: "",
@@ -54,7 +55,6 @@ function unique(arr) {
       result.push(str);
     }
   }
-
   return result;
 }
 
@@ -66,7 +66,7 @@ const RampsTable = (props) => {
 
   const [abacaba, setAbacaba] = useState(0);
   const [wholeData, setWholeData] = useState([]);
-  const [rowsOnPageCount, setRowsOnPageCount] = useState(50);
+  const [rowsOnPageCount, setRowsOnPageCount] = useState(100);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentFilters, setCurrentFilters] = useState({});
   const [totalRows, setTotalRows] = useState(0);
@@ -321,6 +321,7 @@ const RampsTable = (props) => {
         onSuccesfulAdd={onSuccesfulAdd}
         onUnsuccesfulAdd={onUnsuccesfulAdd}
         emptyRampIds={emptyRampIds}
+        showMessage={showMessage}
       />
       <EditRampModal
         visible={editModalVisible}
@@ -427,13 +428,15 @@ const RampsTable = (props) => {
                   console.log(value);
                   changeSelectedAreaName(value);
                 }}
+                styles={customSelectStyles}
+                components={{ IndicatorsContainer }}
               />
             </td>
             <td>
               <input
                 type="text"
                 style={{ width: "150px" }}
-                placeholder= {dictinary.integrationCode.ru}
+                placeholder={dictinary.integrationCode.ru}
                 onChange={(event) =>
                   onChangeInputsHandler(event, "integration_id")
                 }
@@ -494,6 +497,8 @@ const RampsTable = (props) => {
                   console.log(value);
                   changeSelectedTCTypeName(value);
                 }}
+                styles={customSelectStyles}
+                components={{ IndicatorsContainer }}
               />
             </td>
             <td>
@@ -539,7 +544,9 @@ const RampsTable = (props) => {
             <th style={{ minWidth: "80px" }}>{dictinary.stream.ru}</th>
             <th style={{ minWidth: "150px" }}>{dictinary.blocked.ru}?</th>
             <th style={{ minWidth: "150px" }}>{dictinary.area.ru}</th>
-            <th style={{ minWidth: "150px" }}>{dictinary.integrationCode.ru}</th>
+            <th style={{ minWidth: "150px" }}>
+              {dictinary.integrationCode.ru}
+            </th>
             <th style={{ minWidth: "120px" }}>{dictinary.capacity.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.unit.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.autoAssigment.ru}</th>
@@ -569,15 +576,19 @@ const RampsTable = (props) => {
                 <td>{cur.id}</td>
                 <td>{cur.name_ru}</td>
                 <td>{cur.stream}</td>
-                <td>{(cur.blocked == 1 ? dictinary.yes.ru : dictinary.no.ru)}</td>
+                <td>{cur.blocked == 1 ? dictinary.yes.ru : dictinary.no.ru}</td>
                 <td>{cur.area_name}</td>
                 <td>{cur.integration_id}</td>
                 <td>{cur.capacity}</td>
                 <td>{cur.unit}</td>
-                <td>{(cur.autoset == 1 ? dictinary.yes.ru : dictinary.no.ru)}</td>
-                <td>{(cur.used_for_slot == 1 ? dictinary.yes.ru : dictinary.no.ru)}</td>
+                <td>{cur.autoset == 1 ? dictinary.yes.ru : dictinary.no.ru}</td>
+                <td>
+                  {cur.used_for_slot == 1 ? dictinary.yes.ru : dictinary.no.ru}
+                </td>
                 <td>{cur.transport_type_name}</td>
-                <td>{(cur.object_map == 1 ? dictinary.yes.ru : dictinary.no.ru)}</td>
+                <td>
+                  {cur.object_map == 1 ? dictinary.yes.ru : dictinary.no.ru}
+                </td>
                 <td>{cur.orientation}</td>
                 <td>{cur.comment}</td>
               </tr>

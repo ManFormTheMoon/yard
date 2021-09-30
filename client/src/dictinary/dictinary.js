@@ -1,169 +1,174 @@
-export const dictinary = {
-    territoryMap: {
-      original: "territoryMap",
-      ru: "Карта территории",
-      en: "Territory map",
-    },
-    workPlace: {
-      original: "workPlace",
-      ru: "Рабочее место",
-      en: "Workplace",
-    },
-    timeSlots: {
-      original: "timeSlots",
-      ru: "Тайм-слоты",
-      en: "Time slots",
-    },
-    exchangeLog: {
-      original: "exchangeLog",
-      ru: "Журнал обменов",
-      en: "Exchange Log",
-    },
-    eventLog: {
-      original: "eventLog",
-      ru: "Журнал событий",
-      en: "Event Log",
-    },
-    referenceBook: {
-      original: "referenceBook",
-      ru: "Справочники",
-      en: "Master Data",
-    },
-    configuration: {
-      original: "configuration",
-      ru: "Конфигурация",
-      en: "Configuration",
-    },
-    routing: {
-      original: "routing",
-      ru: "Маршутизация",
-      en: "Routing Rules",
-    },
-    templateLibrary: {
-      original: "templateLibrary",
-      ru: "Библиотека шаблонов",
-      en: "Template library",
-    },
-    service: {
-      original: "service",
-      ru: "Сервисы",
-      en: "Services",
-    },
-    manual: {
-      original: "manual",
-      ru: "Мануал",
-      en: "Manual",
-    },
-    ramps: {
-      original: "ramps",
-      ru: "Рампы",
-      en: "Ramps",
-    },
-    standarts: {
-      original: "standarts",
-      ru: "Нормативы",
-      en: "Time standarts",
-    },
-    field: {
-      original: "field",
-      ru: "Площадка",
-      en: "Warehouse",
-    },
-    regions: {
-      original: "regions",
-      ru: "Участки",
-      en: "WH zones",
-    },
-    priorities: {
-      original: "priorities",
-      ru: "Приоритеты",
-      en: "Priorities",
-    },
-    TCTypes: {
-      original: "TCTypes",
-      ru: "Типы ТС",
-      en: "Truck Types",
-    },
-    rampWorkField: {
-      original: "rampWorkField",
-      ru: "График площадки",
-      en: "WH work schedule",
-    },
-    rampWorkSchedule: {
-      original: "rampWorkSchedule",
-      ru: "График рамп",
-      en: "Ramp Work Schedule",
-    },
-    suppliers: {
-      original: "uppliers",
-      ru: "Поставщики",
-      en: "Suppliers",
-    },
-    carriers: {
-      original: "arriers",
-      ru: "Перевозчики",
-      en: "Carriers",
-    },
-    KPP: {
-      original: "KPP",
-      ru: "КПП",
-      en: "Checkpoints",
-    },
-    additionalBuildings: {
-      original: "additionalBuildings",
-      ru: "Доп. строения",
-      en: "Additional Buildings",
-    },
-    typeOfIncomingDelivery: {
-      original: "typeOfIncomingDelivery",
-      ru: "Типы входящих поставок",
-      en: "Incomings Types",
-    },
-    parkingLots: {
-      original: "parkingLots",
-      ru: "Парковки",
-      en: "Parking Lots",
-    },
-    add: {
-      original: "add",
-      ru: "Добавить",
-      en: "Add",
-    },
-    edit: {
-      original: "edit",
-      ru: "Редактировать",
-      en: "Edit",
-    },
-    delete: {
-      original: "delete",
-      ru: "Удалить",
-      en: "Delete",
-    },
-    editGroup: {
-      original: "editGroup",
-      ru: "Групповое редактирование",
-      en: "Multiple Edit",
-    },
-    search: {
-      original: "search",
-      ru: "Поиск",
-      en: "Search",
-    },
-    сlearSearch: {
-      original: "сlearSearch",
-      ru: "Очистить поиск",
-      en: "Clear search",
-    },
-    save: {
-      original: "save",
-      ru: "Сохранить",
-      en: "Save",
-    },
-    column: {
-      original: "column",
-      ru: "Столбцы",
-      en: "Columns",
-    },
+export const dictinary = {
+  territoryMap: {
+    original: "territoryMap",
+    ru: "Карта территории",
+    en: "Territory map",
+  },
+  workPlace: {
+    original: "workPlace",
+    ru: "Рабочее место",
+    en: "Workplace",
+  },
+  timeSlots: {
+    original: "timeSlots",
+    ru: "Тайм-слоты",
+    en: "Time slots",
+  },
+  exchangeLog: {
+    original: "exchangeLog",
+    ru: "Журнал обменов",
+    en: "Exchange Log",
+  },
+  eventLog: {
+    original: "eventLog",
+    ru: "Журнал событий",
+    en: "Event Log",
+  },
+  referenceBook: {
+    original: "referenceBook",
+    ru: "Справочники",
+    en: "Master Data",
+  },
+  configuration: {
+    original: "configuration",
+    ru: "Конфигурация",
+    en: "Configuration",
+  },
+  routing: {
+    original: "routing",
+    ru: "Маршутизация",
+    en: "Routing Rules",
+  },
+  templateLibrary: {
+    original: "templateLibrary",
+    ru: "Библиотека шаблонов",
+    en: "Template library",
+  },
+  service: {
+    original: "service",
+    ru: "Сервисы",
+    en: "Services",
+  },
+  manual: {
+    original: "manual",
+    ru: "Мануал",
+    en: "Manual",
+  },
+  ramps: {
+    original: "ramps",
+    ru: "Рампы",
+    en: "Ramps",
+  },
+  standarts: {
+    original: "standarts",
+    ru: "Нормативы",
+    en: "Time standarts",
+  },
+  field: {
+    original: "field",
+    ru: "Площадка",
+    en: "Warehouse",
+  },
+  regions: {
+    original: "regions",
+    ru: "Участки",
+    en: "WH zones",
+  },
+  priorities: {
+    original: "priorities",
+    ru: "Приоритеты",
+    en: "Priorities",
+  },
+  TCTypes: {
+    original: "TCTypes",
+    ru: "Типы транспорта",
+    en: "Truck Types",
+  },
+  TCType: {
+    original: "TCTypes",
+    ru: "Тип транспорта",
+    en: "Truck Types",
+  },
+  rampWorkField: {
+    original: "rampWorkField",
+    ru: "График площадки",
+    en: "WH work schedule",
+  },
+  rampWorkSchedule: {
+    original: "rampWorkSchedule",
+    ru: "График рамп",
+    en: "Ramp Work Schedule",
+  },
+  suppliers: {
+    original: "uppliers",
+    ru: "Поставщики",
+    en: "Suppliers",
+  },
+  carriers: {
+    original: "arriers",
+    ru: "Перевозчики",
+    en: "Carriers",
+  },
+  KPP: {
+    original: "KPP",
+    ru: "КПП",
+    en: "Checkpoints",
+  },
+  additionalBuildings: {
+    original: "additionalBuildings",
+    ru: "Доп. строения",
+    en: "Additional Buildings",
+  },
+  typeOfIncomingDelivery: {
+    original: "typeOfIncomingDelivery",
+    ru: "Типы входящих поставок",
+    en: "Incomings Types",
+  },
+  parkingLots: {
+    original: "parkingLots",
+    ru: "Парковки",
+    en: "Parking Lots",
+  },
+  add: {
+    original: "add",
+    ru: "Добавить",
+    en: "Add",
+  },
+  edit: {
+    original: "edit",
+    ru: "Редактировать",
+    en: "Edit",
+  },
+  delete: {
+    original: "delete",
+    ru: "Удалить",
+    en: "Delete",
+  },
+  editGroup: {
+    original: "editGroup",
+    ru: "Групповое редактирование",
+    en: "Multiple Edit",
+  },
+  search: {
+    original: "search",
+    ru: "Поиск",
+    en: "Search",
+  },
+  сlearSearch: {
+    original: "сlearSearch",
+    ru: "Очистить поиск",
+    en: "Clear search",
+  },
+  save: {
+    original: "save",
+    ru: "Сохранить",
+    en: "Save",
+  },
+  column: {
+    original: "column",
+    ru: "Столбцы",
+    en: "Columns",
+  },
   refresh: {
     original: "refresh",
     ru: "Обновить",
@@ -344,5 +349,4 @@ export const dictinary = {
     ru: "Интеграционный код",
     en: "",
   },
-
 };

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Modal from "../../../../Modal/Modal";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import "./Ramps.css";
 import ApplyButton from "../../../userUI/ApplyButton";
 import CancelButton from "../../../userUI/CancelButton";
-
+import { customSelectStyles } from "../../../react-select/select-style";
+import IndicatorsContainer from "../../../react-select/IndicatorsContainer";
 import { dictinary } from "../../../../dictinary/dictinary";
 
 const emptyRampForAdd = {
@@ -69,7 +70,6 @@ const AddRampModal = (props) => {
       headers: headers,
     });
     const data = await response.json();
-
     if (data.message == "ok") {
       props.onSuccesfulAdd();
       setInputValues(emptyRampForAdd);
@@ -78,6 +78,16 @@ const AddRampModal = (props) => {
       setBadFields([]);
     } else {
       props.onUnsuccesfulAdd();
+      const err = data.error;
+      if (err.includes("area_id")) {
+        props.showMessage(`Поле ${dictinary.area.ru} заполнено некорректно`);
+      }
+      if (err.includes("name_ru")) {
+        props.showMessage(`Поле ${dictinary.area.ru} заполнено некорректно`);
+      }
+      if (err.includes("transport_type_id")) {
+        props.showMessage(`Поле ${dictinary.TCType.ru} заполнено некорректно`);
+      }
       let temp = [];
       if (!inputValues.name_ru) {
         temp.push("name_ru");
@@ -167,6 +177,7 @@ const AddRampModal = (props) => {
       transport_type_id: value.id,
     });
   };
+
   const onChangeCapacityHandler = (event) => {
     setInputValues({
       ...inputValues,
@@ -280,6 +291,8 @@ const AddRampModal = (props) => {
               console.log(value);
               changeSelectedAreaName(value);
             }}
+            styles={customSelectStyles}
+            components={{ IndicatorsContainer }}
           />
         </div>
       </div>
@@ -355,6 +368,8 @@ const AddRampModal = (props) => {
               console.log(value);
               changeSelectedTransportTypeName(value);
             }}
+            styles={customSelectStyles}
+            components={{ IndicatorsContainer }}
           />
         </div>
       </div>

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "../../../../Modal/Modal";
 import "./Ramps.css";
-import good from "./../../../../img/reference-book-buttons/check.png";
-import bad from "./../../../../img/reference-book-buttons/remove.png";
 import ApplyButton from "../../../userUI/ApplyButton";
 import CancelButton from "../../../userUI/CancelButton";
 import { dictinary } from "../../../../dictinary/dictinary";
+import Select, { components } from "react-select";
+import { customSelectStyles } from "../../../react-select/select-style";
+import IndicatorsContainer from "../../../react-select/IndicatorsContainer";
 
 const chechBoxStyles = {
   marginLeft: "20px",
@@ -15,12 +16,67 @@ const GroupEditRampModal = (props) => {
   const [inputValues, setInputValues] = useState(props.emptyRamp);
   const [checkboxValues, setCheckboxValues] = useState({});
 
+  const [areasNamesOptions, setAreasNamesOptions] = useState([]);
+  const [selectedAreaName, setSelectedAreaName] = useState({
+    label: "",
+    value: "",
+  });
+
+  const [transportTypesNamesOptions, setTransportTypesNamesOptions] = useState(
+    []
+  );
+  const [selectedTransportTypeName, setSelectedTransportTypeName] = useState({
+    label: "",
+    value: "",
+  });
+
   const setCheckbox = (value, event) => {
     setCheckboxValues({
       ...checkboxValues,
       [value]: event.target.checked,
     });
   };
+
+  useEffect(async () => {
+    let headers = {};
+    headers["Content-Type"] = "application/json";
+    //ramps names
+    const response = await fetch("/api/referenceBook/areas/getNames", {
+      method: "POST",
+      headers: headers,
+    });
+    const data = await response.json();
+    console.log(data);
+    setAreasNamesOptions([
+      {
+        label: "",
+        value: "",
+      },
+      ...data.data.map((cur) => {
+        return { label: cur.name_ru, value: cur.name_ru, id: cur.id };
+      }),
+    ]);
+
+    //tc types names
+    const responseTC = await fetch(
+      "/api/referenceBook/transportType/getNames",
+      {
+        method: "POST",
+        headers: headers,
+      }
+    );
+    const dataTC = await responseTC.json();
+    console.log(data);
+    setTransportTypesNamesOptions([
+      {
+        label: "",
+        value: "",
+      },
+      ...dataTC.data.map((cur) => {
+        return { label: cur.name_ru, value: cur.name_ru, id: cur.id };
+      }),
+    ]);
+  }, []);
 
   const onGroupEditEvent = async (checkboxValues, inputValues1) => {
     const keys = Object.keys(checkboxValues);
@@ -92,8 +148,12 @@ const GroupEditRampModal = (props) => {
   const onChangeBlockedHandler = (event) => {
     setInputValues({ ...inputValues, blocked: event.target.value });
   };
-  const onChangeAreaIdHandler = (event) => {
-    setInputValues({ ...inputValues, area_id: event.target.value });
+  const changeSelectedAreaName = (value) => {
+    setSelectedAreaName(value);
+    setInputValues({
+      ...inputValues,
+      area_id: value.id,
+    });
   };
   const onChangeCapacityHandler = (event) => {
     setInputValues({
@@ -113,10 +173,11 @@ const GroupEditRampModal = (props) => {
       used_for_slot: event.target.value,
     });
   };
-  const onChangeTransportTypeIdHandler = (event) => {
+  const changeSelectedTransportTypeName = (value) => {
+    setSelectedTransportTypeName(value);
     setInputValues({
       ...inputValues,
-      transport_type_id: event.target.value,
+      transport_type_id: value.id,
     });
   };
   const onChangeObjectMapHandler = (event) => {
@@ -151,8 +212,12 @@ const GroupEditRampModal = (props) => {
         <input
           type="text"
           placeholder={dictinary.notEdit.ru}
-          style={{ marginLeft: "30px", width: "60%", pointerEvents: "none", 
-          fontStyle: "italic"}} 
+          style={{
+            marginLeft: "30px",
+            width: "60%",
+            pointerEvents: "none",
+            fontStyle: "italic",
+          }}
         />
       </div>
       <div className="row-styles">
@@ -193,13 +258,19 @@ const GroupEditRampModal = (props) => {
         <div style={rowName}>
           {dictinary.area.ru}:<span> *</span>
         </div>
-        <input
-          type="text"
-          placeholder={dictinary.codeArea.ru}
-          onChange={onChangeAreaIdHandler}
-          value={inputValues.area_id}
-          style={{ marginLeft: "30px", width: "60%" }}
-        />
+        <div style={{ marginLeft: "30px", width: "30%" }}>
+          <Select
+            value={selectedAreaName}
+            placeholder={dictinary.enterArea.ru}
+            options={areasNamesOptions}
+            onChange={(value) => {
+              console.log(value);
+              changeSelectedAreaName(value);
+            }}
+            styles={customSelectStyles}
+            components={{ IndicatorsContainer }}
+          />
+        </div>
       </div>
       <div className={`${"row-styles"} ${"not-edit"}`}>
         <div style={rowName}>
@@ -208,8 +279,12 @@ const GroupEditRampModal = (props) => {
         <input
           type="text"
           placeholder={dictinary.notEdit.ru}
-          style={{ marginLeft: "30px", width: "60%", pointerEvents: "none", 
-          fontStyle: "italic"}} 
+          style={{
+            marginLeft: "30px",
+            width: "60%",
+            pointerEvents: "none",
+            fontStyle: "italic",
+          }}
         />
       </div>
       <div className="row-styles">
@@ -285,15 +360,20 @@ const GroupEditRampModal = (props) => {
       </div>
       <div className="row-styles">
         <div style={rowName}>
-          {dictinary.typeOfAuto.ru}:<span> *</span>
+          {dictinary.typeOfAuto.ru} :<span> *</span>
         </div>
-        <input
-          type="text"
-          placeholder={dictinary.typeOfAuto.ru}
-          onChange={onChangeTransportTypeIdHandler}
-          value={inputValues.transport_type_id}
-          style={{ marginLeft: "30px", width: "60%" }}
-        />
+        <div style={{ marginLeft: "30px", width: "30%" }}>
+          <Select
+            value={selectedTransportTypeName}
+            options={transportTypesNamesOptions}
+            onChange={(value) => {
+              console.log(value);
+              changeSelectedTransportTypeName(value);
+            }}
+            styles={customSelectStyles}
+            components={{ IndicatorsContainer }}
+          />
+        </div>
       </div>
       <div className="row-styles">
         <div style={rowName}>{dictinary.onMap.ru}?</div>
@@ -350,7 +430,6 @@ const GroupEditRampModal = (props) => {
           style={chechBoxStyles}
         />
       </div>
-
       <div className="modal-button">
         <ApplyButton
           onOk={() => onGroupEditEvent(checkboxValues, inputValues)}

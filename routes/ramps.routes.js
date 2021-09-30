@@ -98,7 +98,9 @@ const getRamps = async (filters, limit, page) => {
   }
   query +=
     " ORDER BY ramps.id LIMIT " + (page - 1) * limit + ", " + limit + ";";
-  const result = await pool.query(query).catch((e)=>{console.log(e)});
+  const result = await pool.query(query).catch((e) => {
+    console.log(e);
+  });
   let queryAll =
     "select COUNT(*) from ramps join areas on areas.id = ramps.area_id";
   if (!!filtersQuery) {
@@ -189,8 +191,9 @@ router.post("/ramps/add", async (req, res) => {
     await pool.query(addRamp(req.body.values)).catch((e) => {
       console.log(e);
       console.log("bad");
+      console.log(e.sqlMessage);
       gg = 1;
-      return res.send({ message: "bad" });
+      return res.send({ message: "bad", error: e.sqlMessage });
     });
     if (gg != 1) {
       await console.log("ok");
@@ -199,7 +202,8 @@ router.post("/ramps/add", async (req, res) => {
   } catch (e) {
     console.log("bad11");
     console.log(e);
-    res.json({ message: "bad" });
+    console.log(e.sqlMessage);
+    res.json({ message: "bad", error: e.sqlMessage });
   }
 });
 
@@ -233,7 +237,7 @@ router.post("/ramps/edit", async (req, res) => {
       console.log(e);
       console.log("bad");
       gg = 1;
-      return res.send({ message: "bad" });
+      return res.send({ message: "bad", error: e.sqlMessage });
     });
     if (gg != 1) {
       await console.log("ok");
@@ -242,7 +246,7 @@ router.post("/ramps/edit", async (req, res) => {
   } catch (e) {
     console.log("bad11");
     console.log(e);
-    res.json({ message: "bad" });
+    res.json({ message: "bad", error: e.sqlMessage });
   }
 });
 
@@ -320,7 +324,7 @@ router.post("/ramps/groupEdit", async (req, res) => {
         console.log(e);
         console.log("bad");
         gg = 1;
-        return res.send({ message: "bad" });
+        return res.send({ message: "bad", error: e.sqlMessage });
       });
     if (gg != 1) {
       await console.log("ok");
@@ -329,7 +333,7 @@ router.post("/ramps/groupEdit", async (req, res) => {
   } catch (e) {
     console.log("bad11");
     console.log(e);
-    res.json({ message: "bad" });
+    res.json({ message: "bad", error: e.sqlMessage });
   }
 });
 
