@@ -32,6 +32,7 @@ const AddRampModal = (props) => {
     label: "",
     value: "",
   });
+  const [badFields, setBadFields] = useState([]);
 
   const [transportTypesNamesOptions, setTransportTypesNamesOptions] = useState(
     []
@@ -74,8 +75,23 @@ const AddRampModal = (props) => {
       setInputValues(emptyRampForAdd);
       setSelectedTransportTypeName({ value: "", label: "" });
       setSelectedAreaName({ value: "", label: "" });
+      setBadFields([]);
     } else {
       props.onUnsuccesfulAdd();
+      let temp = [];
+      if (!inputValues.name_ru) {
+        temp.push("name_ru");
+      }
+      if (!inputValues.stream) {
+        temp.push("stream");
+      }
+      if (!selectedAreaName.label) {
+        temp.push("area_name");
+      }
+      if (!selectedTransportTypeName.label) {
+        temp.push("transport_type_name");
+      }
+      setBadFields(temp);
     }
   };
 
@@ -202,7 +218,12 @@ const AddRampModal = (props) => {
       <div className="title-modal">{dictinary.addRamp.ru}</div>
       <div className="row-styles">
         <div style={rowName}>
-          {dictinary.name.ru}:<span> *</span>
+          {badFields.includes("name_ru") == true ? (
+            <b>{dictinary.name.ru}</b>
+          ) : (
+            dictinary.name.ru
+          )}
+          :<span> *</span>
         </div>
         <input
           type="text"
@@ -214,7 +235,12 @@ const AddRampModal = (props) => {
       </div>
       <div className="row-styles">
         <div style={rowName}>
-          {dictinary.stream.ru}:<span> *</span>
+          {badFields.includes("stream") == true ? (
+            <b>{dictinary.stream.ru}</b>
+          ) : (
+            dictinary.stream.ru
+          )}
+          :<span> *</span>
         </div>
         <select
           onChange={onChangeStreamHandler}
@@ -238,7 +264,12 @@ const AddRampModal = (props) => {
       </div>
       <div className="row-styles">
         <div style={rowName}>
-          {dictinary.area.ru}:<span> *</span>
+          {badFields.includes("area_name") == true ? (
+            <b>{dictinary.area.ru}</b>
+          ) : (
+            dictinary.area.ru
+          )}
+          :<span> *</span>
         </div>
         <div style={{ marginLeft: "30px", width: "30%" }}>
           <Select
@@ -309,7 +340,12 @@ const AddRampModal = (props) => {
       </div>
       <div className="row-styles">
         <div style={rowName}>
-          {dictinary.typeOfAuto.ru}:<span> *</span>
+          {badFields.includes("transport_type_name") == true ? (
+            <b>{dictinary.typeOfAuto.ru}</b>
+          ) : (
+            dictinary.typeOfAuto.ru
+          )}
+          :<span> *</span>
         </div>
         <div style={{ marginLeft: "30px", width: "30%" }}>
           <Select
