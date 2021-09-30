@@ -334,5 +334,15 @@ export const dictinary = {
     ru: "Выделите необходимые для редактирования строки",
     en: "",
   },
+  notEdit: {
+    original: "notEdit",
+    ru: "Данное поле запрещено редактировать",
+    en: "",
+  },
+  integrationCode: {
+    original: "integrationCode",
+    ru: "Интеграционный код",
+    en: "",
+  },
 
 };
