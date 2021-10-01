@@ -44,6 +44,31 @@ const AddRampModal = (props) => {
   });
 
   const onAddEvent = async (values1) => {
+    if (!!values1.unit && !values1.capacity) {
+      props.showMessage(
+        `Если заполнена единица измерения то должна быть заполнена и вместимость`
+      );
+      return;
+    } else if (!values1.unit && !!values1.capacity) {
+      props.showMessage(
+        `Если заполнена вместимость то должна быть заполнена и единица измерения `
+      );
+      return;
+    }
+    if (values1.object_map == dictinary.no.ru && !!values1.orientation) {
+      props.showMessage(
+        `Если рампа это объект на карте то укажите направление`
+      );
+      return;
+    } else if (
+      !(values1.object_map == dictinary.no.ru) &&
+      !values1.orientation
+    ) {
+      props.showMessage(
+        `Если указано направление, то укажите, что рампа это объект на карте `
+      );
+      return;
+    }
     let values = {};
     Object.assign(values, values1);
     if (!!values.blocked) {

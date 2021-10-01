@@ -89,6 +89,30 @@ const EditRampModal = (props) => {
   }, [props.visible]);
 
   const onEditEvent = async () => {
+    if (!!inputValues.unit && !inputValues.capacity) {
+      props.showMessage(
+        `Если заполнена единица измерения то должна быть заполнена и вместимость`
+      );
+      return;
+    } else if (!inputValues.unit && !!inputValues.capacity) {
+      props.showMessage(
+        `Если заполнена вместимость то должна быть заполнена и единица измерения `
+      );
+      return;
+    }
+    console.log(inputValues.object_map);
+    console.log(inputValues.orientation);
+    if (!inputValues.object_map && !!inputValues.orientation) {
+      props.showMessage(
+        `Если указано направление, то укажите, что рампа это объект на карте`
+      );
+      return;
+    } else if (inputValues.object_map && !inputValues.orientation) {
+      props.showMessage(
+        `Если рампа это объект на карте то укажите направление`
+      );
+      return;
+    }
     console.log(inputValues);
     let body = {};
     body.values = inputValues;

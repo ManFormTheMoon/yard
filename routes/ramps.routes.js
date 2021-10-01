@@ -292,19 +292,19 @@ const groupEditRamp = (values, checked, ids) => {
   if (!!checked.unit) {
     query += ` unit = "", `;
   } else if (!!values.unit) {
-    query += ` unit = ${values.unit}, `;
+    query += ` unit = "${values.unit}", `;
   }
   if (values.autoset === 0 || values.autoset === 1) {
-    query += `autoset = ${values.autoset}, `;
+    query += ` autoset = ${values.autoset}, `;
   }
   if (values.used_for_slot === 0 || values.used_for_slot === 1) {
-    query += `used_for_slot = ${values.used_for_slot}, `;
+    query += ` used_for_slot = ${values.used_for_slot}, `;
   }
   if (!!values.transport_type_id) {
-    query += `transport_type_id = ${values.transport_type_id}, `;
+    query += ` transport_type_id = ${values.transport_type_id}, `;
   }
   if (values.object_map === 0 || values.object_map === 1) {
-    query += `object_map = ${values.object_map}, `;
+    query += ` object_map = ${values.object_map}, `;
   }
   if (!!checked.orientation) {
     query += ` orientation = "", `;

@@ -79,6 +79,49 @@ const GroupEditRampModal = (props) => {
   }, []);
 
   const onGroupEditEvent = async (checkboxValues, inputValues1) => {
+    if (
+      (inputValues1.capacity == "0" ||
+        !!checkboxValues.capacity ||
+        !inputValues1.capacity) &&
+      !!inputValues1.unit
+    ) {
+      props.showMessage(
+        `Если заполнена единица измерения то должна быть заполнена и вместимость`
+      );
+      return;
+    }
+    if (
+      inputValues1.capacity != "0" &&
+      !checkboxValues.capacity &&
+      !!inputValues1.capacity &&
+      (!inputValues1.unit || checkboxValues.unit)
+    ) {
+      props.showMessage(
+        `Если заполнена вместимость то должна быть заполнена и единица измерения `
+      );
+      return;
+    }
+    if (!!checkboxValues.capacity != !!checkboxValues.unit) {
+      props.showMessage(
+        `В случае очистки вместимости надо очистить и единицу измерения и наоборот`
+      );
+      return;
+    }
+    if (inputValues1.object_map == "Нет" && !checkboxValues.orientation) {
+      props.showMessage(
+        `Если рампа не является объектом на карте, очистите направление`
+      );
+      return;
+    }
+    if (
+      inputValues1.object_map == "Да" &&
+      (!!checkboxValues.orientation || !inputValues1.orientation)
+    ) {
+      props.showMessage(
+        `Если рампа является объектом на карте, выберите направление`
+      );
+      return;
+    }
     const keys = Object.keys(checkboxValues);
     let result = {};
     for (let i = 0; i < keys.length; i++) {

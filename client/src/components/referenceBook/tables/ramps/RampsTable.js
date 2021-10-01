@@ -341,6 +341,7 @@ const RampsTable = (props) => {
         emptyRamp={emptyRamp}
         onSuccesfulGroupEdit={onSuccesfulGroupEdit}
         onUnsuccesfulGroupEdit={onUnsuccesfulGroupEdit}
+        showMessage={showMessage}
       />
       <div
         style={{
