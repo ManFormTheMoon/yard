@@ -3,18 +3,14 @@ import Modal from "../../../../Modal/Modal";
 import "./Ramps.css";
 import ApplyButton from "../../../userUI/ApplyButton";
 import CancelButton from "../../../userUI/CancelButton";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import { dictinary } from "../../../../dictinary/dictinary";
-import IndicatorsContainer from "../../../react-select/IndicatorsContainer";
-import { customSelectStyles } from "../../../react-select/select-style";
 
 const EditRampModal = (props) => {
   const [inputValues, setInputValues] = useState(props.emptyRampIds);
 
   const [areasNamesOptions, setAreasNamesOptions] = useState([]);
   const [selectedAreaName, setSelectedAreaName] = useState({});
-
-  const [badFields, setBadFields] = useState([]);
 
   const [transportTypesNamesOptions, setTransportTypesNamesOptions] = useState(
     []
@@ -104,30 +100,8 @@ const EditRampModal = (props) => {
     const data = await response.json();
     if (data.message == "ok") {
       props.onSuccesfulEdit();
-      setBadFields([]);
     } else {
       props.onUnsuccesfulEdit();
-      // const err = data.error;
-      // if (err.includes("area_id")) {
-      //   props.showMessage(`Поле ${dictinary.area.ru} заполнено некорректно`);
-      // }
-      // if (err.includes("transport_type_id")) {
-      //   props.showMessage(`Поле ${dictinary.TCType.ru} заполнено некорректно`);
-      // }
-      // let temp = [];
-      // if (!inputValues.name_ru) {
-      //   temp.push("name_ru");
-      // }
-      // if (!inputValues.stream) {
-      //   temp.push("stream");
-      // }
-      // if (!selectedAreaName.label) {
-      //   temp.push("area_name");
-      // }
-      // if (!selectedTransportTypeName.label) {
-      //   temp.push("transport_type_name");
-      // }
-      // setBadFields(temp);
     }
   };
 
@@ -248,8 +222,6 @@ const EditRampModal = (props) => {
             onChange={(value) => {
               changeSelectedAreaName(value);
             }}
-            styles={customSelectStyles}
-            components={{ IndicatorsContainer }}
           />
         </div>
       </div>
@@ -311,8 +283,6 @@ const EditRampModal = (props) => {
             onChange={(value) => {
               changeSelectedTransportTypeName(value);
             }}
-            styles={customSelectStyles}
-            components={{ IndicatorsContainer }}
           />
         </div>
       </div>

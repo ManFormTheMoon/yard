@@ -212,13 +212,13 @@ const RampsTable = (props) => {
   };
 
   const onReloadEvent = () => {
-    showMessage("Обновлено!");
+    showMessage(dictinary.updated.ru + "!");
     setAbacaba(abacaba + 1);
   };
 
   const onEditHandler = async () => {
     if (selectedRows.length != 1) {
-      showMessage("Выберите ровно одну запись!");
+      showMessage(dictinary.errorEdit.ru);
     } else {
       setEditModalVisible(true);
     }
