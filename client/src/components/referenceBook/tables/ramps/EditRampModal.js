@@ -24,6 +24,7 @@ const EditRampModal = (props) => {
   );
 
   const onCancelEvent = () => {
+    setBadFields([]);
     props.setVisible(false);
   };
 
@@ -107,27 +108,19 @@ const EditRampModal = (props) => {
       setBadFields([]);
     } else {
       props.onUnsuccesfulEdit();
-      // const err = data.error;
-      // if (err.includes("area_id")) {
-      //   props.showMessage(`Поле ${dictinary.area.ru} заполнено некорректно`);
-      // }
-      // if (err.includes("transport_type_id")) {
-      //   props.showMessage(`Поле ${dictinary.TCType.ru} заполнено некорректно`);
-      // }
-      // let temp = [];
-      // if (!inputValues.name_ru) {
-      //   temp.push("name_ru");
-      // }
-      // if (!inputValues.stream) {
-      //   temp.push("stream");
-      // }
-      // if (!selectedAreaName.label) {
-      //   temp.push("area_name");
-      // }
-      // if (!selectedTransportTypeName.label) {
-      //   temp.push("transport_type_name");
-      // }
-      // setBadFields(temp);
+      const err = data.error;
+      if (err.includes("name_ru") && err.includes("Duplicate")) {
+        props.showMessage(`Рампа с данным наименованием уже существует`);
+      } else if (err.includes("integration_id") && err.includes("Duplicate")) {
+        props.showMessage(`Рампа с данным кодом интеграции уже существует`);
+      } else if (err.includes("name_ru")) {
+        props.showMessage(`Заполните обязательные поля`);
+      }
+      let temp = [];
+      if (!inputValues.name_ru) {
+        temp.push("name_ru");
+      }
+      setBadFields(temp);
     }
   };
 
@@ -179,6 +172,11 @@ const EditRampModal = (props) => {
       transport_type_id: value.id,
     });
   };
+
+  const onChangeIntegrationHandler = (event) => {
+    setInputValues({ ...inputValues, integration_id: event.target.value });
+  };
+
   const onChangeObjectMapHandler = (event) => {
     setInputValues({
       ...inputValues,
@@ -206,7 +204,12 @@ const EditRampModal = (props) => {
       <div className="title-modal">{dictinary.updateRamp.ru}</div>
       <div className="row-styles">
         <div style={rowName}>
-          {dictinary.name.ru}:<span> *</span>
+          {badFields.includes("name_ru") == true ? (
+            <b>{dictinary.name.ru}</b>
+          ) : (
+            dictinary.name.ru
+          )}
+          :<span> *</span>
         </div>
         <input
           type="text"
@@ -254,6 +257,16 @@ const EditRampModal = (props) => {
         </div>
       </div>
       <div className="row-styles">
+        <div style={rowName}>Код интеграции:</div>
+        <input
+          type="text"
+          placeholder="Код интеграции"
+          onChange={onChangeIntegrationHandler}
+          value={inputValues.integration_id}
+          style={{ marginLeft: "30px", width: "60%" }}
+        />
+      </div>
+      <div className="row-styles">
         <div style={rowName}>{dictinary.capacity.ru}:</div>
         <input
           type="text"
@@ -283,7 +296,6 @@ const EditRampModal = (props) => {
           value={inputValues.autoset ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
@@ -295,7 +307,6 @@ const EditRampModal = (props) => {
           value={inputValues.used_for_slot ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
@@ -323,7 +334,6 @@ const EditRampModal = (props) => {
           value={inputValues.object_map ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>

@@ -3,9 +3,10 @@ export const customSelectStyles = {
     ...provided,
     background: "#fff",
     borderColor: "#9e9e9e",
-    minHeight: "30px",
-    height: "30px",
+    minHeight: "25px",
+    height: "25px",
     boxShadow: state.isFocused ? null : null,
+    border: "1px solid black",
   }),
 
   valueContainer: (provided, state) => ({

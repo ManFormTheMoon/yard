@@ -79,15 +79,20 @@ const AddRampModal = (props) => {
     } else {
       props.onUnsuccesfulAdd();
       const err = data.error;
-      if (err.includes("area_id")) {
-        props.showMessage(`Поле ${dictinary.area.ru} заполнено некорректно`);
+      if (err.includes("name_ru") && err.includes("Duplicate")) {
+        props.showMessage(`Рампа с данным наименованием уже существует`);
+      } else if (err.includes("integration_id") && err.includes("Duplicate")) {
+        props.showMessage(`Рампа с данным кодом интеграции уже существует`);
+      } else if (
+        err.includes("area_id") ||
+        err.includes("transport_type_id") ||
+        err.includes("name_ru")
+      ) {
+        props.showMessage(`Заполните обязательные поля`);
       }
-      if (err.includes("name_ru")) {
-        props.showMessage(`Поле ${dictinary.area.ru} заполнено некорректно`);
-      }
-      if (err.includes("transport_type_id")) {
-        props.showMessage(`Поле ${dictinary.TCType.ru} заполнено некорректно`);
-      }
+      // if () {
+      //   props.showMessage(`Поле ${dictinary.name.ru} заполнено некорректно`);
+      // }
       let temp = [];
       if (!inputValues.name_ru) {
         temp.push("name_ru");
@@ -105,7 +110,6 @@ const AddRampModal = (props) => {
     }
   };
 
-  console.log(areasNamesOptions);
   useEffect(async () => {
     let headers = {};
     headers["Content-Type"] = "application/json";
@@ -135,7 +139,6 @@ const AddRampModal = (props) => {
       }
     );
     const dataTC = await responseTC.json();
-    console.log(data);
     setTransportTypesNamesOptions([
       {
         label: "",
@@ -146,12 +149,12 @@ const AddRampModal = (props) => {
       }),
     ]);
   }, []);
-  console.log(inputValues);
 
   const onCancelEvent = () => {
     setInputValues(emptyRampForAdd);
     setSelectedTransportTypeName({ value: "", label: "" });
     setSelectedAreaName({ value: "", label: "" });
+    setBadFields([]);
     props.setVisible(false);
   };
   const onChangeNameRuHandler = (event) => {
@@ -288,7 +291,6 @@ const AddRampModal = (props) => {
             placeholder={dictinary.enterArea.ru}
             options={areasNamesOptions}
             onChange={(value) => {
-              console.log(value);
               changeSelectedAreaName(value);
             }}
             styles={customSelectStyles}
@@ -310,9 +312,10 @@ const AddRampModal = (props) => {
       <div className="row-styles">
         <div style={rowName}>{dictinary.capacity.ru}:</div>
         <input
-          type="text"
+          type="number"
           style={{ width: "120px" }}
           placeholder={dictinary.enterNumber.ru}
+          min={0}
           onChange={onChangeCapacityHandler}
           value={inputValues.capacity}
           style={{ marginLeft: "30px", width: "60%" }}
@@ -365,7 +368,6 @@ const AddRampModal = (props) => {
             value={selectedTransportTypeName}
             options={transportTypesNamesOptions}
             onChange={(value) => {
-              console.log(value);
               changeSelectedTransportTypeName(value);
             }}
             styles={customSelectStyles}
