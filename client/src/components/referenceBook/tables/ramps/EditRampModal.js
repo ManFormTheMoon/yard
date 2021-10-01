@@ -3,10 +3,8 @@ import Modal from "../../../../Modal/Modal";
 import "./Ramps.css";
 import ApplyButton from "../../../userUI/ApplyButton";
 import CancelButton from "../../../userUI/CancelButton";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import { dictinary } from "../../../../dictinary/dictinary";
-import IndicatorsContainer from "../../../react-select/IndicatorsContainer";
-import { customSelectStyles } from "../../../react-select/select-style";
 
 const EditRampModal = (props) => {
   const [inputValues, setInputValues] = useState(props.emptyRampIds);
@@ -105,7 +103,6 @@ const EditRampModal = (props) => {
     const data = await response.json();
     if (data.message == "ok") {
       props.onSuccesfulEdit();
-      setBadFields([]);
     } else {
       props.onUnsuccesfulEdit();
       const err = data.error;
@@ -251,8 +248,6 @@ const EditRampModal = (props) => {
             onChange={(value) => {
               changeSelectedAreaName(value);
             }}
-            styles={customSelectStyles}
-            components={{ IndicatorsContainer }}
           />
         </div>
       </div>
@@ -322,8 +317,6 @@ const EditRampModal = (props) => {
             onChange={(value) => {
               changeSelectedTransportTypeName(value);
             }}
-            styles={customSelectStyles}
-            components={{ IndicatorsContainer }}
           />
         </div>
       </div>
