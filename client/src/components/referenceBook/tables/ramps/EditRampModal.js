@@ -214,7 +214,8 @@ const EditRampModal = (props) => {
         </select>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Участок:</div>
+        <div style={rowName}>
+          {dictinary.area.ru}:<span> *</span>:</div>
         <div style={{ marginLeft: "30px", width: "30%" }}>
           <Select
             value={selectedAreaName}
@@ -255,7 +256,6 @@ const EditRampModal = (props) => {
           value={inputValues.autoset ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
@@ -267,7 +267,6 @@ const EditRampModal = (props) => {
           value={inputValues.used_for_slot ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
@@ -293,7 +292,6 @@ const EditRampModal = (props) => {
           value={inputValues.object_map ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
-          <option></option>
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>

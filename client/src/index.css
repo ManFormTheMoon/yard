@@ -40,10 +40,6 @@ input[type="text"] {
   font-family: Tahoma; 
 } 
 
-option{
-  background: #e22323 !important; 
-
-}
 
 .message-visible{
     position: absolute;
