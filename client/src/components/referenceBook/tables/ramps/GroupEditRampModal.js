@@ -79,6 +79,49 @@ const GroupEditRampModal = (props) => {
   }, []);
 
   const onGroupEditEvent = async (checkboxValues, inputValues1) => {
+    if (
+      (inputValues1.capacity == "0" ||
+        !!checkboxValues.capacity ||
+        !inputValues1.capacity) &&
+      !!inputValues1.unit
+    ) {
+      props.showMessage(
+        `Если заполнена единица измерения то должна быть заполнена и вместимость`
+      );
+      return;
+    }
+    if (
+      inputValues1.capacity != "0" &&
+      !checkboxValues.capacity &&
+      !!inputValues1.capacity &&
+      (!inputValues1.unit || checkboxValues.unit)
+    ) {
+      props.showMessage(
+        `Если заполнена вместимость то должна быть заполнена и единица измерения `
+      );
+      return;
+    }
+    if (!!checkboxValues.capacity != !!checkboxValues.unit) {
+      props.showMessage(
+        `В случае очистки вместимости надо очистить и единицу измерения и наоборот`
+      );
+      return;
+    }
+    if (inputValues1.object_map == "Нет" && !checkboxValues.orientation) {
+      props.showMessage(
+        `Если рампа не является объектом на карте, очистите направление`
+      );
+      return;
+    }
+    if (
+      inputValues1.object_map == "Да" &&
+      (!!checkboxValues.orientation || !inputValues1.orientation)
+    ) {
+      props.showMessage(
+        `Если рампа является объектом на карте, выберите направление`
+      );
+      return;
+    }
     const keys = Object.keys(checkboxValues);
     let result = {};
     for (let i = 0; i < keys.length; i++) {
@@ -115,13 +158,17 @@ const GroupEditRampModal = (props) => {
     const data = await response.json();
     if (data.message == "ok") {
       props.onSuccesfulGroupEdit();
+      setCheckboxValues({});
+      console.log("x");
       setInputValues(props.emptyRamp);
     } else {
+      setCheckboxValues({});
       props.onUnsuccesfulGroupEdit();
     }
   };
 
   const onCancelEvent = () => {
+    setCheckboxValues({});
     setInputValues({
       name_ru: "",
       stream: "",
@@ -233,12 +280,6 @@ const GroupEditRampModal = (props) => {
           <option>Input</option>
           <option>Output</option>
         </select>
-        <input
-          type="checkbox"
-          value={checkboxValues.stream}
-          onChange={(event) => setCheckbox("stream", event)}
-          style={chechBoxStyles}
-        />
       </div>
       <div className="row-styles">
         <div style={rowName}>
@@ -264,7 +305,6 @@ const GroupEditRampModal = (props) => {
             placeholder={dictinary.enterArea.ru}
             options={areasNamesOptions}
             onChange={(value) => {
-              console.log(value);
               changeSelectedAreaName(value);
             }}
             styles={customSelectStyles}
@@ -298,7 +338,7 @@ const GroupEditRampModal = (props) => {
         />
         <input
           type="checkbox"
-          value={checkboxValues.capacity}
+          checked={checkboxValues.capacity}
           onChange={(event) => setCheckbox("capacity", event)}
           style={chechBoxStyles}
         />
@@ -317,7 +357,7 @@ const GroupEditRampModal = (props) => {
         </select>
         <input
           type="checkbox"
-          value={checkboxValues.unit}
+          checked={checkboxValues.unit}
           onChange={(event) => setCheckbox("unit", event)}
           style={chechBoxStyles}
         />
@@ -333,12 +373,6 @@ const GroupEditRampModal = (props) => {
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
-        <input
-          type="checkbox"
-          value={checkboxValues.autoset}
-          onChange={(event) => setCheckbox("autoset", event)}
-          style={chechBoxStyles}
-        />
       </div>
       <div className="row-styles">
         <div style={rowName}>{dictinary.usedForSlotting.ru}?</div>
@@ -351,12 +385,6 @@ const GroupEditRampModal = (props) => {
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
-        <input
-          type="checkbox"
-          value={checkboxValues.used_for_slot}
-          onChange={(event) => setCheckbox("used_for_slot", event)}
-          style={chechBoxStyles}
-        />
       </div>
       <div className="row-styles">
         <div style={rowName}>
@@ -367,7 +395,6 @@ const GroupEditRampModal = (props) => {
             value={selectedTransportTypeName}
             options={transportTypesNamesOptions}
             onChange={(value) => {
-              console.log(value);
               changeSelectedTransportTypeName(value);
             }}
             styles={customSelectStyles}
@@ -386,12 +413,6 @@ const GroupEditRampModal = (props) => {
           <option>{dictinary.no.ru}</option>
           <option>{dictinary.yes.ru}</option>
         </select>
-        <input
-          type="checkbox"
-          value={checkboxValues.object_map}
-          onChange={(event) => setCheckbox("object_map", event)}
-          style={chechBoxStyles}
-        />
       </div>
       <div className="row-styles">
         <div style={rowName}>{dictinary.direction.ru}:</div>
@@ -408,7 +429,7 @@ const GroupEditRampModal = (props) => {
         </select>
         <input
           type="checkbox"
-          value={checkboxValues.orientation}
+          checked={checkboxValues.orientation}
           onChange={(event) => setCheckbox("orientation", event)}
           style={chechBoxStyles}
         />
@@ -425,7 +446,7 @@ const GroupEditRampModal = (props) => {
         />
         <input
           type="checkbox"
-          value={checkboxValues.comment}
+          checked={checkboxValues.comment}
           onChange={(event) => setCheckbox("comment", event)}
           style={chechBoxStyles}
         />

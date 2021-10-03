@@ -331,6 +331,7 @@ const RampsTable = (props) => {
         style={style_model}
         emptyRampIds={emptyRampIds}
         currentRampId={selectedRows.length > 0 ? selectedRows[0] : null}
+        showMessage={showMessage}
       />
       <GroupEditRampModal
         visible={groupEditModalVisible}
@@ -340,6 +341,7 @@ const RampsTable = (props) => {
         emptyRamp={emptyRamp}
         onSuccesfulGroupEdit={onSuccesfulGroupEdit}
         onUnsuccesfulGroupEdit={onUnsuccesfulGroupEdit}
+        showMessage={showMessage}
       />
       <div
         style={{

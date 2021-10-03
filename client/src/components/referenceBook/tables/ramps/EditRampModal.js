@@ -12,6 +12,8 @@ const EditRampModal = (props) => {
   const [areasNamesOptions, setAreasNamesOptions] = useState([]);
   const [selectedAreaName, setSelectedAreaName] = useState({});
 
+  const [badFields, setBadFields] = useState([]);
+
   const [transportTypesNamesOptions, setTransportTypesNamesOptions] = useState(
     []
   );
@@ -20,6 +22,7 @@ const EditRampModal = (props) => {
   );
 
   const onCancelEvent = () => {
+    setBadFields([]);
     props.setVisible(false);
   };
 
@@ -86,6 +89,30 @@ const EditRampModal = (props) => {
   }, [props.visible]);
 
   const onEditEvent = async () => {
+    if (!!inputValues.unit && !inputValues.capacity) {
+      props.showMessage(
+        `Если заполнена единица измерения то должна быть заполнена и вместимость`
+      );
+      return;
+    } else if (!inputValues.unit && !!inputValues.capacity) {
+      props.showMessage(
+        `Если заполнена вместимость то должна быть заполнена и единица измерения `
+      );
+      return;
+    }
+    console.log(inputValues.object_map);
+    console.log(inputValues.orientation);
+    if (!inputValues.object_map && !!inputValues.orientation) {
+      props.showMessage(
+        `Если указано направление, то укажите, что рампа это объект на карте`
+      );
+      return;
+    } else if (inputValues.object_map && !inputValues.orientation) {
+      props.showMessage(
+        `Если рампа это объект на карте то укажите направление`
+      );
+      return;
+    }
     console.log(inputValues);
     let body = {};
     body.values = inputValues;
@@ -102,6 +129,19 @@ const EditRampModal = (props) => {
       props.onSuccesfulEdit();
     } else {
       props.onUnsuccesfulEdit();
+      const err = data.error;
+      if (err.includes("name_ru") && err.includes("Duplicate")) {
+        props.showMessage(`Рампа с данным наименованием уже существует`);
+      } else if (err.includes("integration_id") && err.includes("Duplicate")) {
+        props.showMessage(`Рампа с данным кодом интеграции уже существует`);
+      } else if (err.includes("name_ru")) {
+        props.showMessage(`Заполните обязательные поля`);
+      }
+      let temp = [];
+      if (!inputValues.name_ru) {
+        temp.push("name_ru");
+      }
+      setBadFields(temp);
     }
   };
 
@@ -153,6 +193,11 @@ const EditRampModal = (props) => {
       transport_type_id: value.id,
     });
   };
+
+  const onChangeIntegrationHandler = (event) => {
+    setInputValues({ ...inputValues, integration_id: event.target.value });
+  };
+
   const onChangeObjectMapHandler = (event) => {
     setInputValues({
       ...inputValues,
@@ -180,7 +225,12 @@ const EditRampModal = (props) => {
       <div className="title-modal">{dictinary.updateRamp.ru}</div>
       <div className="row-styles">
         <div style={rowName}>
-          {dictinary.name.ru}:<span> *</span>
+          {badFields.includes("name_ru") == true ? (
+            <b>{dictinary.name.ru}</b>
+          ) : (
+            dictinary.name.ru
+          )}
+          :<span> *</span>
         </div>
         <input
           type="text"
@@ -225,6 +275,16 @@ const EditRampModal = (props) => {
             }}
           />
         </div>
+      </div>
+      <div className="row-styles">
+        <div style={rowName}>Код интеграции:</div>
+        <input
+          type="text"
+          placeholder="Код интеграции"
+          onChange={onChangeIntegrationHandler}
+          value={inputValues.integration_id}
+          style={{ marginLeft: "30px", width: "60%" }}
+        />
       </div>
       <div className="row-styles">
         <div style={rowName}>{dictinary.capacity.ru}:</div>
