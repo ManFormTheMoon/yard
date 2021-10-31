@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const express = require("express");
+const config = require("config");
 var mysql = require("mysql2/promise");
 const router = Router();
 const config = require("config");
@@ -231,6 +231,7 @@ router.post("/cargoTypes/groupEdit", async (req, res) => {
   } catch (e) {
     res.json({ message: "bad", error: e.sqlMessage });
   }
+
 });
 
 module.exports = router;

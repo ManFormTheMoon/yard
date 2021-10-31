@@ -12,17 +12,17 @@ const emptyRampForAdd = {
   id: "",
   name_ru: "",
   stream: "Input",
-  blocked: dictinary.no.ru,
+  blocked: 0,
   area_id: "",
   integration_id: "",
   capacity: "",
   unit: "",
-  object_map: dictinary.no.ru,
+  object_map: 0,
   comment: "",
-  used_for_slot: dictinary.no.ru,
+  used_for_slot: 0,
   transport_type_id: "",
   orientation: "",
-  autoset: dictinary.no.ru,
+  autoset: 0,
 };
 
 const AddRampModal = (props) => {
@@ -69,23 +69,9 @@ const AddRampModal = (props) => {
       );
       return;
     }
-    let values = {};
-    Object.assign(values, values1);
-    if (!!values.blocked) {
-      values.blocked = values.blocked == dictinary.yes.ru ? 1 : 0;
-    }
-    if (!!values.autoset) {
-      values.autoset = values.autoset == dictinary.yes.ru ? 1 : 0;
-    }
-    if (!!values.used_for_slot) {
-      values.used_for_slot = values.used_for_slot == dictinary.yes.ru ? 1 : 0;
-    }
-    if (!!values.object_map) {
-      values.object_map = values.object_map == dictinary.yes.ru ? 1 : 0;
-    }
 
     let body = {};
-    body.values = values;
+    body.values = values1;
     body = JSON.stringify(body);
     let headers = {};
     headers["Content-Type"] = "application/json";
@@ -117,9 +103,6 @@ const AddRampModal = (props) => {
       ) {
         props.showMessage(`Заполните обязательные поля`);
       }
-      // if () {
-      //   props.showMessage(`Поле ${dictinary.name.ru} заполнено некорректно`);
-      // }
       let temp = [];
       if (!inputValues.name_ru) {
         temp.push("name_ru");
@@ -192,7 +175,10 @@ const AddRampModal = (props) => {
     setInputValues({ ...inputValues, stream: event.target.value });
   };
   const onChangeBlockedHandler = (event) => {
-    setInputValues({ ...inputValues, blocked: event.target.value });
+    setInputValues({
+      ...inputValues,
+      blocked: 1 * (event.target.value == "Да"),
+    });
   };
   const changeSelectedAreaName = (value) => {
     setSelectedAreaName(value);
@@ -219,18 +205,21 @@ const AddRampModal = (props) => {
     setInputValues({ ...inputValues, unit: event.target.value });
   };
   const onChangeAutosetHandler = (event) => {
-    setInputValues({ ...inputValues, autoset: event.target.value });
+    setInputValues({
+      ...inputValues,
+      autoset: 1 * (event.target.value == "Да"),
+    });
   };
   const onChangeUsedForSlotHandler = (event) => {
     setInputValues({
       ...inputValues,
-      used_for_slot: event.target.value,
+      used_for_slot: 1 * (event.target.value == "Да"),
     });
   };
   const onChangeObjectMapHandler = (event) => {
     setInputValues({
       ...inputValues,
-      object_map: event.target.value,
+      object_map: 1 * (event.target.value == "Да"),
     });
   };
   const onChangeOrientationHandler = (event) => {
@@ -297,7 +286,7 @@ const AddRampModal = (props) => {
         <div style={rowName}>{dictinary.blocked.ru}?</div>
         <select
           onChange={onChangeBlockedHandler}
-          value={inputValues.blocked}
+          value={inputValues.blocked ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option>{dictinary.no.ru}</option>
@@ -364,7 +353,7 @@ const AddRampModal = (props) => {
         <div style={rowName}>{dictinary.autoAssigment.ru}:</div>
         <select
           onChange={onChangeAutosetHandler}
-          value={inputValues.autoset}
+          value={inputValues.autoset ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option>{dictinary.no.ru}</option>
@@ -375,7 +364,7 @@ const AddRampModal = (props) => {
         <div style={rowName}>{dictinary.usedForSlotting.ru}?</div>
         <select
           onChange={onChangeUsedForSlotHandler}
-          value={inputValues.used_for_slot}
+          value={inputValues.used_for_slot ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option>{dictinary.no.ru}</option>
@@ -407,7 +396,7 @@ const AddRampModal = (props) => {
         <div style={rowName}>{dictinary.onMap.ru}?</div>
         <select
           onChange={onChangeObjectMapHandler}
-          value={inputValues.object_map}
+          value={inputValues.object_map ? "Да" : "Нет"}
           style={{ marginLeft: "30px", width: "30%" }}
         >
           <option>{dictinary.no.ru}</option>

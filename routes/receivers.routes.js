@@ -1,10 +1,7 @@
-const { Router, request } = require("express");
-const jwt = require("jsonwebtoken");
-const config = require("config");
-const express = require("express");
+const { Router } = require("express");
 var mysql = require("mysql2/promise");
-const { route, post } = require("./receivers.routes");
 const router = Router();
+const config = require("config");
 
 const pool = mysql.createPool({
   host: config.get("host"),
@@ -13,7 +10,6 @@ const pool = mysql.createPool({
   password: config.get("password"),
   waitForConnections: true,
 });
-
 
 router.post("/receivers/delete", async (req, res) => {
   try {

@@ -4,7 +4,7 @@ const config = require("config");
 const PORT = config.get("port");
 
 const app = express();
-
+process.env.TZ = "Europe/Kiev";
 app.use(express.json({ extended: "true" }));
 
 app.use("/api/auth", require("./routes/auth.routes"));
@@ -37,5 +37,10 @@ app.use("/api/referenceBook/", require("./routes/warehouseSchedules.routes"));
 
 app.use("/api/referenceBook/", require("./routes/rampSchedules.routes"));
 
+app.use("/api/timeSlots/", require("./routes/timeSlots.routes"));
+
+app.use("/api/workPlace/", require("./routes/unrelatedDocuments.routes"));
+
+app.use("/api/workPlace/", require("./routes/relatedDocuments.routes"));
 
 app.listen(PORT, () => console.log(`app startred on port ${PORT}`));

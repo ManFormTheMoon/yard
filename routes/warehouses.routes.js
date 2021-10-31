@@ -1,10 +1,7 @@
 const { Router } = require("express");
-const express = require("express");
 var mysql = require("mysql2/promise");
 const router = Router();
 const config = require("config");
-
-const urlencodedParser = express.urlencoded({ extended: false });
 
 const pool = mysql.createPool({
   host: config.get("host"),
@@ -97,7 +94,7 @@ const getWarehouses = async (filters, limit, page) => {
   queryAll += ";";
   const count = await pool.query(queryAll);
   return { result: result[0], count: count[0][0]["COUNT(*)"] };
-};
+}
 
 router.post("/warehouses/get", async (req, res) => {
   try {

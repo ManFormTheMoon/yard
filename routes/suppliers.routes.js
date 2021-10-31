@@ -14,7 +14,6 @@ const pool = mysql.createPool({
   waitForConnections: true,
 });
 
-
 router.post("/suppliers/delete", async (req, res) => {
   try {
     console.log(req.body);
@@ -233,4 +232,3 @@ router.post("/suppliers/groupEdit", async (req, res) => {
 });
 
 module.exports = router;
-
