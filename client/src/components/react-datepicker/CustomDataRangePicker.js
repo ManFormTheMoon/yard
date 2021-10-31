@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import CustomDataPicker from "./CustomDataPicker";
 
 import "react-datepicker/dist/react-datepicker.css";

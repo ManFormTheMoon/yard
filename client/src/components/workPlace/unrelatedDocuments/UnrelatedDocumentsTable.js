@@ -122,7 +122,7 @@ const UnrelatedDocumentsTable = (props) => {
 
     //warehouses names
     {
-      const response = await fetch("/api/referenceBook/warehouses/getNames", {
+      const response = await fetch("/api/referenceBook/warehouse/getNames", {
         method: "POST",
         headers: headers,
       });
@@ -422,7 +422,7 @@ const UnrelatedDocumentsTable = (props) => {
               </tr>
             );
           })}
-        </table>
+        </table> 
       </div>
       {/* <FooterNavigation
         onReloadEvent={onReloadEvent}

@@ -1,10 +1,8 @@
 const { Router } = require("express");
+const express = require("express");
 const config = require("config");
 var mysql = require("mysql2/promise");
 const router = Router();
-const config = require("config");
-
-const urlencodedParser = express.urlencoded({ extended: false });
 
 const pool = mysql.createPool({
   host: config.get("host"),

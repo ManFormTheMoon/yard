@@ -186,7 +186,7 @@ const ConnectUnrelatedDocumentsModal = (props) => {
         overflowY: "scroll",
       }}
     >
-      <div
+      {/* <div
         style={{
           display: "flex",
           width: "98%",
@@ -317,8 +317,8 @@ const ConnectUnrelatedDocumentsModal = (props) => {
             ></div>
           </div>
         </div>
-      </div>
-      <div style={{ height: "70%", overflowY: "scroll" }}>
+      </div> */}
+      {/* <div style={{ height: "70%", overflowY: "scroll" }}>
         <table
           style={{
             borderRadius: "3px",
@@ -376,7 +376,7 @@ const ConnectUnrelatedDocumentsModal = (props) => {
           children={dictinary.cancel.ru}
           style={{ marginLeft: "10px" }}
         />
-      </div>
+      </div> */}
     </Modal>
   );
 };
