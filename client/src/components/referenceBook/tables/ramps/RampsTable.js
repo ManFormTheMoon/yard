@@ -34,17 +34,17 @@ const emptyRampIds = {
   id: "",
   name_ru: "",
   stream: "",
-  blocked: "",
+  blocked: 0,
   area_id: "",
   integration_id: "",
   capacity: "",
   unit: "",
-  object_map: "",
+  object_map: 0,
   comment: "",
-  used_for_slot: "",
+  used_for_slot: 0,
   transport_type_id: "",
   orientation: "",
-  autoset: "",
+  autoset: 0,
 };
 
 function unique(arr) {
@@ -228,12 +228,13 @@ const RampsTable = (props) => {
 
   const onSearchClearHandler = () => {
     setCurrentFilters(emptyRamp);
+    setSelectedTCTypesName({ label: "", value: "" });
+    setSelectedAreaName({ label: "", value: "" });
     setAbacaba(setAbacaba + 1);
   };
 
   const onPagesInputDown = (event) => {
     if (event.key == "Enter") {
-      console.log(1 * event.target.value);
       if (1 * event.target.value == 0) {
         setRowsOnPageCount(100);
         setInputRowValue(100);
@@ -320,7 +321,6 @@ const RampsTable = (props) => {
         style={style_model}
         onSuccesfulAdd={onSuccesfulAdd}
         onUnsuccesfulAdd={onUnsuccesfulAdd}
-        emptyRampIds={emptyRampIds}
         showMessage={showMessage}
       />
       <EditRampModal
@@ -342,6 +342,7 @@ const RampsTable = (props) => {
         onSuccesfulGroupEdit={onSuccesfulGroupEdit}
         onUnsuccesfulGroupEdit={onUnsuccesfulGroupEdit}
         showMessage={showMessage}
+        emptyRampIds={emptyRampIds}
       />
       <div
         style={{
@@ -427,7 +428,6 @@ const RampsTable = (props) => {
                 value={selectedAreaName}
                 placeholder={dictinary.area.ru}
                 onChange={(value) => {
-                  console.log(value);
                   changeSelectedAreaName(value);
                 }}
                 styles={customSelectStyles}
@@ -496,7 +496,6 @@ const RampsTable = (props) => {
                 value={selectedTCTypesName}
                 placeholder={dictinary.typeOfAuto.ru}
                 onChange={(value) => {
-                  console.log(value);
                   changeSelectedTCTypeName(value);
                 }}
                 styles={customSelectStyles}

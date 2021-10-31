@@ -5,6 +5,8 @@ import MenuTitle from "../components/Menu/MenuTitle";
 import ReferenceBookPage from "../components/pages/ReferenceBookPage";
 import { AuthContext } from "../context/auth.context";
 import "normalize.css";
+import TimeSlotsPage from "../components/pages/TimeSlotsPage";
+import WorkPlacePage from "../components/pages/WorkPlacePage";
 
 const MainPage = (props) => {
   const info = useContext(AuthContext);
@@ -40,9 +42,11 @@ const MainPage = (props) => {
             height: "calc(100% - 10px)",
           }}
         >
-          <Route path="/data/referenceBook">
-            <ReferenceBookPage />
-          </Route>
+          <Route path="/data/referenceBook" component={ReferenceBookPage} />
+
+          <Route path="/data/timeSlots" component={TimeSlotsPage} />
+
+          <Route path="/data/workPlace" component={WorkPlacePage} />
         </div>
       </div>
     </div>

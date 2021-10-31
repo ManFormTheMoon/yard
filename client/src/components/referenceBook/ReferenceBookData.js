@@ -11,7 +11,6 @@ const ReferenceBookData = (props) => {
         backgroundColor: "#FFFFFF",
         marginLeft: "10px",
         boxSizing: "border-box",
-        //???? display:"flex",
         width: "calc(100% - 220px)",
       }}
     >

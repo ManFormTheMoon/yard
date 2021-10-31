@@ -1,7 +1,7 @@
 import React from "react";
-import search from "../../img/reference-book-buttons/search.png";
+import clear from "../../img/reference-book-buttons/clean.png";
 
-const SearchButton = (props) => {
+const ConnectSlotButton = (props) => {
   return (
     <div
       style={{
@@ -10,19 +10,19 @@ const SearchButton = (props) => {
         border: "1.8px #4BC2AA solid",
         backgroundColor: "#FFFFFF",
         borderRadius: "10px",
+        cursor: "pointer",
         fontSize: "14px",
         height: "37px",
-        cursor: "pointer",
         display: "inline-flex",
         alignItems: "center",
         ...props.style,
       }}
-      onClick={props.onSearchClick}
+      onClick={props.onOpenConnect}
     >
-      <img src={search} alt="" style={{ height: "95%", marginRight: "5px" }} />
+      <img src={clear} alt="" style={{ height: "95%", marginRight: "5px" }} />
       {props.children}
     </div>
   );
 };
 
-export default SearchButton;
+export default ConnectSlotButton;

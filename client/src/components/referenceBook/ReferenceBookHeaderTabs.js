@@ -105,7 +105,7 @@ const ReferenceBookHeaderTabs = (props) => {
         height: "100%",
         backgroundColor: "#8DA19B",
         paddingLeft: "6px",
-        borderradius: "5px 5px 0 0",
+        borderRadius: "5px 5px 0 0",
         alignItems: "flex-end",
       }}
     >

@@ -25,6 +25,7 @@ const getAreasNames = async () => {
 router.post("/areas/getNames", async (req, res) => {
   try {
     const data = await getAreasNames();
+    console.log(data);  
     res.json({
       data: data,
     });

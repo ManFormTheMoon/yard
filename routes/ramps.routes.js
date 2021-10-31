@@ -14,7 +14,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
 });
 
-router.post("/rampsName/get", async (req, res) => {
+router.post("/ramps/getNames", async (req, res) => {
   try {
     const data = await getRampsName();
     res.json({
@@ -24,9 +24,9 @@ router.post("/rampsName/get", async (req, res) => {
 });
 
 const getRampsName = async () => {
-  let query = "select name_ru from ramps;";
+  let query = "select name_ru, id from ramps;";
   const result = await pool.query(query);
-  return { result: result[0] };
+  return result[0];
 };
 
 const getRamps = async (filters, limit, page) => {
@@ -73,7 +73,7 @@ const getRamps = async (filters, limit, page) => {
   }
   if (!!filters.transport_type_id) {
     filtersQuery +=
-      " and transport_type_id = '" + filters.transport_type_id + "'";
+      " and transport_types.name_ru = '" + filters.transport_type_name_ru + "'";
   }
   if (!!filters.object_map) {
     filtersQuery +=
