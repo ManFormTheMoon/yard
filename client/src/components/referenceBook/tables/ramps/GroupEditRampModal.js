@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../../../../Modal/Modal";
-import "./Ramps.css";
+import "../../style.css";
 import ApplyButton from "../../../userUI/ApplyButton";
 import CancelButton from "../../../userUI/CancelButton";
 import { dictinary } from "../../../../dictinary/dictinary";
@@ -86,7 +86,7 @@ const GroupEditRampModal = (props) => {
       !!inputValues1.unit
     ) {
       props.showMessage(
-        `Если заполнена единица измерения то должна быть заполнена и вместимость`
+        dictinary.errorUnitAndCapacity.ru
       );
       return;
     }
@@ -97,13 +97,13 @@ const GroupEditRampModal = (props) => {
       (!inputValues1.unit || checkboxValues.unit)
     ) {
       props.showMessage(
-        `Если заполнена вместимость то должна быть заполнена и единица измерения `
+        dictinary.errorCapacityAndUnit.ru
       );
       return;
     }
     if (!!checkboxValues.capacity != !!checkboxValues.unit) {
       props.showMessage(
-        `В случае очистки вместимости надо очистить и единицу измерения и наоборот`
+        dictinary.errorNullCapacityAndUnit.ru
       );
       return;
     }
@@ -256,16 +256,11 @@ const GroupEditRampModal = (props) => {
         <div style={rowName}>
           {dictinary.name.ru}:<span> *</span>
         </div>
-        <input
-          type="text"
-          placeholder={dictinary.notEdit.ru}
-          style={{
-            marginLeft: "30px",
-            width: "60%",
-            pointerEvents: "none",
-            fontStyle: "italic",
-          }}
-        />
+        <div className="not-edit-box">
+            <div className="not-edit-text">
+              {dictinary.notEdit.ru}
+              </div>
+          </div>
       </div>
       <div className="row-styles">
         <div style={rowName}>
@@ -316,16 +311,11 @@ const GroupEditRampModal = (props) => {
         <div style={rowName}>
           {dictinary.integrationCode.ru}:<span> *</span>
         </div>
-        <input
-          type="text"
-          placeholder={dictinary.notEdit.ru}
-          style={{
-            marginLeft: "30px",
-            width: "60%",
-            pointerEvents: "none",
-            fontStyle: "italic",
-          }}
-        />
+        <div className="not-edit-box">
+            <div className="not-edit-text">
+              {dictinary.notEdit.ru}
+              </div>
+          </div>
       </div>
       <div className="row-styles">
         <div style={rowName}>{dictinary.capacity.ru}:</div>

@@ -71,9 +71,9 @@ const getRamps = async (filters, limit, page) => {
       (filters.used_for_slot == "Да" ? 1 : 0) +
       "'";
   }
-  if (!!filters.transport_type_id) {
+  if (!!filters.transport_type_name) {
     filtersQuery +=
-      " and transport_type_id = '" + filters.transport_type_id + "'";
+      " and transport_types.name_ru = '" + filters.transport_type_name + "'";
   }
   if (!!filters.object_map) {
     filtersQuery +=
@@ -87,7 +87,6 @@ const getRamps = async (filters, limit, page) => {
     filtersQuery +=
       " and lower(ramps.comment) LIKE lower('%" + filters.comment + "%')";
   }
-
   console.log(filtersQuery);
   if (!!filtersQuery) {
     filtersQuery = filtersQuery.substr(4, filtersQuery.length - 4);
@@ -102,7 +101,7 @@ const getRamps = async (filters, limit, page) => {
     console.log(e);
   });
   let queryAll =
-    "select COUNT(*) from ramps join areas on areas.id = ramps.area_id";
+    "select COUNT(*) from ramps join areas on areas.id = ramps.area_id join transport_types on transport_types.id = ramps.transport_type_id";
   if (!!filtersQuery) {
     queryAll += " where ";
     queryAll += filtersQuery;
@@ -140,6 +139,17 @@ router.post("/ramps/getOne", async (req, res) => {
   } catch (e) {}
 });
 
+router.post("/ramps/delete", async (req, res) => {
+  try {
+    console.log(req.body);
+    await pool.query(deleteRamps(req.body.arr)).catch((e) => {
+      console.log(e)
+      res.json({ message: "bad", error: e.sqlMessage });
+    });
+    res.json({});
+  } catch (e) {}
+});
+
 const deleteRamps = (arr) => {
   let query = "delete from ramps where id in (";
   for (let i = 0; i < arr.length; i++) {
@@ -149,17 +159,8 @@ const deleteRamps = (arr) => {
     }
   }
   query += ");";
-  console.log(query);
-  pool.query(query);
+  return query;
 };
-
-router.post("/ramps/delete", async (req, res) => {
-  try {
-    console.log(req.body);
-    await deleteRamps(req.body.arr);
-    res.json({});
-  } catch (e) {}
-});
 
 const addRamp = (values) => {
   let query = `insert into ramps(name_ru, stream, blocked, area_id, ${
@@ -167,7 +168,6 @@ const addRamp = (values) => {
   } capacity, unit, autoset, used_for_slot, transport_type_id, object_map, orientation, comment) values (`;
   if (!!values.name_ru) {
     query += `"${values.name_ru}", `;
-    console.log("asdasd");
   }
   console.log(values.name_ru);
   query += `"${values.stream}", `;

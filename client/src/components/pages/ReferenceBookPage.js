@@ -20,13 +20,13 @@ const tabsInfo = [
   },
   {
     index: 3,
-    name: dictinary.field.ru,
-    value: dictinary.field.original,
+    name: dictinary.warehouses.ru,
+    value: dictinary.warehouses.original,
   },
   {
     index: 4,
-    name: dictinary.regions.ru,
-    value: dictinary.regions.original,
+    name: dictinary.areas.ru,
+    value: dictinary.areas.original,
   },
   {
     index: 5,
@@ -35,18 +35,18 @@ const tabsInfo = [
   },
   {
     index: 6,
-    name: dictinary.TCTypes.ru,
-    value: dictinary.TCTypes.original,
+    name: dictinary.transportTypes.ru,
+    value: dictinary.transportTypes.original,
   },
   {
     index: 7,
-    name: dictinary.rampWorkField.ru,
-    value: dictinary.rampWorkField.original,
+    name: dictinary.warehouseSchedules.ru,
+    value: dictinary.warehouseSchedules.original,
   },
   {
     index: 8,
-    name: dictinary.rampWorkSchedule.ru,
-    value: dictinary.rampWorkSchedule.original,
+    name: dictinary.rampSchedules.ru,
+    value: dictinary.rampSchedules.original,
   },
   {
     index: 9,
@@ -55,28 +55,38 @@ const tabsInfo = [
   },
   {
     index: 10,
+    name: dictinary.receivers.ru,
+    value: dictinary.receivers.original,
+  },
+  {
+    index: 11,
     name: dictinary.carriers.ru,
     value: dictinary.carriers.original,
   },
   {
-    index: 11,
-    name: dictinary.KPP.ru,
-    value: dictinary.KPP.original,
-  },
-  {
     index: 12,
-    name: dictinary.additionalBuildings.ru,
-    value: dictinary.additionalBuildings.original,
+    name: dictinary.cargoTypes.ru,
+    value: dictinary.cargoTypes.original,
   },
   {
     index: 13,
-    name: dictinary.typeOfIncomingDelivery.ru,
-    value: dictinary.typeOfIncomingDelivery.original,
+    name: dictinary.checkpoints.ru,
+    value: dictinary.checkpoints.original,
   },
   {
     index: 14,
-    name: dictinary.parkingLots.ru,
-    value: dictinary.parkingLots.original,
+    name: dictinary.extrabuildings.ru,
+    value: dictinary.extrabuildings.original,
+  },
+  {
+    index: 15,
+    name: dictinary.incomingTypes.ru,
+    value: dictinary.incomingTypes.original,
+  },
+  {
+    index: 16,
+    name: dictinary.parckings.ru,
+    value: dictinary.parckings.original,
   },
 ];
 

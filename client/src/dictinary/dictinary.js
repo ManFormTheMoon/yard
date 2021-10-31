@@ -64,13 +64,13 @@ export const dictinary = {
     ru: "Нормативы",
     en: "Time standarts",
   },
-  field: {
-    original: "field",
+  warehouses: {
+    original: "warehouses",
     ru: "Площадка",
     en: "Warehouse",
   },
-  regions: {
-    original: "regions",
+  areas: {
+    original: "areas",
     ru: "Участки",
     en: "WH zones",
   },
@@ -79,55 +79,50 @@ export const dictinary = {
     ru: "Приоритеты",
     en: "Priorities",
   },
-  TCTypes: {
-    original: "TCTypes",
+  transportTypes: {
+    original: "transportTypes",
     ru: "Типы транспорта",
     en: "Truck Types",
   },
-  TCType: {
-    original: "TCTypes",
-    ru: "Тип транспорта",
-    en: "Truck Types",
-  },
-  rampWorkField: {
-    original: "rampWorkField",
+  warehouseSchedules: {
+    original: "warehouseSchedules",
     ru: "График площадки",
     en: "WH work schedule",
   },
-  rampWorkSchedule: {
-    original: "rampWorkSchedule",
+  rampSchedules: {
+    original: "rampSchedules",
     ru: "График рамп",
-    en: "Ramp Work Schedule",
+    en: "",
   },
   suppliers: {
-    original: "uppliers",
+    original: "suppliers",
     ru: "Поставщики",
     en: "Suppliers",
   },
   carriers: {
-    original: "arriers",
+    original: "carriers",
     ru: "Перевозчики",
     en: "Carriers",
   },
-  KPP: {
-    original: "KPP",
+  checkpoints: {
+    original: "checkpoints",
     ru: "КПП",
     en: "Checkpoints",
   },
-  additionalBuildings: {
-    original: "additionalBuildings",
+  extrabuildings: {
+    original: "extrabuildings",
     ru: "Доп. строения",
     en: "Additional Buildings",
   },
-  typeOfIncomingDelivery: {
-    original: "typeOfIncomingDelivery",
+  incomingTypes: {
+    original: "incomingTypes",
     ru: "Типы входящих поставок",
     en: "Incomings Types",
   },
-  parkingLots: {
-    original: "parkingLots",
+  parckings: {
+    original: "parckings",
     ru: "Парковки",
-    en: "Parking Lots",
+    en: "Parcking Lots",
   },
   add: {
     original: "add",
@@ -179,6 +174,11 @@ export const dictinary = {
     ru: "Добавление рампы",
     en: "Add ramp",
   },
+  addWarehouse: {
+    original: "addWarehouse",
+    ru: "Добавление площадки",
+    en: "Add warehouse",
+  },
   name: {
     original: "name",
     ru: "Наименование",
@@ -198,6 +198,36 @@ export const dictinary = {
     original: "enterNameOfRapm",
     ru: "Введите название рампы",
     en: "Enter the name of the ramp",
+  },
+  enterNameOfWSchedule: {
+    original: "enterNameOfWSchedule",
+    ru: "Введите наименование смены",
+    en: "",
+  },
+  enterNameOfParcking: {
+    original: "enterNameOfParcking",
+    ru: "Введите название паркинга",
+    en: "Enter the name of the parcking",
+  },
+  enterNameOfWarehouse: {
+    original: "enterNameOfWarehouse",
+    ru: "Введите название площадки",
+    en: "Enter the name of the warehouse",
+  },
+  enterNameOfCheckpoint: {
+    original: "enterNameOfCheckpoint",
+    ru: "Введите название КПП",
+    en: "Enter the name of the checkpoint",
+  },
+  enterNameOfCarrier: {
+    original: "enterNameOfCarrier",
+    ru: "Введите название перевозчика",
+    en: "Enter the name of the carrier",
+  },
+  enterNameOfExtrabuilding: {
+    original: "enterNameOfExtrabuilding",
+    ru: "Введите название доп. строения",
+    en: "",
   },
   yes: {
     original: "yes",
@@ -223,6 +253,16 @@ export const dictinary = {
     original: "capacity",
     ru: "Вместимость",
     en: "Capacity",
+  },
+  capacityWidth: {
+    original: "capacityWidth",
+    ru: "Вместимость по вертикали",
+    en: "",
+  },
+  capacityLength: {
+    original: "capacityLength",
+    ru: "Вместимость по горизонтале",
+    en: "",
   },
   enterNumber: {
     original: "enterNumber",
@@ -284,6 +324,11 @@ export const dictinary = {
     ru: "Обновление рампы",
     en: "Update of ramp",
   },
+  updateWSchedule: {
+    original: "updateWSchedule",
+    ru: "Обновление графика работы площадки",
+    en: "",
+  },
   codeArea: {
     original: "codeArea",
     ru: "Код площадки",
@@ -336,7 +381,7 @@ export const dictinary = {
   },
   errorGrEdit: {
     original: "errorGrEdit",
-    ru: "Выделите необходимые для редактирования строки",
+    ru: "Выберите больше 1 записи",
     en: "",
   },
   notEdit: {
@@ -347,6 +392,326 @@ export const dictinary = {
   integrationCode: {
     original: "integrationCode",
     ru: "Интеграционный код",
+    en: "",
+  },
+  UTC: {
+    original: "UTC",
+    ru: "Часовой пояс",
+    en: "",
+  },
+  updateWarehouse: {
+    original: "updateWarehouse",
+    ru: "Обновление данных площадки",
+    en: "Update of warehouse",
+  },
+  dubleNameOfWarehouse: {
+    original: "dubleNameOfWarehouse",
+    ru: "Площадка с данным наименованием уже существует",
+    en: "",
+  },
+  dubleNameOfArea: {
+    original: "dubleNameOfArea",
+    ru: "Участок с данным наименованием уже существует",
+    en: "",
+  },
+  dubleNameOfParcking: {
+    original: "dubleNameOfParcking",
+    ru: "Парковка с данным наименованием уже существует",
+    en: "",
+  },
+  dubleNameOfIncomingType: {
+    original: "dubleNameOfIncomingType",
+    ru: "Тип входящей поставки с данным наименованием уже существует",
+    en: "",
+  },
+  dubleNameOfCargoType: {
+    original: "dubleNameOfCargoType",
+    ru: "Тип грузка с данным наименованием уже существует",
+    en: "",
+  },
+  doubleNameOfTrType: {
+    original: "doubleNameOfTrType",
+    ru: "Тип транспорта с данным наименованием уже существует",
+    en: "",
+  },
+  doubleCodeOfWarehouse: {
+    original: "doubleCodeOfWarehouse",
+    ru: "Площадка с данным кодом интеграции уже существует",
+    en: "",
+  },
+  doubleCodeOfcargoType: {
+    original: "doubleCodeOfcargoType",
+    ru: "Тип груза с данным кодом интеграции уже существует",
+    en: "",
+  },
+  reqField: {
+    original: "reqField",
+    ru: "Заполните обязательные поля",
+    en: "",
+  },
+  addTransportType: {
+    original: "addTransportType",
+    ru: "Добавление типа транспорта",
+    en: "",
+  },
+  errorUnitAndCapacity: {
+    original: "errorUnitAndCapacity",
+    ru: "Если заполнена 'Eдиница измерения' то должна быть заполнена и 'Вместимость'",
+    en: "",
+  },
+  errorCapacityAndUnit: {
+    original: "errorCapacityAndUnit",
+    ru: "Если заполнена 'Вместимость' то должна быть заполнена и 'Eдиница измерения'",
+    en: "",
+  },
+  errorNullCapacityAndUnit: {
+    original: "errorNullCapacityAndUnit",
+    ru: "В случае очистки 'Вместимость' надо очистить и 'Eдиница измерения' и наоборот",
+    en: "",
+  },
+  errorKey: {
+    original: "errorKey",
+    ru: "Невозможно удалить данную запись, так как она связана со справочником ",
+    en: "",
+  },
+  errorKey2: {
+    original: "errorKey2",
+    ru: "Невозможно удалить данную запись, поскольку существует связка с другой таблицей",
+    en: "",
+  },
+  enterWarehouse: {
+    original: "enterWarehouse",
+    ru: "Выберите площадку",
+    en: "Enter the warehouse",
+  },
+  addArea: {
+    original: "addArea",
+    ru: "Добавление участка",
+    en: "Add area",
+  },
+  addParcking: {
+    original: "addParcking",
+    ru: "Добавление парковки",
+    en: "Add parcking",
+  },
+  addIncomeType: {
+    original: "addIncomeType",
+    ru: "Добавление типа входящей поставки",
+    en: "",
+  },
+  updateArea: {
+    original: "updateArea",
+    ru: "Обновление участка",
+    en: "Update of area",
+  },
+  company_name: {
+    original: "company_name",
+    ru: "Наименование компании",
+    en: "",
+  },
+  doubleNameOfSupplier: {
+    original: "doubleNameOfSupplier",
+    ru: "Поставщик с данным наименованием компании уже существует",
+    en: "",
+  },
+  doubleNameOfCheckpoint: {
+    original: "doubleNameOfCheckpoint",
+    ru: "КПП с данным наименованием уже существует",
+    en: "",
+  },
+  doubleNameOfCarrier: {
+    original: "doubleNameOfCarrier",
+    ru: "Перевозчик с данным наименованием уже существует",
+    en: "",
+  },
+  doubleNameOfExtrabuilding: {
+    original: "doubleNameOfExtrabuilding",
+    ru: "Доп. строение с данным наименованием уже существует",
+    en: "",
+  },
+  addExtrabuilding: {
+    original: "addExtrabuilding",
+    ru: "Добавление доп. строения",
+    en: "",
+  },
+  addSupplier: {
+    original: "addSupplier",
+    ru: "Добавление поставщика",
+    en: "",
+  },
+  enterCompNameOfWarehouse: {
+    original: "enterCompNameOfWarehouse",
+    ru: "Введите наименование компании поставщика",
+    en: "Enter the company name of the supplier",
+  },
+  doubleIntegrationOfSupplier: {
+    original: "doubleIntegrationOfSupplier",
+    ru: "Поставщик с данным интеграционном кодом уже существует",
+    en: "",
+  },
+  doubleIntegrationOfCheckpoint: {
+    original: "doubleIntegrationOfCheckpoint",
+    ru: "КПП с данным интеграционном кодом уже существует",
+    en: "",
+  },
+  doubleIntegrationOfCarrier: {
+    original: "doubleIntegrationOfCarrier",
+    ru: "Перевозчики с данным интеграционном кодом уже существует",
+    en: "",
+  },
+  updateSupplier: {
+    original: "updateSupplier",
+    ru: "Обновление поставщика",
+    en: "Update of supplier",
+  },
+  receivers: {
+    original: "receivers",
+    ru: "Получатели",
+    en: "Receivers",
+  },
+  addReceiver: {
+    original: "addReceiver",
+    ru: "Добавление получателя",
+    en: "",
+  },
+  doubleNameOfReceiver: {
+    original: "doubleNameOfReceiver",
+    ru: "Получатель с данным наименованием компании уже существует",
+    en: "",
+  },
+  doubleIntegrationOfReceiver: {
+    original: "doubleIntegrationOfReceiver",
+    ru: "Получатель с данным интеграционном кодом уже существует",
+    en: "",
+  },
+  updateReceiver: {
+    original: "updateReceiver",
+    ru: "Обновление получателя",
+    en: "Update of receiver",
+  },
+  cargoTypes: {
+    original: "cargoTypes",
+    ru: "Типы грузов",
+    en: "",
+  },
+  cargoName: {
+    original: "cargoName",
+    ru: "Наименование груза",
+    en: "",
+  },
+  enterNameOfCargoType: {
+    original: "enterNameOfCargoType",
+    ru: "Введите название типа груза",
+    en: "Enter the name of the cargo type",
+  },
+  AddCargoType: {
+    original: "AddCargoType",
+    ru: "Добавление типа груза",
+    en: "",
+  },
+  updateCargoType: {
+    original: "updateCargoType",
+    ru: "Обновление типа грузов",
+    en: "Update of cargo type",
+  },
+  addCheckpoint: {
+    original: "addCheckpoint",
+    ru: "Добавление КПП",
+    en: "Add checkpoint",
+  },
+  addCarrier: {
+    original: "addCarrier",
+    ru: "Добавление перевозчика",
+    en: "Add carrier",
+  },
+  updateCheckpoint: {
+    original: "updateCheckpoint",
+    ru: "Обновление данных КПП",
+    en: "Update of checkpoint",
+  },
+  updateCarrier: {
+    original: "updateCarrier",
+    ru: "Обновление данных перевозчика",
+    en: "Update of carrier",
+  },
+  updateExtrabuilding: {
+    original: "updateExtrabuilding",
+    ru: "Обновление данных о доп. строении",
+    en: "",
+  },
+  autoenter: {
+    original: "autoenter",
+    ru: "Автоматический запуск",
+    en: "",
+  },
+  internal: {
+    original: "internal",
+    ru: "Внутренняя",
+    en: "",
+  },
+  external: {
+    original: "external",
+    ru: "Внешняя",
+    en: "",
+  },
+  autoreserve: {
+    original: "autoreserve",
+    ru: "Открывать резервную при заполнении основной",
+    en: "",
+  },
+  type: {
+    original: "type",
+    ru: "Тип",
+    en: "",
+  },
+  main: {
+    original: "main",
+    ru: "Основная",
+    en: "",
+  },
+  booking_slot: {
+    original: "booking_slot",
+    ru: "Выбор слотов разрешен",
+    en: "",
+  },
+  blocked_time: {
+    original: "blocked_time",
+    ru: "Время запрета бронирования (мин)",
+    en: "",
+  },
+  blocked_time: {
+    original: "blocked_time",
+    ru: "Время запрета бронирования (мин)",
+    en: "",
+  },
+  team_name: {
+    original: "blocked_time",
+    ru: "Наименование смены",
+    en: "",
+  },
+  work_start: {
+    original: "work_start",
+    ru: "Начало работы",
+    en: "",
+  },
+  break_quantity: {
+    original: "break_quantity",
+    ru: "Количество перерыров",
+    en: "",
+  },
+  break_start: {
+    original: "break_start",
+    ru: "Начало перерыва",
+    en: "",
+  },
+  break_end: {
+    original: "break_end",
+    ru: "Окончание перерыва",
+    en: "",
+  },
+  addWSchedule: {
+    original: "addWSchedule",
+    ru: "Добавление графика площадки",
     en: "",
   },
 };

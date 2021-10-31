@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "../../../../Modal/Modal";
 import Select, { components } from "react-select";
-import "./Ramps.css";
+import "../../style.css";
 import ApplyButton from "../../../userUI/ApplyButton";
 import CancelButton from "../../../userUI/CancelButton";
 import { customSelectStyles } from "../../../react-select/select-style";
@@ -104,6 +104,8 @@ const AddRampModal = (props) => {
     } else {
       props.onUnsuccesfulAdd();
       const err = data.error;
+      console.log("err")
+      console.log(err)
       if (err.includes("name_ru") && err.includes("Duplicate")) {
         props.showMessage(`Рампа с данным наименованием уже существует`);
       } else if (err.includes("integration_id") && err.includes("Duplicate")) {
@@ -143,14 +145,15 @@ const AddRampModal = (props) => {
       method: "POST",
       headers: headers,
     });
-    const data = await response.json();
-    console.log(data);
+    const dataA = await response.json();
+    console.log(dataA);
     setAreasNamesOptions([
       {
         label: "",
         value: "",
       },
-      ...data.data.map((cur) => {
+
+      ...dataA.data.map((cur) => {
         return { label: cur.name_ru, value: cur.name_ru, id: cur.id };
       }),
     ]);
@@ -267,7 +270,7 @@ const AddRampModal = (props) => {
         <input
           type="text"
           value={inputValues.name_ru}
-          placeholder="Введите название рампы"
+          placeholder= {dictinary.enterNameOfRapm.ru}
           onChange={onChangeNameRuHandler}
           style={{ marginLeft: "30px", width: "60%" }}
         />
@@ -324,12 +327,12 @@ const AddRampModal = (props) => {
         </div>
       </div>
       <div className="row-styles">
-        <div style={rowName}>Код интеграции:</div>
+        <div style={rowName}>{dictinary.integrationCode.ru}:</div>
         <input
           style={{ marginLeft: "30px", width: "30%" }}
           type="text"
           onChange={onChangeIntegrationHandler}
-          placeholder={"Код интеграции"}
+          placeholder={dictinary.integrationCode.ru}
           value={inputValues.integration_id}
           style={{ marginLeft: "30px", width: "60%" }}
         />

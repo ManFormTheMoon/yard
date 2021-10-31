@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ButtonsBlock from "../../ButtonsBlock";
 import ballImg from "./../../../../img/reference-book-buttons/attention.png";
 import AddRampModal from "./AddRampModal";
-import "./Ramps.css";
+import "../../style.css";
 import EditRampModal from "./EditRampModal";
 import GroupEditRampModal from "./GroupEditRampModal";
 import DeleteRampModal from "./DeleteRampModal";
@@ -171,41 +171,41 @@ const RampsTable = (props) => {
     if (selectedRows.length > 0) {
       setDeleteModalVisible(true);
     } else {
-      showMessage("Не выбраны записи для удаления");
+      showMessage(dictinary.errorDelete.ru + ".");
     }
   };
 
   const onSuccesfulAdd = () => {
     setAddModalVisible(false);
-    showMessage("Добавлено!");
+    showMessage(dictinary.added.ru + "!");
     setAbacaba(abacaba + 1);
   };
   const onUnsuccesfulAdd = () => {
-    showMessage("Некорректные данные!");
+    showMessage(dictinary.errorData.ru + "!");
   };
 
   const onSuccesfulGroupEdit = () => {
     setGroupEditModalVisible(false);
-    showMessage("Изменено!");
+    showMessage(dictinary.changed.ru + "!");
     setAbacaba(abacaba + 1);
   };
   const onUnsuccesfulGroupEdit = () => {
-    showMessage("Некорректные данные!");
+    showMessage(dictinary.errorData.ru + "!");
   };
 
   const onSuccesfulEdit = async () => {
     setEditModalVisible(false);
-    showMessage("Изменено!");
+    showMessage(dictinary.changed.ru + "!");
     await setAbacaba(abacaba + 1);
   };
 
   const onUnsuccesfulEdit = () => {
-    showMessage("Некорректные данные!");
+    showMessage(dictinary.errorData.ru + "!");
   };
 
   const onGroupEditHandler = () => {
     if (selectedRows.length <= 1) {
-      showMessage("Выделите больше записей!");
+      showMessage(dictinary.errorGrEdit.ru + "!");
     } else {
       setGroupEditModalVisible(true);
     }
@@ -313,6 +313,7 @@ const RampsTable = (props) => {
         countRows={selectedRows.length}
         selectedRows={selectedRows}
         onSuccesfulDelete={onSuccesfulDelete}
+        showMessage={showMessage}
       />
       <AddRampModal
         visible={addModalVisible}
@@ -396,7 +397,7 @@ const RampsTable = (props) => {
                 type="text"
                 style={{ width: "150px" }}
                 placeholder={dictinary.name.ru}
-                ange={(event) => onChangeInputsHandler(event, "name_ru")}
+                onChange={(event) => onChangeInputsHandler(event, "name_ru")}
                 value={currentFilters.name_ru}
               />
             </td>

@@ -8,6 +8,9 @@ import attention from "./../../../../img/reference-book-buttons/attention.png";
 import { dictinary } from "../../../../dictinary/dictinary";
 
 const DeleteRampModal = (props) => {
+  
+  const [badFields, setBadFields] = useState([]);
+
   const onDeleteEvent = async () => {
     console.log(props.selectedRows);
     let body = {};
@@ -20,11 +23,28 @@ const DeleteRampModal = (props) => {
       body: body,
       headers: headers,
     });
-    props.onSuccesfulDelete();
+
+    const data = await response.json();
+    console.log("data ")
+    console.log( data)
+    if (data.message == "bad") {    
+      const err = data.error;
+       if (err.includes("foreign key")) {
+        let mesError = dictinary.errorKey.ru
+        if (err.includes("standart_times")) {
+          mesError= mesError + "'" + dictinary.standarts.ru + "'"
+        }
+        props.showMessage(mesError);
+       } 
+    } else {
+      props.onSuccesfulDelete();
+      setBadFields([]);
+    } 
   };
   const onCancelEvent = () => {
     props.setVisible(false);
   };
+
   return (
     <Modal
       visible={props.visible}
@@ -56,7 +76,7 @@ const DeleteRampModal = (props) => {
           marginLeft: "20px",
         }}
       >
-        <ApplyButton onOk={onDeleteEvent} children={"Сохранить изменения"} />
+        <ApplyButton onOk={onDeleteEvent} children={dictinary.saveEdit.ru} />
         <CancelButton
           onCancel={onCancelEvent}
           children={dictinary.cancel.ru}
