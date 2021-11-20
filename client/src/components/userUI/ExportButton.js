@@ -1,5 +1,6 @@
 import React from "react";
 import add from "../../img/reference-book-buttons/add.png";
+import excel from "../../img/time-slot/excel.png";
 
 const ExportButton = (props) => {
   return (
@@ -19,7 +20,7 @@ const ExportButton = (props) => {
       }}
       onClick={props.onDownloadClick}
     >
-      <img src={add} alt="" style={{ height: "95%", marginRight: "5px" }} />
+      <img src={excel} alt="" style={{ height: "95%", marginRight: "5px" }} />
       {props.children}
     </div>
   );

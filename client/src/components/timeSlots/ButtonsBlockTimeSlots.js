@@ -27,7 +27,7 @@ const ButtonsBlockTimeSlots = (props) => {
         onSearchClearHandler={props.onSearchClearHandler}
       />
       <ExportButton
-        children="Выгрузить"
+        children={dictinary.unloadingInExcel.ru}
         style={{ margin: "6px" }}
         onDownloadClick={props.onDownloadClick}
       />

@@ -44,7 +44,7 @@ const Menu = (props) => {
         nameItem={dictinary.territoryMap.ru}
       />
       <MenuItem
-        path={"/data/" + dictinary.workPlace.original}
+        path={"/data/" + dictinary.workPlace.original + "/unrelatedDocuments"}
         itemCode={dictinary.workPlace.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}

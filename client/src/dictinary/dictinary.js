@@ -714,4 +714,197 @@ export const dictinary = {
     ru: "Добавление графика площадки",
     en: "",
   },
+  documentNumber: {
+    original: "documentNumber",
+    ru: "Номер документа",
+    en: "",
+  },
+  autoNumber: {
+    original: "autoNumber",
+    ru: "Номер транспортного средства",
+    en: "",
+  },
+  semitrailerNumber: {
+    original: "semitrailerNumber",
+    ru: "Номер полуприцепа",
+    en: "",
+  },
+  IdDocument: {
+    original: "IdDocument",
+    ru: "ID документа",
+    en: "",
+  },
+  nameDriver: {
+    original: "nameDriver",
+    ru: "ФИО водителя",
+    en: "",
+  },
+  dateDocument: {
+    original: "dateDocument",
+    ru: "Дата документа",
+    en: "",
+  },
+  addSlot: {
+    original: "addSlot",
+    ru: "Привязать слот",
+    en: "",
+  },
+  date: {
+    original: "date",
+    ru: "Дата",
+    en: "",
+  },
+  loadPlannedStartTime: {
+    original: "loadPlannedStartTime",
+    ru: "Плановое время начала обработки",
+    en: "",
+  },
+  slotStartDate: {
+    original: "slotStartDate",
+    ru: "Плановое время прибытия",
+    en: "",
+  },
+  loadPlannedEndTime: {
+    original: "loadPlannedEndTime",
+    ru: "Плановое время завершения обработки",
+    en: "",
+  },
+  slotEndDate: {
+    original: "slotEndDate",
+    ru: "Плановое время убытия",
+    en: "",
+  },
+  reserveSlot: {
+    original: "reserveSlot",
+    ru: "Привязать слот",
+    en: "",
+  },
+  unloadingInExcel: {
+    original: "unloadingInExcel",
+    ru: "Выгрузка в Excel",
+    en: "",
+  },
+  IDTimeSlot: {
+    original: "IDTimeSlot",
+    ru: "ID тайм-слота",
+    en: "",
+  },
+  visitNumber: {
+    original: "visitNumber",
+    ru: "Номер визита",
+    en: "",
+  },
+  slotStartDate: {
+    original: "slotStartDate",
+    ru: "Дата начала слота",
+    en: "",
+  },
+  vtPlannedStartTime: {
+    original: "vtPlannedStartTime",
+    ru: "Плановое время начала визита",
+    en: "",
+  },
+
+  loadPlannedStartTime: {
+    original: "loadPlannedStartTime",
+    ru: "Плановое время начала обработки",
+    en: "",
+  },
+  vtPlannedFinishTime: {
+    original: "vtPlannedFinishTime",
+    ru: "Плановое время завершения визита",
+    en: "",
+  },
+  useBreak: {
+    original: "useBreak",
+    ru: "Накладывается на перерыв",
+    en: "",
+  },
+  routeNumber: {
+    original: "routeNumber",
+    ru: "Номер маршрута",
+    en: "",
+  },
+  invoiceNumber: {
+    original: "invoiceNumber",
+    ru: "Номер накладной",
+    en: "",
+  },
+  curStatus: {
+    original: "curStatus",
+    ru: "Текущий статус",
+    en: "",
+  },
+  actualArrivalTime: {
+    original: "actualArrivalTime",
+    ru: "Фактическое время прибытия",
+    en: "",
+  },
+  actualLoadStartTime: {
+    original: "actualLoadStartTime",
+    ru: "Фактическое время начала обработки",
+    en: "",
+  },
+  actualLoadFinishTime: {
+    original: "actualLoadFinishTime",
+    ru: "Фактическое время завершения обработки",
+    en: "",
+  },
+
+
+  actualDepartureTime: {
+    original: "actualDepartureTime",
+    ru: "Фактическое время убытия",
+    en: "",
+  },
+  visitTime: {
+    original: "visitTime",
+    ru: "Время визита",
+    en: "",
+  },
+  quantity: {
+    original: "quantity",
+    ru: "Количество",
+    en: "",
+  },
+  telephone: {
+    original: "telephone",
+    ru: "Номер телефона",
+    en: "",
+  },
+  flot: {
+    original: "flot",
+    ru: "Флот",
+    en: "",
+  },
+  carrierNameCompany: {
+    original: "carrierNameCompany",
+    ru: "Наименование ТЭК",
+    en: "",
+  },
+  couponNumber: {
+    original: "couponNumber",
+    ru: "Номер талона",
+    en: "",
+  },
+  enterStartDate: {
+    original: "enterStartDate",
+    ru: "Введите дату от",
+    en: "",
+  },
+  enterEndDate: {
+    original: "enterEndDate",
+    ru: "Введите дату до",
+    en: "",
+  },
+  enterStartTime: {
+    original: "enterStartTime",
+    ru: "Введите время от",
+    en: "",
+  },
+  enterEndTime: {
+    original: "enterEndTime",
+    ru: "Введите время до",
+    en: "",
+  },
 };

@@ -31,12 +31,14 @@ const getUnrelatedDocuments = (filters) => {
                 unrelated_documents.id,
                 unrelated_documents.document_number, 
                 warehouses.name_ru as warehouse_name,
+                unrelated_documents.warehouse_id,
                 cargo_types.cargo_name as cargo_type, 
                 unrelated_documents.document_date, 
                 unrelated_documents.truck_number, 
                 unrelated_documents.semitrailer_number, 
                 unrelated_documents.driver_fio, 
                 suppliers.company_name_ru as supplier_name, 
+                unrelated_documents.supplier_id,
                 receivers.company_name_ru as receiver_name 
                 from unrelated_documents 
                 join warehouses on warehouses.id = unrelated_documents.warehouse_id

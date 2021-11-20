@@ -1,13 +1,15 @@
 import React from "react";
-import DatePicker from "react-datepicker";
-
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker, { registerLocale } from "react-datepicker";
+import ru from "date-fns/locale/ru"; 
+registerLocale("ru", ru); 
 
 const CustomDataPicker = (props) => {
   return (
     <>
       <DatePicker
         selected={props.selected}
+        placeholderText={props.placeholderText}
+        locale={ru}
         onChange={(date) => {
           console.log(date);
           props.onChange(date);

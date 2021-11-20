@@ -1,5 +1,7 @@
 import React from "react";
 import clear from "../../img/reference-book-buttons/clean.png";
+import reserve from "../../img/time-slot/reserve.png";
+
 
 const ConnectSlotButton = (props) => {
   return (
@@ -19,7 +21,7 @@ const ConnectSlotButton = (props) => {
       }}
       onClick={props.onOpenConnect}
     >
-      <img src={clear} alt="" style={{ height: "95%", marginRight: "5px" }} />
+      <img src={reserve} alt="" style={{ height: "95%", marginRight: "5px" }} />
       {props.children}
     </div>
   );

@@ -410,7 +410,7 @@ const RelatedDocumentsTable = (props) => {
                   onChangeSecond={(value) => {
                     onChangeDateInputsHandler("document_date_second", value);
                   }}
-                  dateFormat="dd/MM/yyyy"
+                  dateFormat="dd.MM.yyyy"
                 />
               </div>
             </td>

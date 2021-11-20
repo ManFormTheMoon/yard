@@ -29,7 +29,7 @@ function App() {
           {isAuth && (
             <Switch>
               <Route path="/data" component={MainPage}></Route>
-              <Redirect to="/data/workPlace" />
+              <Redirect to="/data/workPlace/unrelatedDocuments" />
             </Switch>
           )}
           {!isAuth && (

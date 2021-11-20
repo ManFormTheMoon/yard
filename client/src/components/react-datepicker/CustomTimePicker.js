@@ -8,16 +8,16 @@ const CustomTimePicker = (props) => {
     <>
       <DatePicker
         selected={props.selected}
+        placeholderText={props.placeholderText}
         onChange={(date) => {
           props.onChange(date);
         }}
         // customInput={<ExampleCustomInput />}
-        showTimeSelect
         showTimeSelectOnly
         timeIntervals={1}
-        timeCaption="Time"
         timeFormat="HH:mm"
         dateFormat="HH:mm"
+        showTimeInput
       />
     </>
   );

@@ -7,7 +7,7 @@ import { customSelectStyles } from "../../react-select/select-style";
 import CustomDataRangePicker from "../../react-datepicker/CustomDataRangePicker";
 import UnrelatedDocumentsButtonsBlock from "./UnrelatedDocumentsButtonsBlock";
 import ConnectUnrelatedDocumentsModal from "./ConnectUnrelatedDocumentsModal";
-
+import dateFormats from "../../../dateFormats/dateFormats";
 const emptyUnrelatedDocument = {
   id: "",
   document_number: "",
@@ -27,6 +27,18 @@ const emptyLabel = {
   value: "",
 };
 
+
+function unique(arr) {
+  let result = [];
+  let temp = [];
+  for (let str of arr) {
+    if (!temp.includes(str.name)) {
+      result.push(str);
+    }
+  }
+  return result;
+}
+
 const UnrelatedDocumentsTable = (props) => {
   const [abacaba, setAbacaba] = useState(0);
   const [wholeData, setWholeData] = useState([]);
@@ -41,14 +53,18 @@ const UnrelatedDocumentsTable = (props) => {
   const [selectedCargoName, setSelectedCargoName] = useState(emptyLabel);
   const [cargoNamesOptions, setCargoNameOptions] = useState([]);
 
-  const [selectedSupplierName, setSelectedSupplierName] = useState(emptyLabel);
+  const [selectedSupplierName, setSelectedSupplierName] = useState({
+    value: "",
+    label: "",
+  });
   const [supplierNamesOptions, setSupplierNameOptions] = useState([]);
 
   const [selectedReceiverName, setSelectedReceiverName] = useState(emptyLabel);
   const [receiverNamesOptions, setReceiverNameOptions] = useState([]);
-
-  const [selectedWarehouseName, setSelectedWareshouseName] =
-    useState(emptyLabel);
+  const [selectedWarehouseName, setSelectedWareshouseName] = useState({
+    value: "",
+    label: "",
+  });
   const [warehouseNamesOptions, setWarehouseNameOptions] = useState([]);
 
   const changeSelectedCargoName = (value) => {
@@ -99,7 +115,7 @@ const UnrelatedDocumentsTable = (props) => {
       setSupplierNameOptions([
         emptyLabel,
         ...data.data.map((cur) => {
-          return { label: cur.name_ru, value: cur.name_ru, id: cur.id };
+          return { label: cur.company_name_ru, value: cur.company_name_ru, id: cur.id };
         }),
       ]);
     }
@@ -115,26 +131,26 @@ const UnrelatedDocumentsTable = (props) => {
       setReceiverNameOptions([
         emptyLabel,
         ...data.data.map((cur) => {
-          return { label: cur.name_ru, value: cur.name_ru, id: cur.id };
+          return { label: cur.company_name_ru, value: cur.company_name_ru, id: cur.id };
         }),
       ]);
     }
 
     //warehouses names
-    {
-      const response = await fetch("/api/referenceBook/warehouse/getNames", {
-        method: "POST",
-        headers: headers,
-      });
-      const data = await response.json();
-      console.log(data);
-      setWarehouseNameOptions([
-        emptyLabel,
-        ...data.data.map((cur) => {
-          return { label: cur.name_ru, value: cur.name_ru, id: cur.id };
-        }),
-      ]);
-    }
+    // {
+    //   const response = await fetch("/api/referenceBook/warehouse/getNames", {
+    //     method: "POST",
+    //     headers: headers,
+    //   });
+    //   const data = await response.json();
+    //   console.log(data);
+    //   setWarehouseNameOptions([
+    //     emptyLabel,
+    //     ...data.data.map((cur) => {
+    //       return { label: cur.name_ru, value: cur.name_ru, id: cur.id };
+    //     }),
+    //   ]);
+    // }
   }, []);
 
   console.log(cargoNamesOptions);
@@ -157,10 +173,44 @@ const UnrelatedDocumentsTable = (props) => {
     });
     const data = await response.json();
     setWholeData(data.data);
+    // supplier names
+    {
+      let suppliersOptions = [""];
+      for (let i = 0; i < data.data.length; i++) {
+        suppliersOptions.push({name: data.data[i].supplier_name, id:data.data[i].supplier_id});
+      }
+      suppliersOptions = unique(suppliersOptions);
+      suppliersOptions = suppliersOptions.map((cur) => {
+        return {
+          label: cur.name,
+          value: cur.name,
+          id: cur.id
+        };
+      });
+      setSupplierNameOptions(suppliersOptions);
+    }
+    // warehouses names
+    {
+      let warehousesOptions = [""];
+      for (let i = 0; i < data.data.length; i++) {
+        warehousesOptions.push({name: data.data[i].warehouse_name, id:data.data[i].warehouse_id});
+      }
+      warehousesOptions = unique(warehousesOptions);
+      warehousesOptions = warehousesOptions.map((cur) => {
+        return {
+          label: cur.name,
+          value: cur.name,
+          id: cur.id
+        };
+      });
+      setWarehouseNameOptions(warehousesOptions);
+    }
     console.log(data);
     setSelectedRow();
   }, [rowsOnPageCount, abacaba, currentPage]);
-
+  console.log(warehouseNamesOptions)
+  console.log("warehouseNamesOptions")
+  console.log("warehouseNamesOptions")
   const onSearchClick = () => {
     setAbacaba(abacaba + 1);
   };
@@ -197,6 +247,10 @@ const UnrelatedDocumentsTable = (props) => {
 
   const onSearchClearHandler = () => {
     setCurrentFilters(emptyUnrelatedDocument);
+    setSelectedWareshouseName(emptyLabel);
+    setSelectedSupplierName(emptyLabel);
+    setSelectedCargoName(emptyLabel);
+    setSelectedReceiverName(emptyLabel);
     setAbacaba(setAbacaba + 1);
   };
 
@@ -275,7 +329,7 @@ const UnrelatedDocumentsTable = (props) => {
             <td>
               <input
                 type="text"
-                style={{ width: "100px" }}
+                style={{ width: "95%" }}
                 placeholder={dictinary.code.ru}
                 onChange={(event) => onChangeInputsHandler(event, "id")}
                 value={currentFilters.id}
@@ -284,8 +338,8 @@ const UnrelatedDocumentsTable = (props) => {
             <td>
               <input
                 type="text"
-                style={{ width: "100px" }}
-                placeholder="Номер документа"
+                style={{ width: "95%" }}
+                placeholder={dictinary.documentNumber.ru}
                 onChange={(event) =>
                   onChangeInputsHandler(event, "document_number")
                 }
@@ -314,7 +368,7 @@ const UnrelatedDocumentsTable = (props) => {
                   onChangeSecond={(value) => {
                     onChangeDateInputsHandler("document_date_second", value);
                   }}
-                  dateFormat="dd/MM/yyyy"
+                  dateFormat="dd.MM.yyyy"
                 />
               </div>
             </td>
@@ -332,8 +386,8 @@ const UnrelatedDocumentsTable = (props) => {
             <td>
               <input
                 type="text"
-                style={{ width: "100px" }}
-                placeholder="Номер транспортного средства"
+                style={{ width: "95%" }}
+                placeholder={dictinary.autoNumber.ru}
                 onChange={(event) =>
                   onChangeInputsHandler(event, "truck_number")
                 }
@@ -343,8 +397,8 @@ const UnrelatedDocumentsTable = (props) => {
             <td>
               <input
                 type="text"
-                style={{ width: "100px" }}
-                placeholder="Номер полуприцепа"
+                style={{ width: "95%" }}
+                placeholder={dictinary.semitrailerNumber.ru}
                 onChange={(event) =>
                   onChangeInputsHandler(event, "semitrailer_number")
                 }
@@ -354,8 +408,8 @@ const UnrelatedDocumentsTable = (props) => {
             <td>
               <input
                 type="text"
-                style={{ width: "100px" }}
-                placeholder="ФИО водителя"
+                style={{ width: "95%" }}
+                placeholder={dictinary.nameDriver.ru}
                 onChange={(event) => onChangeInputsHandler(event, "driver_fio")}
                 value={currentFilters.driver_fio}
               />
@@ -384,17 +438,17 @@ const UnrelatedDocumentsTable = (props) => {
             </td>
           </tr>
           <tr>
-            <th style={{ minWidth: "100px" }}></th>
-            <th style={{ minWidth: "100px" }}>ID документа</th>
-            <th style={{ minWidth: "100px" }}>Номер документа</th>
-            <th style={{ minWidth: "100px" }}>Участок</th>
-            <th style={{ minWidth: "100px" }}>Дата документа</th>
-            <th style={{ minWidth: "100px" }}>Тип груза</th>
-            <th style={{ minWidth: "100px" }}>Номер транспортного средства</th>
-            <th style={{ minWidth: "100px" }}>Номер полуприцепа</th>
-            <th style={{ minWidth: "100px" }}>ФИО водителя</th>
-            <th style={{ minWidth: "100px" }}>Поставщик</th>
-            <th style={{ minWidth: "100px" }}>Получатель</th>
+            <th style={{ minWidth: "40px" }}></th>
+            <th style={{ minWidth: "100px" }}>{dictinary.IdDocument.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.documentNumber.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.warehouses.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.dateDocument.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.cargoTypes.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.autoNumber.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.semitrailerNumber.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.nameDriver.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.suppliers.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.receivers.ru}</th>
           </tr>
           {wholeData.map((cur) => {
             return (
@@ -412,7 +466,7 @@ const UnrelatedDocumentsTable = (props) => {
                 <td>{cur.id}</td>
                 <td>{cur.document_number}</td>
                 <td>{cur.warehouse_name}</td>
-                <td>{cur.document_date}</td>
+                <td>{dateFormats(cur.document_date)}</td>
                 <td>{cur.cargo_type}</td>
                 <td>{cur.truck_number}</td>
                 <td>{cur.semitrailer_number}</td>

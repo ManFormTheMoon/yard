@@ -8,6 +8,7 @@ import Select, { components } from "react-select";
 import IndicatorsContainer from "../../react-select/IndicatorsContainer.js";
 import { customSelectStyles } from "../../react-select/select-style";
 import SearchButton from "../../userUI/SearchButton";
+import FormateDate from "../../../dateFormats/dateFormats";
 
 const emptyFilter = {
   document_date: null,
@@ -179,29 +180,29 @@ const ConnectUnrelatedDocumentsModal = (props) => {
       setVisible={props.setVisible}
       style={{
         width: "60%",
-        height: "75%",
+        height: "80%",
         backgroundColor: "white",
         borderRadius: "5px",
         padding: "15px",
-        overflowY: "scroll",
       }}
     >
-      {/* <div
+    <div className="title-modal">{dictinary.addSlot.ru}</div>
+      <div
         style={{
           display: "flex",
-          width: "98%",
-          height: "100px",
-          backgroundColor: "red",
-          fontSize: "20px",
+          width: "100%",
+          height: "70px",
+          fontSize: "17px",
+          marginTop:"20px",
+          padding: "0px 10% 0px 10%",
         }}
       >
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            height: "100%",
-            width: "50%",
-            backgroundColor: "green",
+            height: "90%",
+            width: "40%",
           }}
         >
           <div
@@ -210,20 +211,19 @@ const ConnectUnrelatedDocumentsModal = (props) => {
               flexDirection: "column",
               height: "100%",
               width: "50%",
-              alignItems: "center",
               justifyContent: "center",
-              marginLeft: "20px",
+              marginLeft: "50px",
             }}
           >
             <div
-              style={{ height: "50%", display: "flex", alignItems: "center" }}
+              style={{ height: "40%", display: "flex",  padding: "5px 0px 0px 0px", alignItems: "left" }}
             >
-              Дата документа:
+              {dictinary.dateDocument.ru}:
             </div>
             <div
-              style={{ height: "50%", display: "flex", alignItems: "center" }}
+              style={{ height: "40%", display: "flex",  padding: "10px 0px 0px 0px", alignItems: "left" }}
             >
-              Поток:
+              {dictinary.stream.ru}:
             </div>
           </div>
           <div
@@ -237,16 +237,17 @@ const ConnectUnrelatedDocumentsModal = (props) => {
             }}
           >
             <div
-              style={{ height: "50%", display: "flex", alignItems: "center" }}
+              style={{ height: "90%", display: "flex", alignItems: "center" }}
             >
               <CustomDataPicker
                 selected={documentDate}
-                dateFormat="dd/MM/yyyy"
+                dateFormat="dd.MM.yyyy"
                 isDisabled={true}
               />
             </div>
             <div
-              style={{ height: "50%", display: "flex", alignItems: "center" }}
+              style={{ height: "50%", display: "flex", 
+              padding: "5px 0px 0px 0px", alignItems: "center" }}
             >
               <select style={{ width: "128px" }} value={stream} disabled>
                 <option>Input</option>
@@ -260,10 +261,9 @@ const ConnectUnrelatedDocumentsModal = (props) => {
           style={{
             display: "flex",
             flexDirection: "row",
-            height: "100%",
-            width: "50%",
+            height: "80%",
+            width: "40%",
             justifyContent: "center",
-            backgroundColor: "yellow",
           }}
         >
           <div
@@ -274,13 +274,13 @@ const ConnectUnrelatedDocumentsModal = (props) => {
               width: "50%",
               alignItems: "center",
               justifyContent: "center",
-              marginLeft: "20px",
+              marginLeft: "30px",
             }}
           >
             <div
-              style={{ height: "50%", display: "flex", alignItems: "center" }}
+              style={{ height: "40%", display: "flex",  padding: "5px 0px 0px 0px", alignItems: "left" }}
             >
-              Тип груза:
+              {dictinary.cargoTypes.ru}:
             </div>
             <div
               style={{ height: "50%", display: "flex", alignItems: "center" }}
@@ -294,14 +294,14 @@ const ConnectUnrelatedDocumentsModal = (props) => {
               width: "50%",
               alignItems: "center",
               justifyContent: "center",
-              marginLeft: "20px",
             }}
           >
             <div
               style={{
                 height: "50%",
                 width: "100px",
-                display: "flex",
+                display: "flex", 
+                paddingTop: "5px",
                 alignItems: "center",
               }}
             >
@@ -317,12 +317,12 @@ const ConnectUnrelatedDocumentsModal = (props) => {
             ></div>
           </div>
         </div>
-      </div> */}
-      {/* <div style={{ height: "70%", overflowY: "scroll" }}>
+      </div> 
+      <div style={{ height: "70%", overflowY: "scroll" }}>
         <table
           style={{
             borderRadius: "3px",
-            border: "0.5px solid #87C9B6",
+            border: "0.5px solid #ebebeb",
             tableLayout: "fixed",
             marginTop: "10px",
             overflow: "scroll",
@@ -330,18 +330,18 @@ const ConnectUnrelatedDocumentsModal = (props) => {
         >
           <tr>
             <th style={{ minWidth: "30px" }}></th>
-            <th style={{ minWidth: "100px" }}>Дата</th>
-            <th style={{ minWidth: "100px" }}>Поток</th>
-            <th style={{ minWidth: "100px" }}>Тип груза</th>
-            <th style={{ minWidth: "100px" }}>Участок</th>
-            <th style={{ minWidth: "100px" }}>Плановое время прибытия</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.date.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.stream.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.cargoTypes.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.area.ru}</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.slotStartDate.ru}</th>
             <th style={{ minWidth: "100px" }}>
-              Плановое время начала обработки
+              {dictinary.loadPlannedStartTime.ru}
             </th>
             <th style={{ minWidth: "100px" }}>
-              Плановое время завершения обработки
+              {dictinary.loadPlannedEndTime.ru}
             </th>
-            <th style={{ minWidth: "100px" }}>Плановое время убытия</th>
+            <th style={{ minWidth: "100px" }}>{dictinary.slotEndDate.ru}</th>
           </tr>
           {wholeData.map((cur) => {
             return (
@@ -356,7 +356,7 @@ const ConnectUnrelatedDocumentsModal = (props) => {
                     checked={selectedRow == cur.id}
                   />
                 </td>
-                <td>{cur.slot_start_date}</td>
+                <td>{FormateDate(cur.slot_start_date)}</td>
                 <td>{stream}</td>
                 <td>{cargoLabel.label}</td>
                 <td>{cur.area_name}</td>
@@ -370,13 +370,13 @@ const ConnectUnrelatedDocumentsModal = (props) => {
         </table>
       </div>
       <div className="modal-button">
-        <ApplyButton onOk={onConnectEvent} children={"Сохранить изменения"} />
+        <ApplyButton onOk={onConnectEvent} children={dictinary.saveEdit.ru} />
         <CancelButton
           onCancel={() => props.setVisible(false)}
           children={dictinary.cancel.ru}
           style={{ marginLeft: "10px" }}
         />
-      </div> */}
+      </div>
     </Modal>
   );
 };

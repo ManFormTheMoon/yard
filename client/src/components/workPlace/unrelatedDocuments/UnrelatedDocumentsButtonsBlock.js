@@ -16,7 +16,7 @@ const UnrelatedDocumentsButtonsBlock = (props) => {
       }}
     >
       <ConnectSlotButton
-        children="Привязать слот"
+        children= {dictinary.reserveSlot.ru}
         style={{ margin: "6px" }}
         onOpenConnect={props.onOpenConnect}
       />
