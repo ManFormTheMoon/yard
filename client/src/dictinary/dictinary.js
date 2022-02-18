@@ -874,7 +874,7 @@ export const dictinary = {
   },
   flot: {
     original: "flot",
-    ru: "Флот",
+    ru: "Флот.",
     en: "",
   },
   carrierNameCompany: {
@@ -905,6 +905,26 @@ export const dictinary = {
   enterEndTime: {
     original: "enterEndTime",
     ru: "Введите время до",
+    en: "",
+  },
+  enterLoginPass: {
+    original: "enterLoginPass",
+    ru: "Введите логин и пароль",
+    en: "",
+  },
+  enterLogin: {
+    original: "enterLogin",
+    ru: "Введите логин",
+    en: "",
+  },
+  enterPass: {
+    original: "enterPass",
+    ru: "Введите пароль",
+    en: "",
+  },
+  enter: {
+    original: "enter",
+    ru: "Подтвердить",
     en: "",
   },
 };
