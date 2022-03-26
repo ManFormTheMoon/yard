@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-input[type="text"] {
+input[type="text"], [type="login"], [type="password"] {
   border: 1px solid #9e9e9e; 
   border-radius: 3px; 
   -webkit-border-radius: 3px;
@@ -53,4 +53,3 @@ input[type="text"] {
     color: black;
     z-index: 1000;
 }
- 

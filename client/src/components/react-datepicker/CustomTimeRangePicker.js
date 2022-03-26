@@ -19,7 +19,7 @@ const CustomTimeRangePicker = (props) => {
         showTimeInput
         style={props.style}
       />
-      <div style={{ marginTop: "5px"}}>
+      <div>
         <CustomTimePicker
           selected={props.secondSelected}
           onChange={props.onChangeSecond}
