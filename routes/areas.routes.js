@@ -29,6 +29,21 @@ router.post("/areas/getNames", async (req, res) => {
   } catch (e) {}
 });
 
+const getAreasNameAndIds = async () => {
+  const query = `select id, name_ru, warehouse_id from areas;`;
+  const result = await pool.query(query);
+  return result[0];
+};
+
+router.post("/areas/getNamesAndIds", async (req, res) => {
+  try {
+    const data = await getAreasNameAndIds();
+    res.json({
+      data: data,
+    });
+  } catch (e) {}
+});
+
 const getAreas = async (filters, limit, page) => {
   let query =
     "select areas.id, areas.name_ru, warehouses.name_ru as warehouse_name, areas.object_map, areas.comment from areas join warehouses on warehouses.id = areas.warehouse_id";
@@ -41,7 +56,8 @@ const getAreas = async (filters, limit, page) => {
       " and lower(areas.name_ru) LIKE lower('%" + filters.name_ru + "%')";
   }
   if (!!filters.warehouse_name) {
-    filtersQuery += " and warehouses.name_ru = '" + filters.warehouse_name + "'";
+    filtersQuery +=
+      " and warehouses.name_ru = '" + filters.warehouse_name + "'";
   }
   if (!!filters.object_map) {
     filtersQuery +=
@@ -60,8 +76,7 @@ const getAreas = async (filters, limit, page) => {
   }
   query +=
     " ORDER BY areas.id LIMIT " + (page - 1) * limit + ", " + limit + ";";
-  const result = await pool.query(query).catch((e) => {
-  });
+  const result = await pool.query(query).catch((e) => {});
   let queryAll =
     "select COUNT(*) from areas join warehouses on warehouses.id = areas.warehouse_id";
   if (!!filtersQuery) {
@@ -158,7 +173,7 @@ router.post("/areas/add", async (req, res) => {
 const editArea = (values) => {
   let query = "update areas set";
   query += ` name_ru = "${values.name_ru}", `;
-  query += `warehouse_id = "${values.warehouse_id}", `;;
+  query += `warehouse_id = "${values.warehouse_id}", `;
   query += `object_map = "${values.object_map}", `;
   query += `comment = "${values.comment}", `;
   query = query.substr(0, query.length - 2);

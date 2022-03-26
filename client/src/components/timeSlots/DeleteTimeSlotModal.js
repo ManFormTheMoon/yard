@@ -1,23 +1,21 @@
 import React, { useState } from "react";
-import Modal from "../../../../Modal/Modal";
-import ApplyButton from "../../../userUI/ApplyButton";
-import CancelButton from "../../../userUI/CancelButton";
-import good from "./../../../../img/reference-book-buttons/check.png";
-import bad from "./../../../../img/reference-book-buttons/remove.png";
-import attention from "./../../../../img/reference-book-buttons/attention.png";
-import { dictinary } from "../../../../dictinary/dictinary";
+import Modal from "../../Modal/Modal";
+import ApplyButton from "../userUI/ApplyButton";
+import CancelButton from "../userUI/CancelButton";
+import good from "./../../img/reference-book-buttons/check.png";
+import bad from "./../../img/reference-book-buttons/remove.png";
+import attention from "./../../img/reference-book-buttons/attention.png";
+import { dictinary } from "../../dictinary/dictinary";
 
-const DeleteRampModal = (props) => {
-  const [badFields, setBadFields] = useState([]);
-
+const DeleteTimeSlotModal = (props) => {
   const onDeleteEvent = async () => {
-    console.log(props.selectedRows);
+    console.log(props.id);
     let body = {};
-    body.arr = props.selectedRows;
+    body.id = props.id;
     body = JSON.stringify(body);
     let headers = {};
     headers["Content-Type"] = "application/json";
-    const response = await fetch("/api/referenceBook/ramps/delete", {
+    const response = await fetch("/api/timeSlots/delete", {
       method: "POST",
       body: body,
       headers: headers,
@@ -28,16 +26,16 @@ const DeleteRampModal = (props) => {
     console.log(data);
     if (data.message == "bad") {
       const err = data.error;
-      if (err.includes("foreign key")) {
-        let mesError = dictinary.errorKey.ru;
-        if (err.includes("standart_times")) {
-          mesError = mesError + "'" + dictinary.standarts.ru + "'";
-        }
-        props.showMessage(mesError);
-      }
+      //   if (err.includes("foreign key")) {
+      //     let mesError = dictinary.errorKey.ru;
+      //     if (err.includes("standart_times")) {
+      //       mesError = mesError + "'" + dictinary.standarts.ru + "'";
+      //     }
+      //     props.showMessage(mesError);
+      //   }
+      console.log("GGGGG-GGGGG");
     } else {
       props.onSuccesfulDelete();
-      setBadFields([]);
     }
   };
   const onCancelEvent = () => {
@@ -57,13 +55,7 @@ const DeleteRampModal = (props) => {
           alt=""
         />
         <div style={{ fontSize: "18px", fontWeight: "" }}>
-          Выделено {props.countRows}{" "}
-          {props.countRows == 1
-            ? "запись"
-            : props.countRows >= 2 && props.countRows <= 4
-            ? "записи"
-            : "записей"}
-          . Вы уверены, что хотите их удалить?
+          Вы уверены, что хотите удалить?
         </div>
       </div>
       <div
@@ -86,4 +78,4 @@ const DeleteRampModal = (props) => {
   );
 };
 
-export default DeleteRampModal;
+export default DeleteTimeSlotModal;

@@ -5,13 +5,13 @@ import TimeSlotsBody from "../timeSlots/TimeSlotsBody";
 const tabsInfo = [
   {
     index: 1,
-    name: "Тайм-слоты",
-    value: "timeSlots",
+    name: "Тайм-слоты таблица",
+    value: "timeSlotsTable",
   },
   {
     index: 2,
-    name: "Расчет тайм-слотов",
-    value: "calcTimeSlots",
+    name: "Тайм-слоты график",
+    value: "timeSlotsGraphic",
   },
 ];
 

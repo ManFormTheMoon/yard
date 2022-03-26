@@ -4,6 +4,7 @@ import SearchButton from "../userUI/SearchButton";
 
 import { dictinary } from "../../dictinary/dictinary";
 import ExportButton from "../userUI/ExportButton";
+import DeleteButton from "../userUI/DeleteButton";
 
 const ButtonsBlockTimeSlots = (props) => {
   return (
@@ -30,6 +31,11 @@ const ButtonsBlockTimeSlots = (props) => {
         children={dictinary.unloadingInExcel.ru}
         style={{ margin: "6px" }}
         onDownloadClick={props.onDownloadClick}
+      />
+      <DeleteButton
+        children={dictinary.delete.ru}
+        style={{ margin: "6px" }}
+        onDeleteHandler={props.onDeleteHandler}
       />
     </div>
   );

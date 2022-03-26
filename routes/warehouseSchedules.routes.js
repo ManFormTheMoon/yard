@@ -14,6 +14,12 @@ const pool = mysql.createPool({
   waitForConnections: true,
 });
 
+const getWarehouseSchedulesName = async () => {
+  let query = "select id, name_ru from warehouse_schedules;";
+  const result = await pool.query(query);
+  return { result: result[0] };
+};
+
 router.post("/warehouseSchedulesName/get", async (req, res) => {
   try {
     const data = await getWarehouseSchedulesName();
@@ -23,11 +29,21 @@ router.post("/warehouseSchedulesName/get", async (req, res) => {
   } catch (e) {}
 });
 
-const getWarehouseSchedulesName = async () => {
-  let query = "select id, name_ru from warehouse_schedules;";
+const getAllWarehouseSchedulesBreaks = async () => {
+  let query =
+    "select id, area_id, warehouse_id, work_start,  work_end, break_quantity, break1_start, break1_end, break2_start, break2_end from warehouse_schedules;";
   const result = await pool.query(query);
-  return { result: result[0] };
+  return result[0];
 };
+
+router.post("/warehouseSchedules/getBreaks", async (req, res) => {
+  try {
+    const data = await getAllWarehouseSchedulesBreaks();
+    res.json({
+      data: data,
+    });
+  } catch (e) {}
+});
 
 const getWarehouseSchedules = async (filters, limit, page) => {
   let query =
@@ -38,40 +54,54 @@ const getWarehouseSchedules = async (filters, limit, page) => {
   }
   if (!!filters.team_name) {
     filtersQuery +=
-      " and lower(warehouse_schedules.team_name) LIKE lower('%" + filters.team_name + "%')";
+      " and lower(warehouse_schedules.team_name) LIKE lower('%" +
+      filters.team_name +
+      "%')";
   }
   if (!!filters.stream) {
     filtersQuery +=
-      " and lower(warehouse_schedules.stream) = lower('" + filters.stream + "')";
+      " and lower(warehouse_schedules.stream) = lower('" +
+      filters.stream +
+      "')";
   }
   if (!!filters.area_name) {
     filtersQuery += " and areas.name_ru = '" + filters.area_name + "'";
   }
   if (!!filters.warehouse_name) {
-    filtersQuery += " and warehouses.name_ru = '" + filters.warehouse_name + "'";
+    filtersQuery +=
+      " and warehouses.name_ru = '" + filters.warehouse_name + "'";
   }
   if (!!filters.work_start) {
     filtersQuery +=
       " and warehouse_schedules.work_start = '" + filters.work_start + "'";
   }
   if (!!filters.break_quantity) {
-    filtersQuery += " and warehouse_schedules.break_quantity = '" + filters.break_quantity + "'";
+    filtersQuery +=
+      " and warehouse_schedules.break_quantity = '" +
+      filters.break_quantity +
+      "'";
   }
   if (!!filters.break1_start) {
-    filtersQuery += " and warehouse_schedules.break1_start = '" + filters.break1_start + "'";
+    filtersQuery +=
+      " and warehouse_schedules.break1_start = '" + filters.break1_start + "'";
   }
   if (!!filters.break1_end) {
-    filtersQuery += " and warehouse_schedules.break1_end = '" + filters.break1_end + "'";
+    filtersQuery +=
+      " and warehouse_schedules.break1_end = '" + filters.break1_end + "'";
   }
   if (!!filters.break2_start) {
-    filtersQuery += " and warehouse_schedules.break2_start = '" + filters.break2_start + "'";
+    filtersQuery +=
+      " and warehouse_schedules.break2_start = '" + filters.break2_start + "'";
   }
   if (!!filters.break2_end) {
-    filtersQuery += " and warehouse_schedules.break2_end = '" + filters.break2_end + "'";
+    filtersQuery +=
+      " and warehouse_schedules.break2_end = '" + filters.break2_end + "'";
   }
   if (!!filters.comment) {
     filtersQuery +=
-      " and lower(warehouse_schedules.comment) LIKE lower('%" + filters.comment + "%')";
+      " and lower(warehouse_schedules.comment) LIKE lower('%" +
+      filters.comment +
+      "%')";
   }
   console.log(filtersQuery);
   if (!!filtersQuery) {
@@ -82,7 +112,11 @@ const getWarehouseSchedules = async (filters, limit, page) => {
     query += filtersQuery;
   }
   query +=
-    " ORDER BY warehouse_schedules.id LIMIT " + (page - 1) * limit + ", " + limit + ";";
+    " ORDER BY warehouse_schedules.id LIMIT " +
+    (page - 1) * limit +
+    ", " +
+    limit +
+    ";";
   const result = await pool.query(query).catch((e) => {
     console.log(e);
   });
@@ -113,13 +147,13 @@ router.post("/warehouseSchedules/get", async (req, res) => {
 const getWarehouseSchedule = async (id) => {
   const query = `select warehouse_schedules.id, warehouse_schedules.team_name, warehouse_schedules.area_id, warehouse_schedules.warehouse_id, areas.name_ru as area_name, warehouse_schedules.work_start, warehouse_schedules.break_quantity, warehouse_schedules.break1_start, warehouse_schedules.break1_end, warehouse_schedules.break2_start, warehouse_schedules.break2_end, warehouses.name_ru as warehouse_name, warehouse_schedules.comment from warehouse_schedules join areas on areas.id = warehouse_schedules.area_id join warehouses on warehouses.id = warehouse_schedules.warehouse_id where warehouse_schedules.id = ${id};`;
   const response = await pool.query(query);
-  console.log(query)
+  console.log(query);
   return response[0];
 };
 
 router.post("/warehouseSchedules/getOne", async (req, res) => {
   try {
-    console.log(req.body.id)
+    console.log(req.body.id);
     const data = await getWarehouseSchedule(req.body.id);
     res.json({
       data: data,
@@ -131,7 +165,7 @@ router.post("/warehouseSchedules/delete", async (req, res) => {
   try {
     console.log(req.body);
     await pool.query(deleteWarehouseSchedules(req.body.arr)).catch((e) => {
-      console.log(e)
+      console.log(e);
       res.json({ message: "bad", error: e.sqlMessage });
     });
     res.json({});
@@ -150,12 +184,9 @@ const deleteWarehouseSchedules = (arr) => {
   return query;
 };
 
-
 const addWarehouseSchedules = (values) => {
   let query = `insert into warehouse_schedules(team_name, area_id, warehouse_id, work_start, break_quantity, 
-    ${
-      values.break1_start == "" ? "" : "break1_start,"
-    } 
+    ${values.break1_start == "" ? "" : "break1_start,"} 
      break1_end, break2_start, break2_end, comment ) values (`;
   if (!!values.team_name) {
     query += `"${values.team_name}", `;
@@ -181,7 +212,12 @@ router.post("/warehouseSchedules/add", async (req, res) => {
     if (!req.body.values.team_name) {
       console.log("bad");
       await res.json({ message: "bad", error: "team_name" });
-    } else if (!req.body.values.break1_end || !req.body.values.break1_start || ((!req.body.values.break2_end || !req.body.values.break2_start) & req.body.values.break_quantity == 2)) {
+    } else if (
+      !req.body.values.break1_end ||
+      !req.body.values.break1_start ||
+      (!req.body.values.break2_end || !req.body.values.break2_start) &
+        (req.body.values.break_quantity == 2)
+    ) {
       await res.json({ message: "bad", error: "time" });
     } else {
       let gg = 0;
@@ -224,7 +260,7 @@ const editWarehouseSchedule = (values) => {
     query += ` break2_end = "", `;
   } else {
     query += ` break2_end = ${values.break2_end}, `;
-  };
+  }
   query += `comment = "${values.comment}", `;
 
   query = query.substr(0, query.length - 2);

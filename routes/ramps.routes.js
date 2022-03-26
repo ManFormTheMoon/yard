@@ -14,6 +14,12 @@ const pool = mysql.createPool({
   waitForConnections: true,
 });
 
+const getRampsName = async () => {
+  let query = "select name_ru, id from ramps;";
+  const result = await pool.query(query);
+  return result[0];
+};
+
 router.post("/ramps/getNames", async (req, res) => {
   try {
     const data = await getRampsName();
@@ -23,11 +29,20 @@ router.post("/ramps/getNames", async (req, res) => {
   } catch (e) {}
 });
 
-const getRampsName = async () => {
-  let query = "select name_ru, id from ramps;";
+const GetNamesAndIdsAndDates = async () => {
+  let query = "select name_ru, id, area_id from ramps;";
   const result = await pool.query(query);
   return result[0];
 };
+
+router.post("/ramps/getNamesAndIdsAndDates", async (req, res) => {
+  try {
+    const data = await GetNamesAndIdsAndDates();
+    res.json({
+      data: data,
+    });
+  } catch (e) {}
+});
 
 const getRamps = async (filters, limit, page) => {
   let query =
@@ -74,7 +89,6 @@ const getRamps = async (filters, limit, page) => {
   if (!!filters.transport_type_name) {
     filtersQuery +=
       " and transport_types.name_ru = '" + filters.transport_type_name + "'";
-
   }
   if (!!filters.object_map) {
     filtersQuery +=
@@ -144,7 +158,7 @@ router.post("/ramps/delete", async (req, res) => {
   try {
     console.log(req.body);
     await pool.query(deleteRamps(req.body.arr)).catch((e) => {
-      console.log(e)
+      console.log(e);
       res.json({ message: "bad", error: e.sqlMessage });
     });
     res.json({});

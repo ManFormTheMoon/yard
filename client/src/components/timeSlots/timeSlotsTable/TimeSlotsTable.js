@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import ballImg from "../../img/reference-book-buttons/attention.png";
-import { dictinary } from "../../dictinary/dictinary.js";
+import ballImg from "../../../img/reference-book-buttons/attention.png";
+import { dictinary } from "../../../dictinary/dictinary.js";
 import Select, { components } from "react-select";
-import IndicatorsContainer from "../../components/react-select/IndicatorsContainer.js";
-import { customSelectStyles } from "../../components/react-select/select-style";
-import CustomDataPicker from "../react-datepicker/CustomDataPicker";
-import CustomDataRangePicker from "../react-datepicker/CustomDataRangePicker";
-import CustomTimeRangePicker from "../react-datepicker/CustomTimeRangePicker";
-import ButtonsBlockTimeSlots from "./ButtonsBlockTimeSlots";
-import dateFormats from "../../dateFormats/dateFormats";
+import IndicatorsContainer from "../../../components/react-select/IndicatorsContainer.js";
+import { customSelectStyles } from "../../../components/react-select/select-style";
+import CustomDataRangePicker from "../../react-datepicker/CustomDataRangePicker";
+import CustomTimeRangePicker from "../../react-datepicker/CustomTimeRangePicker";
+import ButtonsBlockTimeSlots from "./../ButtonsBlockTimeSlots";
+import dateFormats from "../../../dateFormats/dateFormats";
 import xlsx from "node-xlsx";
 import download from "downloadjs";
+import DeleteTimeSlotModal from "./../DeleteTimeSlotModal";
 
 const emptyTimeSlot = {
   id: "",
@@ -78,6 +78,7 @@ const TimeSlotsTable = (props) => {
   const [messageText, setMessageText] = useState();
   const [messageVisible, setMessageVisible] = useState(false);
   const [inputRowValue, setInputRowValue] = useState(rowsOnPageCount);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const [selectedAreaName, setSelectedAreaName] = useState(emptyLabel);
   const [areaNamesOptions, setAreaNameOptions] = useState([]);
@@ -104,7 +105,7 @@ const TimeSlotsTable = (props) => {
     setCurrentFilters({ ...currentFilters, ["warehouse_id"]: value.id });
   };
 
-  useState(async () => {
+  useEffect(async () => {
     let headers = {};
     headers["Content-Type"] = "application/json";
     //areas names
@@ -141,7 +142,7 @@ const TimeSlotsTable = (props) => {
     //warehouses names
     {
       console.log("as");
-      const response = await fetch("/api/referenceBook/warehouses/getNames ", {
+      const response = await fetch("/api/referenceBook/warehouse/getNames ", {
         method: "POST",
         headers: headers,
       });
@@ -201,6 +202,9 @@ const TimeSlotsTable = (props) => {
 
   const onSearchClearHandler = () => {
     setCurrentFilters(emptyTimeSlot);
+    setSelectedAreaName(emptyLabel);
+    setSelectedRampName(emptyLabel);
+    setSelectedWareshouseName(emptyLabel);
     setAbacaba(setAbacaba + 1);
   };
 
@@ -243,6 +247,20 @@ const TimeSlotsTable = (props) => {
     }
   };
 
+  const onDeleteHandler = () => {
+    if (selectedRows.length == 1) {
+      setDeleteModalVisible(true);
+    } else {
+      showMessage(dictinary.errorDelete.ru + ".");
+    }
+  };
+
+  const onSuccesfulDelete = async () => {
+    await setAbacaba(abacaba + 1);
+    await setCurrentPage(1);
+    await setDeleteModalVisible(false);
+  };
+
   const onDownloadClick = () => {
     const qwerty = [];
     qwerty.push([]);
@@ -281,51 +299,53 @@ const TimeSlotsTable = (props) => {
     qwerty[0].push(dictinary.carrierNameCompany.ru);
     qwerty[0].push(dictinary.couponNumber.ru);
     for (let i = 0; i < wholeData.length; i++) {
-    qwerty.push([]);
-    qwerty[i+1].push(wholeData[i].id);
-    qwerty[i+1].push(wholeData[i].visit_number);
-    qwerty[i+1].push(wholeData[i].slot_start_date);
-    qwerty[i+1].push(wholeData[i].vt_planned_start_time);
-    qwerty[i+1].push(wholeData[i].load_planned_start_time);
-    qwerty[i+1].push(wholeData[i].load_planned_finish_time);
-    qwerty[i+1].push(wholeData[i].vt_planned_finish_time);
-    qwerty[i+1].push(wholeData[i].planned_arrival_time);
-    qwerty[i+1].push(wholeData[i].planned_departure_time);
-    wholeData[i].use_break == 1 ? qwerty[i+1].push(dictinary.yes.ru) : qwerty[i+1].push(dictinary.no.ru);
-    qwerty[i+1].push(wholeData[i].warehouse_name);
-    qwerty[i+1].push(wholeData[i].area_name);
-    qwerty[i+1].push(wholeData[i].ramp_name);
-    qwerty[i+1].push(wholeData[i].stream);
-    qwerty[i+1].push(wholeData[i].route_number);
-    qwerty[i+1].push(wholeData[i].invoice_number);
-    qwerty[i+1].push(wholeData[i].status);
-    qwerty[i+1].push(wholeData[i].actual_arrival_time);
-    qwerty[i+1].push(wholeData[i].actual_load_start_time);
-    qwerty[i+1].push(wholeData[i].actual_load_finish_time);
-    qwerty[i+1].push(wholeData[i].actual_departure_time);
-    qwerty[i+1].push(wholeData[i].visit_time);
-    qwerty[i+1].push(wholeData[i].gate2gate);
-    qwerty[i+1].push(wholeData[i].cargo);
-    qwerty[i+1].push(wholeData[i].q_ty);
-    qwerty[i+1].push(wholeData[i].unit);
-    qwerty[i+1].push(wholeData[i].truck_type);
-    qwerty[i+1].push(wholeData[i].truck_number);
-    qwerty[i+1].push(wholeData[i].trailer_number);
-    qwerty[i+1].push(wholeData[i].driver_fio);
-    qwerty[i+1].push(wholeData[i].driver_number);
-    qwerty[i+1].push(wholeData[i].fleet);
-    qwerty[i+1].push(wholeData[i].carrier_name);
-    qwerty[i+1].push(wholeData[i].coupon_number);
+      qwerty.push([]);
+      qwerty[i + 1].push(wholeData[i].id);
+      qwerty[i + 1].push(wholeData[i].visit_number);
+      qwerty[i + 1].push(wholeData[i].slot_start_date);
+      qwerty[i + 1].push(wholeData[i].vt_planned_start_time);
+      qwerty[i + 1].push(wholeData[i].load_planned_start_time);
+      qwerty[i + 1].push(wholeData[i].load_planned_finish_time);
+      qwerty[i + 1].push(wholeData[i].vt_planned_finish_time);
+      qwerty[i + 1].push(wholeData[i].planned_arrival_time);
+      qwerty[i + 1].push(wholeData[i].planned_departure_time);
+      wholeData[i].use_break == 1
+        ? qwerty[i + 1].push(dictinary.yes.ru)
+        : qwerty[i + 1].push(dictinary.no.ru);
+      qwerty[i + 1].push(wholeData[i].warehouse_name);
+      qwerty[i + 1].push(wholeData[i].area_name);
+      qwerty[i + 1].push(wholeData[i].ramp_name);
+      qwerty[i + 1].push(wholeData[i].stream);
+      qwerty[i + 1].push(wholeData[i].route_number);
+      qwerty[i + 1].push(wholeData[i].invoice_number);
+      qwerty[i + 1].push(wholeData[i].status);
+      qwerty[i + 1].push(wholeData[i].actual_arrival_time);
+      qwerty[i + 1].push(wholeData[i].actual_load_start_time);
+      qwerty[i + 1].push(wholeData[i].actual_load_finish_time);
+      qwerty[i + 1].push(wholeData[i].actual_departure_time);
+      qwerty[i + 1].push(wholeData[i].visit_time);
+      qwerty[i + 1].push(wholeData[i].gate2gate);
+      qwerty[i + 1].push(wholeData[i].cargo);
+      qwerty[i + 1].push(wholeData[i].q_ty);
+      qwerty[i + 1].push(wholeData[i].unit);
+      qwerty[i + 1].push(wholeData[i].truck_type);
+      qwerty[i + 1].push(wholeData[i].truck_number);
+      qwerty[i + 1].push(wholeData[i].trailer_number);
+      qwerty[i + 1].push(wholeData[i].driver_fio);
+      qwerty[i + 1].push(wholeData[i].driver_number);
+      qwerty[i + 1].push(wholeData[i].fleet);
+      qwerty[i + 1].push(wholeData[i].carrier_name);
+      qwerty[i + 1].push(wholeData[i].coupon_number);
     }
     console.log(qwerty);
-    
+
     let buffer = xlsx
-    .build([{ name: "mySheetName", data: qwerty }])
-    .toString("base64");
+      .build([{ name: "mySheetName", data: qwerty }])
+      .toString("base64");
     download(atob(buffer), "data.xlsx", {
-    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-    };
+  };
 
   const onChangeInputsHandler = (event, value) => {
     setCurrentFilters({ ...currentFilters, [value]: event.target.value });
@@ -336,6 +356,20 @@ const TimeSlotsTable = (props) => {
   };
   return (
     <>
+      <DeleteTimeSlotModal
+        visible={deleteModalVisible}
+        setVisible={setDeleteModalVisible}
+        style={{
+          width: "330px",
+          height: "120px",
+          backgroundColor: "white",
+          borderRadius: "20px",
+          padding: "30px 20px 20px 20px",
+        }}
+        id={selectedRows[0]}
+        onSuccesfulDelete={onSuccesfulDelete}
+        showMessage={showMessage}
+      />
       {messageVisible && (
         <div className="message-visible">
           <img
@@ -363,6 +397,7 @@ const TimeSlotsTable = (props) => {
           onSearchClick={onSearchClick}
           onSearchClearHandler={onSearchClearHandler}
           onDownloadClick={onDownloadClick}
+          onDeleteHandler={onDeleteHandler}
         />
         <br />
         <table
@@ -395,7 +430,7 @@ const TimeSlotsTable = (props) => {
               <input
                 type="text"
                 style={{ width: "100px" }}
-                placeholder= {dictinary.visitNumber.ru}
+                placeholder={dictinary.visitNumber.ru}
                 onChange={(event) =>
                   onChangeInputsHandler(event, "visit_number")
                 }
@@ -403,7 +438,7 @@ const TimeSlotsTable = (props) => {
               />
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomDataRangePicker
                   firstSelected={currentFilters.slot_start_date_first}
                   secondSelected={currentFilters.slot_start_date_second}
@@ -418,7 +453,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.vt_planned_start_time_first}
                   secondSelected={currentFilters.vt_planned_start_time_second}
@@ -438,7 +473,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.load_planned_start_time_first}
                   secondSelected={currentFilters.load_planned_start_time_second}
@@ -458,7 +493,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.load_planned_finish_time_first}
                   secondSelected={
@@ -480,7 +515,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.vt_planned_finish_time_first}
                   secondSelected={currentFilters.vt_planned_finish_time_second}
@@ -500,7 +535,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.planned_arrival_time_first}
                   secondSelected={currentFilters.planned_arrival_time_second}
@@ -520,7 +555,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.planned_departure_time_first}
                   secondSelected={currentFilters.planned_departure_time_second}
@@ -622,7 +657,7 @@ const TimeSlotsTable = (props) => {
               />
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.actual_arrival_time_first}
                   secondSelected={currentFilters.actual_arrival_time_second}
@@ -642,7 +677,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.actual_load_start_time_first}
                   secondSelected={currentFilters.actual_load_start_time_second}
@@ -662,7 +697,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.actual_load_finish_time_first}
                   secondSelected={currentFilters.actual_load_finish_time_second}
@@ -682,7 +717,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.actual_departure_time_first}
                   secondSelected={currentFilters.actual_departure_time_second}
@@ -702,7 +737,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.visit_time_first}
                   secondSelected={currentFilters.visit_time_second}
@@ -716,7 +751,7 @@ const TimeSlotsTable = (props) => {
               </div>
             </td>
             <td>
-              <div style={{alignItems: "center" }}>
+              <div style={{ alignItems: "center" }}>
                 <CustomTimeRangePicker
                   firstSelected={currentFilters.gate2gate_first}
                   secondSelected={currentFilters.gate2gate_second}
@@ -837,10 +872,18 @@ const TimeSlotsTable = (props) => {
             <th style={{ minWidth: "100px" }}>{dictinary.IDTimeSlot.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.visitNumber.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.slotStartDate.ru}</th>
-            <th style={{ minWidth: "100px" }}>{dictinary.vtPlannedStartTime.ru}</th>
-            <th style={{ minWidth: "100px" }}>{dictinary.loadPlannedStartTime.ru}</th>
-            <th style={{ minWidth: "100px" }}>{dictinary.loadPlannedEndTime.ru}</th>
-            <th style={{ minWidth: "100px" }}>{dictinary.vtPlannedFinishTime.ru}</th>
+            <th style={{ minWidth: "100px" }}>
+              {dictinary.vtPlannedStartTime.ru}
+            </th>
+            <th style={{ minWidth: "100px" }}>
+              {dictinary.loadPlannedStartTime.ru}
+            </th>
+            <th style={{ minWidth: "100px" }}>
+              {dictinary.loadPlannedEndTime.ru}
+            </th>
+            <th style={{ minWidth: "100px" }}>
+              {dictinary.vtPlannedFinishTime.ru}
+            </th>
             <th style={{ minWidth: "100px" }}>{dictinary.slotStartDate.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.slotEndDate.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.useBreak.ru}</th>
@@ -851,10 +894,18 @@ const TimeSlotsTable = (props) => {
             <th style={{ minWidth: "100px" }}>{dictinary.routeNumber.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.invoiceNumber.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.curStatus.ru}</th>
-            <th style={{ minWidth: "100px" }}>{dictinary.actualArrivalTime.ru}</th>
-            <th style={{ minWidth: "100px" }}>{dictinary.actualLoadStartTime.ru}</th>
-            <th style={{ minWidth: "100px" }}>{dictinary.actualLoadFinishTime.ru}</th>
-            <th style={{ minWidth: "100px" }}>{dictinary.actualDepartureTime.ru}</th>
+            <th style={{ minWidth: "100px" }}>
+              {dictinary.actualArrivalTime.ru}
+            </th>
+            <th style={{ minWidth: "100px" }}>
+              {dictinary.actualLoadStartTime.ru}
+            </th>
+            <th style={{ minWidth: "100px" }}>
+              {dictinary.actualLoadFinishTime.ru}
+            </th>
+            <th style={{ minWidth: "100px" }}>
+              {dictinary.actualDepartureTime.ru}
+            </th>
             <th style={{ minWidth: "100px" }}>{dictinary.visitTime.ru}</th>
             <th style={{ minWidth: "100px" }}>G2G</th>
             <th style={{ minWidth: "100px" }}>{dictinary.cargoName.ru}</th>
@@ -862,11 +913,15 @@ const TimeSlotsTable = (props) => {
             <th style={{ minWidth: "100px" }}>{dictinary.unit.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.typeOfAuto.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.autoNumber.ru}</th>
-            <th style={{ minWidth: "100px" }}>{dictinary.semitrailerNumber.ru}</th>
+            <th style={{ minWidth: "100px" }}>
+              {dictinary.semitrailerNumber.ru}
+            </th>
             <th style={{ minWidth: "100px" }}>{dictinary.nameDriver.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.telephone.ru}</th>
             <th style={{ minWidth: "100px" }}>{dictinary.flot.ru}</th>
-            <th style={{ minWidth: "100px" }}>{dictinary.carrierNameCompany.ru}</th>
+            <th style={{ minWidth: "100px" }}>
+              {dictinary.carrierNameCompany.ru}
+            </th>
             <th style={{ minWidth: "100px" }}>{dictinary.couponNumber.ru}</th>
           </tr>
           {wholeData.map((cur) => {
@@ -893,7 +948,9 @@ const TimeSlotsTable = (props) => {
                 <td>{cur.vt_planned_finish_time}</td>
                 <td>{cur.planned_arrival_time}</td>
                 <td>{cur.planned_departure_time}</td>
-                <td>{cur.use_break == 1 ? dictinary.yes.ru : dictinary.no.ru}</td>
+                <td>
+                  {cur.use_break == 1 ? dictinary.yes.ru : dictinary.no.ru}
+                </td>
                 <td>{cur.warehouse_name}</td>
                 <td>{cur.area_name}</td>
                 <td>{cur.ramp_name}</td>

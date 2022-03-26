@@ -293,6 +293,27 @@ router.post("/get", async (req, res) => {
   }
 });
 
+const DeleteQuery = async (id) => {
+  let query = `DELETE from time_slots_result WHERE id =${id};`;
+  console.log(query);
+  return query;
+};
+
+router.post("/delete", async (req, res) => {
+  try {
+    console.log(req.body);
+    await pool.query(await DeleteQuery(req.body.id)).catch((e) => {
+      console.log(e);
+    });
+    res.json({
+      message: "ok",
+    });
+    // console.log(data[0]);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 const buildCargoIdsString = async (cargo) => {
   let query = `select area_id from cargo_types_and_areas where cargo_type_id = ${cargo};`;
   const data = await pool.query(query);

@@ -32,7 +32,7 @@ const Menu = (props) => {
         zIndex: "1",
         overflowY: "scroll", //scroll
         boxSizing: "border-box",
-        cursor: "pointer"
+        cursor: "pointer",
       }}
     >
       <MenuItem
@@ -52,7 +52,7 @@ const Menu = (props) => {
         nameItem={dictinary.workPlace.ru}
       />
       <MenuItem
-        path={"/data/" + dictinary.timeSlots.original}
+        path={"/data/" + dictinary.timeSlots.original + "/timeSlotsTable"}
         itemCode={dictinary.timeSlots.original}
         setCurrentComponent={setCurrentComponent}
         currentComponent={currentComponent}

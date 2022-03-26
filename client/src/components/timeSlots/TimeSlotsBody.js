@@ -1,6 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import TimeSlotsTable from "./TimeSlotsTable";
+import TimeSlotsTable from "./timeSlotsTable/TimeSlotsTable";
+import TimeSlotsGraphic from "./timeSlotsGraphic/TimeSlotsGraphic";
 
 const TimeSlotsBody = () => {
   return (
@@ -12,7 +13,11 @@ const TimeSlotsBody = () => {
         margin: "10px",
       }}
     >
-      <Route path="/data/timeSlots/timeSlots" component={TimeSlotsTable} />
+      <Route path="/data/timeSlots/timeSlotsTable" component={TimeSlotsTable} />
+      <Route
+        path="/data/timeSlots/timeSlotsGraphic"
+        component={TimeSlotsGraphic}
+      />
     </div>
   );
 };

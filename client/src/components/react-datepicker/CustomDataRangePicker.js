@@ -14,7 +14,7 @@ const CustomDataRangePicker = (props) => {
         placeholderText={dictinary.enterStartDate.ru}
         style={props.style}
       />
-      <div style={{ marginTop: "5px"}}>
+      <div>
         <CustomDataPicker
           selected={props.secondSelected}
           dateFormat={props.dateFormat}

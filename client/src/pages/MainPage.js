@@ -44,7 +44,7 @@ const MainPage = (props) => {
         >
           <Route path="/data/referenceBook" component={ReferenceBookPage} />
 
-          <Route path="/data/timeSlots" component={TimeSlotsPage} />
+          <Route path="/data/timeSlots/" component={TimeSlotsPage} />
 
           <Route path="/data/workPlace" component={WorkPlacePage} />
         </div>
